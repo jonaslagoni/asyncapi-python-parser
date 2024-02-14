@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./src/models/3_0_0"
+    ]
+}

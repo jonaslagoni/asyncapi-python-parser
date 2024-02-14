@@ -1,0 +1,66 @@
+from .ChannelSchema import ChannelSchema
+import json
+from typing import Any, Dict
+class ChannelBindingsObjectSns: 
+  def __init__(self, input: Dict):
+    if hasattr(input, 'binding_version'):
+      self._binding_version: str = input['binding_version']
+    if hasattr(input, 'name'):
+      self._name: str = input['name']
+    if hasattr(input, 'ordering'):
+      self._ordering: ChannelSchema = ChannelSchema(input['ordering'])
+    if hasattr(input, 'policy'):
+      self._policy: ChannelSchema = ChannelSchema(input['policy'])
+    if hasattr(input, 'tags'):
+      self._tags: dict[str, Any] = input['tags']
+    if hasattr(input, 'additional_properties'):
+      self._additional_properties: dict[str, Any] = input['additional_properties']
+
+  @property
+  def binding_version(self) -> str:
+    return self._binding_version
+  @binding_version.setter
+  def binding_version(self, binding_version: str):
+    self._binding_version = binding_version
+
+  @property
+  def name(self) -> str:
+    return self._name
+  @name.setter
+  def name(self, name: str):
+    self._name = name
+
+  @property
+  def ordering(self) -> ChannelSchema:
+    return self._ordering
+  @ordering.setter
+  def ordering(self, ordering: ChannelSchema):
+    self._ordering = ordering
+
+  @property
+  def policy(self) -> ChannelSchema:
+    return self._policy
+  @policy.setter
+  def policy(self, policy: ChannelSchema):
+    self._policy = policy
+
+  @property
+  def tags(self) -> dict[str, Any]:
+    return self._tags
+  @tags.setter
+  def tags(self, tags: dict[str, Any]):
+    self._tags = tags
+
+  @property
+  def additional_properties(self) -> dict[str, Any]:
+    return self._additional_properties
+  @additional_properties.setter
+  def additional_properties(self, additional_properties: dict[str, Any]):
+    self._additional_properties = additional_properties
+
+  def serialize_to_json(self):
+    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
+
+  @staticmethod
+  def deserialize_from_json(json_string):
+    return ChannelBindingsObjectSns(**json.loads(json_string))

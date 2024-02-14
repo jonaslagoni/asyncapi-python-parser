@@ -1,0 +1,15 @@
+{
+  "name": "generator",
+  "version": "0.0.0",
+  "dependencies": {
+    "@asyncapi/modelina": "4.0.0-next.19"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2"
+  },
+  "scripts": {
+    "generate": "ts-node ./src/generate-models.ts",
+    "generate:debug": "ts-node ./src/generate-models.ts"
+  }
+}
