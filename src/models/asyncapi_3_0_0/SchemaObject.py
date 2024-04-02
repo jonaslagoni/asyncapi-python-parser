@@ -45,7 +45,7 @@ class SchemaObject:
     if hasattr(input, 'additional_items'):
       self._additional_items: CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
     if hasattr(input, 'items'):
-      self._items:  | List[] = input['items']
+      self._items: CoreSchemaMetaMinusSchemaObject | bool | List[CoreSchemaMetaMinusSchemaObject | bool] = input['items']
     if hasattr(input, 'max_items'):
       self._max_items: int = input['max_items']
     if hasattr(input, 'min_items'):
@@ -69,7 +69,7 @@ class SchemaObject:
     if hasattr(input, 'pattern_properties'):
       self._pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['pattern_properties']
     if hasattr(input, 'dependencies'):
-      self._dependencies: dict[str,  | List[str]] = input['dependencies']
+      self._dependencies: dict[str, CoreSchemaMetaMinusSchemaObject | bool | List[str]] = input['dependencies']
     if hasattr(input, 'property_names'):
       self._property_names: CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
     if hasattr(input, 'const'):
@@ -91,11 +91,11 @@ class SchemaObject:
     if hasattr(input, 'reserved_else'):
       self._reserved_else: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_else']
     if hasattr(input, 'all_of'):
-      self._all_of: List[] = input['all_of']
+      self._all_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['all_of']
     if hasattr(input, 'any_of'):
-      self._any_of: List[] = input['any_of']
+      self._any_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['any_of']
     if hasattr(input, 'one_of'):
-      self._one_of: List[] = input['one_of']
+      self._one_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['one_of']
     if hasattr(input, 'reserved_not'):
       self._reserved_not: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_not']
     if hasattr(input, 'discriminator'):
@@ -241,10 +241,10 @@ class SchemaObject:
     self._additional_items = additional_items
 
   @property
-  def items(self) ->  | List[]:
+  def items(self) -> CoreSchemaMetaMinusSchemaObject | bool | List[CoreSchemaMetaMinusSchemaObject | bool]:
     return self._items
   @items.setter
-  def items(self, items:  | List[]):
+  def items(self, items: CoreSchemaMetaMinusSchemaObject | bool | List[CoreSchemaMetaMinusSchemaObject | bool]):
     self._items = items
 
   @property
@@ -325,10 +325,10 @@ class SchemaObject:
     self._pattern_properties = pattern_properties
 
   @property
-  def dependencies(self) -> dict[str,  | List[str]]:
+  def dependencies(self) -> dict[str, CoreSchemaMetaMinusSchemaObject | bool | List[str]]:
     return self._dependencies
   @dependencies.setter
-  def dependencies(self, dependencies: dict[str,  | List[str]]):
+  def dependencies(self, dependencies: dict[str, CoreSchemaMetaMinusSchemaObject | bool | List[str]]):
     self._dependencies = dependencies
 
   @property
@@ -402,24 +402,24 @@ class SchemaObject:
     self._reserved_else = reserved_else
 
   @property
-  def all_of(self) -> List[]:
+  def all_of(self) -> List[CoreSchemaMetaMinusSchemaObject | bool]:
     return self._all_of
   @all_of.setter
-  def all_of(self, all_of: List[]):
+  def all_of(self, all_of: List[CoreSchemaMetaMinusSchemaObject | bool]):
     self._all_of = all_of
 
   @property
-  def any_of(self) -> List[]:
+  def any_of(self) -> List[CoreSchemaMetaMinusSchemaObject | bool]:
     return self._any_of
   @any_of.setter
-  def any_of(self, any_of: List[]):
+  def any_of(self, any_of: List[CoreSchemaMetaMinusSchemaObject | bool]):
     self._any_of = any_of
 
   @property
-  def one_of(self) -> List[]:
+  def one_of(self) -> List[CoreSchemaMetaMinusSchemaObject | bool]:
     return self._one_of
   @one_of.setter
-  def one_of(self, one_of: List[]):
+  def one_of(self, one_of: List[CoreSchemaMetaMinusSchemaObject | bool]):
     self._one_of = one_of
 
   @property
