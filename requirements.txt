@@ -2,3 +2,4 @@ pyyaml
 jsonschema
 jsonpath-ng
 python-semantic-release
+build
