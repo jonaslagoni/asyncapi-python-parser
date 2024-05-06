@@ -10,8 +10,8 @@ class ServerBindingsObjectSolace:
       self._msg_vpn: str = input['msg_vpn']
     if 'msv_vpn' in input:
       self._msv_vpn: str = input['msv_vpn']
-    if 'additional_properties' in input:
-      self._additional_properties: dict[str, Any] = input['additional_properties']
+    if 'extensions' in input:
+      self._extensions: dict[str, Any] = input['extensions']
 
   @property
   def binding_version(self) -> ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion:
@@ -35,11 +35,11 @@ class ServerBindingsObjectSolace:
     self._msv_vpn = msv_vpn
 
   @property
-  def additional_properties(self) -> dict[str, Any]:
-    return self._additional_properties
-  @additional_properties.setter
-  def additional_properties(self, additional_properties: dict[str, Any]):
-    self._additional_properties = additional_properties
+  def extensions(self) -> dict[str, Any]:
+    return self._extensions
+  @extensions.setter
+  def extensions(self, extensions: dict[str, Any]):
+    self._extensions = extensions
 
   def serialize_to_json(self):
     return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)

@@ -111,8 +111,8 @@ class AnySchemaObject:
       self._schema_format: str | MultiFormatSchemaElseSchemaFormatAnyOf1.MultiFormatSchemaElseSchemaFormatAnyOf1 | MultiFormatSchemaElseSchemaFormatAnyOf2.MultiFormatSchemaElseSchemaFormatAnyOf2 = input['schema_format']
     if 'schema' in input:
       self._schema: Any = input['schema']
-    if 'reserved_additional_properties' in input:
-      self._reserved_additional_properties: dict[str, Any | Any] = input['reserved_additional_properties']
+    if 'extensions' in input:
+      self._extensions: dict[str, Any | Any] = input['extensions']
 
   @property
   def dollar_id(self) -> str:
@@ -472,11 +472,11 @@ class AnySchemaObject:
     self._schema = schema
 
   @property
-  def reserved_additional_properties(self) -> dict[str, Any | Any]:
-    return self._reserved_additional_properties
-  @reserved_additional_properties.setter
-  def reserved_additional_properties(self, reserved_additional_properties: dict[str, Any | Any]):
-    self._reserved_additional_properties = reserved_additional_properties
+  def extensions(self) -> dict[str, Any | Any]:
+    return self._extensions
+  @extensions.setter
+  def extensions(self, extensions: dict[str, Any | Any]):
+    self._extensions = extensions
 
   def serialize_to_json(self):
     return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)

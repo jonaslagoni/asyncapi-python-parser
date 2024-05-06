@@ -28,6 +28,11 @@ async function defaultGenerateModels(input: FileReadType, outputDir: string) {
   // }
   const generator = new PythonFileGenerator({ 
     importsStyle: 'implicit',
+    processorOptions: {
+      jsonSchema: {
+        propertyNameForAdditionalProperties: 'extensions'
+      }
+    },
     presets: [
       PYTHON_JSON_SERIALIZER_PRESET],
   });

@@ -15,8 +15,8 @@ class ChannelBindingsObjectKafka:
       self._replicas: int = input['replicas']
     if 'topic_configuration' in input:
       self._topic_configuration: BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfiguration.BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfiguration = BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfiguration.BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfiguration(input['topic_configuration'])
-    if 'additional_properties' in input:
-      self._additional_properties: dict[str, Any] = input['additional_properties']
+    if 'extensions' in input:
+      self._extensions: dict[str, Any] = input['extensions']
 
   @property
   def binding_version(self) -> ChannelBindingsObjectKafkaBindingVersion.ChannelBindingsObjectKafkaBindingVersion:
@@ -54,11 +54,11 @@ class ChannelBindingsObjectKafka:
     self._topic_configuration = topic_configuration
 
   @property
-  def additional_properties(self) -> dict[str, Any]:
-    return self._additional_properties
-  @additional_properties.setter
-  def additional_properties(self, additional_properties: dict[str, Any]):
-    self._additional_properties = additional_properties
+  def extensions(self) -> dict[str, Any]:
+    return self._extensions
+  @extensions.setter
+  def extensions(self, extensions: dict[str, Any]):
+    self._extensions = extensions
 
   def serialize_to_json(self):
     return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)

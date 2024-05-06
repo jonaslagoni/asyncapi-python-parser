@@ -13,8 +13,8 @@ class Enum:
     if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
     self._symbols: List[str] = input['symbols']
-    if 'additional_properties' in input:
-      self._additional_properties: dict[str, Any] = input['additional_properties']
+    if 'extensions' in input:
+      self._extensions: dict[str, Any] = input['extensions']
 
   @property
   def type(self) -> str:
@@ -56,11 +56,11 @@ class Enum:
     self._symbols = symbols
 
   @property
-  def additional_properties(self) -> dict[str, Any]:
-    return self._additional_properties
-  @additional_properties.setter
-  def additional_properties(self, additional_properties: dict[str, Any]):
-    self._additional_properties = additional_properties
+  def extensions(self) -> dict[str, Any]:
+    return self._extensions
+  @extensions.setter
+  def extensions(self, extensions: dict[str, Any]):
+    self._extensions = extensions
 
   def serialize_to_json(self):
     return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
