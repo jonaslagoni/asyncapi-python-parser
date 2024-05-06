@@ -13,8 +13,6 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    needs:
-    - build
     steps:
     - uses: actions/checkout@v3
       with:
