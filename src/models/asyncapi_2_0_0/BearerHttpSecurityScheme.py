@@ -1,23 +1,24 @@
-from .BearerHttpSecuritySchemeScheme import BearerHttpSecuritySchemeScheme
-from .BearerHttpSecuritySchemeType import BearerHttpSecuritySchemeType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import BearerHttpSecuritySchemeScheme
+from . import BearerHttpSecuritySchemeType
 class BearerHttpSecurityScheme: 
   def __init__(self, input: Dict):
-    self._scheme: BearerHttpSecuritySchemeScheme = BearerHttpSecuritySchemeScheme(input['scheme'])
-    if hasattr(input, 'bearer_format'):
+    self._scheme: BearerHttpSecuritySchemeScheme.BearerHttpSecuritySchemeScheme = BearerHttpSecuritySchemeScheme.BearerHttpSecuritySchemeScheme(input['scheme'])
+    if 'bearer_format' in input:
       self._bearer_format: str = input['bearer_format']
-    self._type: BearerHttpSecuritySchemeType = BearerHttpSecuritySchemeType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: BearerHttpSecuritySchemeType.BearerHttpSecuritySchemeType = BearerHttpSecuritySchemeType.BearerHttpSecuritySchemeType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def scheme(self) -> BearerHttpSecuritySchemeScheme:
+  def scheme(self) -> BearerHttpSecuritySchemeScheme.BearerHttpSecuritySchemeScheme:
     return self._scheme
   @scheme.setter
-  def scheme(self, scheme: BearerHttpSecuritySchemeScheme):
+  def scheme(self, scheme: BearerHttpSecuritySchemeScheme.BearerHttpSecuritySchemeScheme):
     self._scheme = scheme
 
   @property
@@ -28,10 +29,10 @@ class BearerHttpSecurityScheme:
     self._bearer_format = bearer_format
 
   @property
-  def type(self) -> BearerHttpSecuritySchemeType:
+  def type(self) -> BearerHttpSecuritySchemeType.BearerHttpSecuritySchemeType:
     return self._type
   @type.setter
-  def type(self, type: BearerHttpSecuritySchemeType):
+  def type(self, type: BearerHttpSecuritySchemeType.BearerHttpSecuritySchemeType):
     self._type = type
 
   @property

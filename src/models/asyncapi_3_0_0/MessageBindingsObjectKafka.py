@@ -1,50 +1,51 @@
-from .MessageBindingsObjectKafkaBindingVersion import MessageBindingsObjectKafkaBindingVersion
-from .Reference import Reference
-from .SchemaObject import SchemaObject
-from .PrimitiveType import PrimitiveType
-from .PrimitiveTypeWithMetadata import PrimitiveTypeWithMetadata
-from .Record import Record
-from .Enum import Enum
-from .Array import Array
-from .Map import Map
-from .Fixed import Fixed
-from .BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation import BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import MessageBindingsObjectKafkaBindingVersion
+from . import Reference
+from . import SchemaObject
+from . import PrimitiveType
+from . import PrimitiveTypeWithMetadata
+from . import Record
+from . import Enum
+from . import Array
+from . import Map
+from . import Fixed
+from . import BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation
 class MessageBindingsObjectKafka: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: MessageBindingsObjectKafkaBindingVersion = MessageBindingsObjectKafkaBindingVersion(input['binding_version'])
-    if hasattr(input, 'key'):
-      self._key: Reference | SchemaObject | bool | PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[] = input['key']
-    if hasattr(input, 'schema_id_location'):
-      self._schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation = BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation(input['schema_id_location'])
-    if hasattr(input, 'schema_id_payload_encoding'):
+    if 'binding_version' in input:
+      self._binding_version: MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion = MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion(input['binding_version'])
+    if 'key' in input:
+      self._key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[] = input['key']
+    if 'schema_id_location' in input:
+      self._schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation = BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation(input['schema_id_location'])
+    if 'schema_id_payload_encoding' in input:
       self._schema_id_payload_encoding: str = input['schema_id_payload_encoding']
-    if hasattr(input, 'schema_lookup_strategy'):
+    if 'schema_lookup_strategy' in input:
       self._schema_lookup_strategy: str = input['schema_lookup_strategy']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> MessageBindingsObjectKafkaBindingVersion:
+  def binding_version(self) -> MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: MessageBindingsObjectKafkaBindingVersion):
+  def binding_version(self, binding_version: MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion):
     self._binding_version = binding_version
 
   @property
-  def key(self) -> Reference | SchemaObject | bool | PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]:
+  def key(self) -> Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]:
     return self._key
   @key.setter
-  def key(self, key: Reference | SchemaObject | bool | PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]):
+  def key(self, key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]):
     self._key = key
 
   @property
-  def schema_id_location(self) -> BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation:
+  def schema_id_location(self) -> BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation:
     return self._schema_id_location
   @schema_id_location.setter
-  def schema_id_location(self, schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation):
+  def schema_id_location(self, schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation):
     self._schema_id_location = schema_id_location
 
   @property

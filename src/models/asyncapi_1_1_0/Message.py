@@ -1,29 +1,30 @@
-from .Schema import Schema
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Schema
+from . import Tag
+from . import ExternalDocs
 class Message: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'headers'):
-      self._headers: Schema = Schema(input['headers'])
-    if hasattr(input, 'payload'):
-      self._payload: Schema = Schema(input['payload'])
-    if hasattr(input, 'tags'):
-      self._tags: List[Tag] = input['tags']
-    if hasattr(input, 'summary'):
+    if 'headers' in input:
+      self._headers: Schema.Schema = Schema.Schema(input['headers'])
+    if 'payload' in input:
+      self._payload: Schema.Schema = Schema.Schema(input['payload'])
+    if 'tags' in input:
+      self._tags: List[Tag.Tag] = input['tags']
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: ExternalDocs = ExternalDocs(input['external_docs'])
-    if hasattr(input, 'deprecated'):
+    if 'external_docs' in input:
+      self._external_docs: ExternalDocs.ExternalDocs = ExternalDocs.ExternalDocs(input['external_docs'])
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'example'):
+    if 'example' in input:
       self._example: Any = input['example']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -34,24 +35,24 @@ class Message:
     self._dollar_ref = dollar_ref
 
   @property
-  def headers(self) -> Schema:
+  def headers(self) -> Schema.Schema:
     return self._headers
   @headers.setter
-  def headers(self, headers: Schema):
+  def headers(self, headers: Schema.Schema):
     self._headers = headers
 
   @property
-  def payload(self) -> Schema:
+  def payload(self) -> Schema.Schema:
     return self._payload
   @payload.setter
-  def payload(self, payload: Schema):
+  def payload(self, payload: Schema.Schema):
     self._payload = payload
 
   @property
-  def tags(self) -> List[Tag]:
+  def tags(self) -> List[Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Tag]):
+  def tags(self, tags: List[Tag.Tag]):
     self._tags = tags
 
   @property
@@ -69,10 +70,10 @@ class Message:
     self._description = description
 
   @property
-  def external_docs(self) -> ExternalDocs:
+  def external_docs(self) -> ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: ExternalDocs):
+  def external_docs(self, external_docs: ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property

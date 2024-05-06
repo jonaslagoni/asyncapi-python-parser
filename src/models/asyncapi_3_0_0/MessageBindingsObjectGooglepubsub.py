@@ -1,25 +1,26 @@
-from .MessageBindingsObjectGooglepubsubBindingVersion import MessageBindingsObjectGooglepubsubBindingVersion
-from .BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema import BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import MessageBindingsObjectGooglepubsubBindingVersion
+from . import BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema
 class MessageBindingsObjectGooglepubsub: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: MessageBindingsObjectGooglepubsubBindingVersion = MessageBindingsObjectGooglepubsubBindingVersion(input['binding_version'])
-    if hasattr(input, 'attributes'):
+    if 'binding_version' in input:
+      self._binding_version: MessageBindingsObjectGooglepubsubBindingVersion.MessageBindingsObjectGooglepubsubBindingVersion = MessageBindingsObjectGooglepubsubBindingVersion.MessageBindingsObjectGooglepubsubBindingVersion(input['binding_version'])
+    if 'attributes' in input:
       self._attributes: dict[str, Any] = input['attributes']
-    if hasattr(input, 'ordering_key'):
+    if 'ordering_key' in input:
       self._ordering_key: str = input['ordering_key']
-    if hasattr(input, 'schema'):
-      self._schema: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema = BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema(input['schema'])
-    if hasattr(input, 'additional_properties'):
+    if 'schema' in input:
+      self._schema: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema = BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema(input['schema'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> MessageBindingsObjectGooglepubsubBindingVersion:
+  def binding_version(self) -> MessageBindingsObjectGooglepubsubBindingVersion.MessageBindingsObjectGooglepubsubBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: MessageBindingsObjectGooglepubsubBindingVersion):
+  def binding_version(self, binding_version: MessageBindingsObjectGooglepubsubBindingVersion.MessageBindingsObjectGooglepubsubBindingVersion):
     self._binding_version = binding_version
 
   @property
@@ -37,10 +38,10 @@ class MessageBindingsObjectGooglepubsub:
     self._ordering_key = ordering_key
 
   @property
-  def schema(self) -> BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema:
+  def schema(self) -> BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema:
     return self._schema
   @schema.setter
-  def schema(self, schema: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema):
+  def schema(self, schema: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema):
     self._schema = schema
 
   @property

@@ -1,22 +1,23 @@
-from .OpenIdConnectType import OpenIdConnectType
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import OpenIdConnectType
 class OpenIdConnect: 
   def __init__(self, input: Dict):
-    self._type: OpenIdConnectType = OpenIdConnectType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: OpenIdConnectType.OpenIdConnectType = OpenIdConnectType.OpenIdConnectType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
     self._open_id_connect_url: str = input['open_id_connect_url']
-    if hasattr(input, 'scopes'):
+    if 'scopes' in input:
       self._scopes: List[str] = input['scopes']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> OpenIdConnectType:
+  def type(self) -> OpenIdConnectType.OpenIdConnectType:
     return self._type
   @type.setter
-  def type(self, type: OpenIdConnectType):
+  def type(self, type: OpenIdConnectType.OpenIdConnectType):
     self._type = type
 
   @property

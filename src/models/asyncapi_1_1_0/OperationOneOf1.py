@@ -1,17 +1,18 @@
-from .Message import Message
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Message
 class OperationOneOf1: 
   def __init__(self, input: Dict):
-    self._one_of: List[Message] = input['one_of']
-    if hasattr(input, 'additional_properties'):
+    self._one_of: List[Message.Message] = input['one_of']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def one_of(self) -> List[Message]:
+  def one_of(self) -> List[Message.Message]:
     return self._one_of
   @one_of.setter
-  def one_of(self, one_of: List[Message]):
+  def one_of(self, one_of: List[Message.Message]):
     self._one_of = one_of
 
   @property

@@ -1,19 +1,20 @@
-from .X509Type import X509Type
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import X509Type
 class X509: 
   def __init__(self, input: Dict):
-    self._type: X509Type = X509Type(input['type'])
-    if hasattr(input, 'description'):
+    self._type: X509Type.X509Type = X509Type.X509Type(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> X509Type:
+  def type(self) -> X509Type.X509Type:
     return self._type
   @type.setter
-  def type(self, type: X509Type):
+  def type(self, type: X509Type.X509Type):
     self._type = type
 
   @property

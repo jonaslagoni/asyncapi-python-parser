@@ -1,76 +1,77 @@
-from .Schema import Schema
-from .Message import Message
-from .Reference import Reference
-from .UserPassword import UserPassword
-from .ApiKey import ApiKey
-from .X509 import X509
-from .SymmetricEncryption import SymmetricEncryption
-from .AsymmetricEncryption import AsymmetricEncryption
-from .BearerHttpSecurityScheme import BearerHttpSecurityScheme
-from .ApiKeyHttpSecurityScheme import ApiKeyHttpSecurityScheme
-from .Oauth2Flows import Oauth2Flows
-from .OpenIdConnect import OpenIdConnect
-from .Parameter import Parameter
-from .CorrelationId import CorrelationId
-from .OperationTrait import OperationTrait
-from .MessageTrait import MessageTrait
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Schema
+from . import Message
+from . import Reference
+from . import UserPassword
+from . import ApiKey
+from . import X509
+from . import SymmetricEncryption
+from . import AsymmetricEncryption
+from . import BearerHttpSecurityScheme
+from . import ApiKeyHttpSecurityScheme
+from . import Oauth2Flows
+from . import OpenIdConnect
+from . import Parameter
+from . import CorrelationId
+from . import OperationTrait
+from . import MessageTrait
 class Components: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'schemas'):
-      self._schemas: dict[str, Schema] = input['schemas']
-    if hasattr(input, 'messages'):
-      self._messages: dict[str, Message] = input['messages']
-    if hasattr(input, 'security_schemes'):
-      self._security_schemes: dict[str, Any | Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect] = input['security_schemes']
-    if hasattr(input, 'parameters'):
-      self._parameters: dict[str, Reference | Parameter] = input['parameters']
-    if hasattr(input, 'correlation_ids'):
-      self._correlation_ids: dict[str, Any | Reference | CorrelationId] = input['correlation_ids']
-    if hasattr(input, 'traits'):
-      self._traits: dict[str, OperationTrait | MessageTrait] = input['traits']
+    if 'schemas' in input:
+      self._schemas: dict[str, Schema.Schema] = input['schemas']
+    if 'messages' in input:
+      self._messages: dict[str, Message.Message] = input['messages']
+    if 'security_schemes' in input:
+      self._security_schemes: dict[str, Any | Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect] = input['security_schemes']
+    if 'parameters' in input:
+      self._parameters: dict[str, Reference.Reference | Parameter.Parameter] = input['parameters']
+    if 'correlation_ids' in input:
+      self._correlation_ids: dict[str, Any | Reference.Reference | CorrelationId.CorrelationId] = input['correlation_ids']
+    if 'traits' in input:
+      self._traits: dict[str, OperationTrait.OperationTrait | MessageTrait.MessageTrait] = input['traits']
 
   @property
-  def schemas(self) -> dict[str, Schema]:
+  def schemas(self) -> dict[str, Schema.Schema]:
     return self._schemas
   @schemas.setter
-  def schemas(self, schemas: dict[str, Schema]):
+  def schemas(self, schemas: dict[str, Schema.Schema]):
     self._schemas = schemas
 
   @property
-  def messages(self) -> dict[str, Message]:
+  def messages(self) -> dict[str, Message.Message]:
     return self._messages
   @messages.setter
-  def messages(self, messages: dict[str, Message]):
+  def messages(self, messages: dict[str, Message.Message]):
     self._messages = messages
 
   @property
-  def security_schemes(self) -> dict[str, Any | Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect]:
+  def security_schemes(self) -> dict[str, Any | Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect]:
     return self._security_schemes
   @security_schemes.setter
-  def security_schemes(self, security_schemes: dict[str, Any | Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect]):
+  def security_schemes(self, security_schemes: dict[str, Any | Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect]):
     self._security_schemes = security_schemes
 
   @property
-  def parameters(self) -> dict[str, Reference | Parameter]:
+  def parameters(self) -> dict[str, Reference.Reference | Parameter.Parameter]:
     return self._parameters
   @parameters.setter
-  def parameters(self, parameters: dict[str, Reference | Parameter]):
+  def parameters(self, parameters: dict[str, Reference.Reference | Parameter.Parameter]):
     self._parameters = parameters
 
   @property
-  def correlation_ids(self) -> dict[str, Any | Reference | CorrelationId]:
+  def correlation_ids(self) -> dict[str, Any | Reference.Reference | CorrelationId.CorrelationId]:
     return self._correlation_ids
   @correlation_ids.setter
-  def correlation_ids(self, correlation_ids: dict[str, Any | Reference | CorrelationId]):
+  def correlation_ids(self, correlation_ids: dict[str, Any | Reference.Reference | CorrelationId.CorrelationId]):
     self._correlation_ids = correlation_ids
 
   @property
-  def traits(self) -> dict[str, OperationTrait | MessageTrait]:
+  def traits(self) -> dict[str, OperationTrait.OperationTrait | MessageTrait.MessageTrait]:
     return self._traits
   @traits.setter
-  def traits(self, traits: dict[str, OperationTrait | MessageTrait]):
+  def traits(self, traits: dict[str, OperationTrait.OperationTrait | MessageTrait.MessageTrait]):
     self._traits = traits
 
   def serialize_to_json(self):

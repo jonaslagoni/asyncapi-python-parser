@@ -5,7 +5,7 @@ from os.path import isfile, join
 import json
 
 class TestDocuments(unittest.TestCase):
-    def test_all_300_example_docs(self):
+    def test_all_3_0_0_example_docs(self):
         """
         Test that all 3.0.0 documents can be validated and parsed
         """

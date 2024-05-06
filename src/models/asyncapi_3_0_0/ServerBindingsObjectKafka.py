@@ -1,22 +1,23 @@
-from .ServerBindingsObjectKafkaBindingVersion import ServerBindingsObjectKafkaBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ServerBindingsObjectKafkaBindingVersion
 class ServerBindingsObjectKafka: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ServerBindingsObjectKafkaBindingVersion = ServerBindingsObjectKafkaBindingVersion(input['binding_version'])
-    if hasattr(input, 'schema_registry_url'):
+    if 'binding_version' in input:
+      self._binding_version: ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion = ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion(input['binding_version'])
+    if 'schema_registry_url' in input:
       self._schema_registry_url: str = input['schema_registry_url']
-    if hasattr(input, 'schema_registry_vendor'):
+    if 'schema_registry_vendor' in input:
       self._schema_registry_vendor: str = input['schema_registry_vendor']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ServerBindingsObjectKafkaBindingVersion:
+  def binding_version(self) -> ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectKafkaBindingVersion):
+  def binding_version(self, binding_version: ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion):
     self._binding_version = binding_version
 
   @property

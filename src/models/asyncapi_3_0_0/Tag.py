@@ -1,15 +1,16 @@
-from .Reference import Reference
-from .ExternalDocs import ExternalDocs
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import Reference
+from . import ExternalDocs
 class Tag: 
   def __init__(self, input: Dict):
     self._name: str = input['name']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: Reference | ExternalDocs = input['external_docs']
-    if hasattr(input, 'additional_properties'):
+    if 'external_docs' in input:
+      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -27,10 +28,10 @@ class Tag:
     self._description = description
 
   @property
-  def external_docs(self) -> Reference | ExternalDocs:
+  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: Reference | ExternalDocs):
+  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property

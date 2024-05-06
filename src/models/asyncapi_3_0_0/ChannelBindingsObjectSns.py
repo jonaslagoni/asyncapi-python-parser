@@ -1,19 +1,20 @@
-from .ChannelSchema import ChannelSchema
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ChannelSchema
 class ChannelBindingsObjectSns: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
+    if 'binding_version' in input:
       self._binding_version: str = input['binding_version']
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'ordering'):
-      self._ordering: ChannelSchema = ChannelSchema(input['ordering'])
-    if hasattr(input, 'policy'):
-      self._policy: ChannelSchema = ChannelSchema(input['policy'])
-    if hasattr(input, 'tags'):
+    if 'ordering' in input:
+      self._ordering: ChannelSchema.ChannelSchema = ChannelSchema.ChannelSchema(input['ordering'])
+    if 'policy' in input:
+      self._policy: ChannelSchema.ChannelSchema = ChannelSchema.ChannelSchema(input['policy'])
+    if 'tags' in input:
       self._tags: dict[str, Any] = input['tags']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -31,17 +32,17 @@ class ChannelBindingsObjectSns:
     self._name = name
 
   @property
-  def ordering(self) -> ChannelSchema:
+  def ordering(self) -> ChannelSchema.ChannelSchema:
     return self._ordering
   @ordering.setter
-  def ordering(self, ordering: ChannelSchema):
+  def ordering(self, ordering: ChannelSchema.ChannelSchema):
     self._ordering = ordering
 
   @property
-  def policy(self) -> ChannelSchema:
+  def policy(self) -> ChannelSchema.ChannelSchema:
     return self._policy
   @policy.setter
-  def policy(self, policy: ChannelSchema):
+  def policy(self, policy: ChannelSchema.ChannelSchema):
     self._policy = policy
 
   @property

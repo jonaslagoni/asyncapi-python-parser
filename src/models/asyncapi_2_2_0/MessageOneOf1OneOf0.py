@@ -1,16 +1,17 @@
-from .Reference import Reference
-from .MessageOneOf1OneOf1 import MessageOneOf1OneOf1
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Reference
+from . import MessageOneOf1OneOf1
 class MessageOneOf1OneOf0: 
   def __init__(self, input: Dict):
-    self._one_of: List[Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1] = input['one_of']
+    self._one_of: List[Reference.Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1.MessageOneOf1OneOf1] = input['one_of']
 
   @property
-  def one_of(self) -> List[Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1]:
+  def one_of(self) -> List[Reference.Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1.MessageOneOf1OneOf1]:
     return self._one_of
   @one_of.setter
-  def one_of(self, one_of: List[Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1]):
+  def one_of(self, one_of: List[Reference.Reference | MessageOneOf1OneOf0 | MessageOneOf1OneOf1.MessageOneOf1OneOf1]):
     self._one_of = one_of
 
   def serialize_to_json(self):

@@ -1,84 +1,85 @@
-from .OperationAction import OperationAction
-from .Reference import Reference
-from .OperationReply import OperationReply
-from .OperationTrait import OperationTrait
-from .UserPassword import UserPassword
-from .ApiKey import ApiKey
-from .X509 import X509
-from .SymmetricEncryption import SymmetricEncryption
-from .AsymmetricEncryption import AsymmetricEncryption
-from .BearerHttpSecurityScheme import BearerHttpSecurityScheme
-from .ApiKeyHttpSecurityScheme import ApiKeyHttpSecurityScheme
-from .Oauth2Flows import Oauth2Flows
-from .OpenIdConnect import OpenIdConnect
-from .SaslPlainSecurityScheme import SaslPlainSecurityScheme
-from .SaslScramSecurityScheme import SaslScramSecurityScheme
-from .SaslGssapiSecurityScheme import SaslGssapiSecurityScheme
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
-from .OperationBindingsObject import OperationBindingsObject
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import OperationAction
+from . import Reference
+from . import OperationReply
+from . import OperationTrait
+from . import UserPassword
+from . import ApiKey
+from . import X509
+from . import SymmetricEncryption
+from . import AsymmetricEncryption
+from . import BearerHttpSecurityScheme
+from . import ApiKeyHttpSecurityScheme
+from . import Oauth2Flows
+from . import OpenIdConnect
+from . import SaslPlainSecurityScheme
+from . import SaslScramSecurityScheme
+from . import SaslGssapiSecurityScheme
+from . import Tag
+from . import ExternalDocs
+from . import OperationBindingsObject
 class Operation: 
   def __init__(self, input: Dict):
-    self._action: OperationAction = OperationAction(input['action'])
-    self._channel: Reference = Reference(input['channel'])
-    if hasattr(input, 'messages'):
-      self._messages: List[Reference] = input['messages']
-    if hasattr(input, 'reply'):
-      self._reply: Reference | OperationReply = input['reply']
-    if hasattr(input, 'traits'):
-      self._traits: List[Reference | OperationTrait] = input['traits']
-    if hasattr(input, 'title'):
+    self._action: OperationAction.OperationAction = OperationAction.OperationAction(input['action'])
+    self._channel: Reference.Reference = Reference.Reference(input['channel'])
+    if 'messages' in input:
+      self._messages: List[Reference.Reference] = input['messages']
+    if 'reply' in input:
+      self._reply: Reference.Reference | OperationReply.OperationReply = input['reply']
+    if 'traits' in input:
+      self._traits: List[Reference.Reference | OperationTrait.OperationTrait] = input['traits']
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'summary'):
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'security'):
-      self._security: List[Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect | SaslPlainSecurityScheme | SaslScramSecurityScheme | SaslGssapiSecurityScheme] = input['security']
-    if hasattr(input, 'tags'):
-      self._tags: List[Reference | Tag] = input['tags']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: Reference | ExternalDocs = input['external_docs']
-    if hasattr(input, 'bindings'):
-      self._bindings: Reference | OperationBindingsObject = input['bindings']
-    if hasattr(input, 'additional_properties'):
+    if 'security' in input:
+      self._security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme] = input['security']
+    if 'tags' in input:
+      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
+    if 'external_docs' in input:
+      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
+    if 'bindings' in input:
+      self._bindings: Reference.Reference | OperationBindingsObject.OperationBindingsObject = input['bindings']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def action(self) -> OperationAction:
+  def action(self) -> OperationAction.OperationAction:
     return self._action
   @action.setter
-  def action(self, action: OperationAction):
+  def action(self, action: OperationAction.OperationAction):
     self._action = action
 
   @property
-  def channel(self) -> Reference:
+  def channel(self) -> Reference.Reference:
     return self._channel
   @channel.setter
-  def channel(self, channel: Reference):
+  def channel(self, channel: Reference.Reference):
     self._channel = channel
 
   @property
-  def messages(self) -> List[Reference]:
+  def messages(self) -> List[Reference.Reference]:
     return self._messages
   @messages.setter
-  def messages(self, messages: List[Reference]):
+  def messages(self, messages: List[Reference.Reference]):
     self._messages = messages
 
   @property
-  def reply(self) -> Reference | OperationReply:
+  def reply(self) -> Reference.Reference | OperationReply.OperationReply:
     return self._reply
   @reply.setter
-  def reply(self, reply: Reference | OperationReply):
+  def reply(self, reply: Reference.Reference | OperationReply.OperationReply):
     self._reply = reply
 
   @property
-  def traits(self) -> List[Reference | OperationTrait]:
+  def traits(self) -> List[Reference.Reference | OperationTrait.OperationTrait]:
     return self._traits
   @traits.setter
-  def traits(self, traits: List[Reference | OperationTrait]):
+  def traits(self, traits: List[Reference.Reference | OperationTrait.OperationTrait]):
     self._traits = traits
 
   @property
@@ -103,31 +104,31 @@ class Operation:
     self._description = description
 
   @property
-  def security(self) -> List[Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect | SaslPlainSecurityScheme | SaslScramSecurityScheme | SaslGssapiSecurityScheme]:
+  def security(self) -> List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]:
     return self._security
   @security.setter
-  def security(self, security: List[Reference | UserPassword | ApiKey | X509 | SymmetricEncryption | AsymmetricEncryption | Any | BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme | Oauth2Flows | OpenIdConnect | SaslPlainSecurityScheme | SaslScramSecurityScheme | SaslGssapiSecurityScheme]):
+  def security(self, security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]):
     self._security = security
 
   @property
-  def tags(self) -> List[Reference | Tag]:
+  def tags(self) -> List[Reference.Reference | Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Reference | Tag]):
+  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
     self._tags = tags
 
   @property
-  def external_docs(self) -> Reference | ExternalDocs:
+  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: Reference | ExternalDocs):
+  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
-  def bindings(self) -> Reference | OperationBindingsObject:
+  def bindings(self) -> Reference.Reference | OperationBindingsObject.OperationBindingsObject:
     return self._bindings
   @bindings.setter
-  def bindings(self, bindings: Reference | OperationBindingsObject):
+  def bindings(self, bindings: Reference.Reference | OperationBindingsObject.OperationBindingsObject):
     self._bindings = bindings
 
   @property

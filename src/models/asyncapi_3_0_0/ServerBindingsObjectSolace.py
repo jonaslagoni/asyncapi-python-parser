@@ -1,22 +1,23 @@
-from .ServerBindingsObjectSolaceBindingVersion import ServerBindingsObjectSolaceBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ServerBindingsObjectSolaceBindingVersion
 class ServerBindingsObjectSolace: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ServerBindingsObjectSolaceBindingVersion = ServerBindingsObjectSolaceBindingVersion(input['binding_version'])
-    if hasattr(input, 'msg_vpn'):
+    if 'binding_version' in input:
+      self._binding_version: ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion = ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion(input['binding_version'])
+    if 'msg_vpn' in input:
       self._msg_vpn: str = input['msg_vpn']
-    if hasattr(input, 'msv_vpn'):
+    if 'msv_vpn' in input:
       self._msv_vpn: str = input['msv_vpn']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ServerBindingsObjectSolaceBindingVersion:
+  def binding_version(self) -> ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectSolaceBindingVersion):
+  def binding_version(self, binding_version: ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion):
     self._binding_version = binding_version
 
   @property

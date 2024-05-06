@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos(Enum): 
   NUMBER_0 = 0
   NUMBER_1 = 1

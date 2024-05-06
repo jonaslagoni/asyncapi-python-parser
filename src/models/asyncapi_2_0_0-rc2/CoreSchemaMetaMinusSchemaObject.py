@@ -1,101 +1,102 @@
-from .JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
 class CoreSchemaMetaMinusSchemaObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'dollar_id'):
+    if 'dollar_id' in input:
       self._dollar_id: str = input['dollar_id']
-    if hasattr(input, 'dollar_schema'):
+    if 'dollar_schema' in input:
       self._dollar_schema: str = input['dollar_schema']
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'dollar_comment'):
+    if 'dollar_comment' in input:
       self._dollar_comment: str = input['dollar_comment']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: Any = input['default']
-    if hasattr(input, 'read_only'):
+    if 'read_only' in input:
       self._read_only: bool = input['read_only']
-    if hasattr(input, 'write_only'):
+    if 'write_only' in input:
       self._write_only: bool = input['write_only']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[Any] = input['examples']
-    if hasattr(input, 'multiple_of'):
+    if 'multiple_of' in input:
       self._multiple_of: float = input['multiple_of']
-    if hasattr(input, 'maximum'):
+    if 'maximum' in input:
       self._maximum: float = input['maximum']
-    if hasattr(input, 'exclusive_maximum'):
+    if 'exclusive_maximum' in input:
       self._exclusive_maximum: float = input['exclusive_maximum']
-    if hasattr(input, 'minimum'):
+    if 'minimum' in input:
       self._minimum: float = input['minimum']
-    if hasattr(input, 'exclusive_minimum'):
+    if 'exclusive_minimum' in input:
       self._exclusive_minimum: float = input['exclusive_minimum']
-    if hasattr(input, 'max_length'):
+    if 'max_length' in input:
       self._max_length: int = input['max_length']
-    if hasattr(input, 'min_length'):
+    if 'min_length' in input:
       self._min_length: int = input['min_length']
-    if hasattr(input, 'pattern'):
+    if 'pattern' in input:
       self._pattern: str = input['pattern']
-    if hasattr(input, 'additional_items'):
+    if 'additional_items' in input:
       self._additional_items: CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
-    if hasattr(input, 'items'):
+    if 'items' in input:
       self._items: CoreSchemaMetaMinusSchemaObject | bool | List[CoreSchemaMetaMinusSchemaObject | bool] = input['items']
-    if hasattr(input, 'max_items'):
+    if 'max_items' in input:
       self._max_items: int = input['max_items']
-    if hasattr(input, 'min_items'):
+    if 'min_items' in input:
       self._min_items: int = input['min_items']
-    if hasattr(input, 'unique_items'):
+    if 'unique_items' in input:
       self._unique_items: bool = input['unique_items']
-    if hasattr(input, 'contains'):
+    if 'contains' in input:
       self._contains: CoreSchemaMetaMinusSchemaObject | bool = input['contains']
-    if hasattr(input, 'max_properties'):
+    if 'max_properties' in input:
       self._max_properties: int = input['max_properties']
-    if hasattr(input, 'min_properties'):
+    if 'min_properties' in input:
       self._min_properties: int = input['min_properties']
-    if hasattr(input, 'required'):
+    if 'required' in input:
       self._required: List[str] = input['required']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: CoreSchemaMetaMinusSchemaObject | bool = input['additional_properties']
-    if hasattr(input, 'definitions'):
+    if 'definitions' in input:
       self._definitions: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['definitions']
-    if hasattr(input, 'properties'):
+    if 'properties' in input:
       self._properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['properties']
-    if hasattr(input, 'pattern_properties'):
+    if 'pattern_properties' in input:
       self._pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['pattern_properties']
-    if hasattr(input, 'dependencies'):
+    if 'dependencies' in input:
       self._dependencies: dict[str, CoreSchemaMetaMinusSchemaObject | bool | List[str]] = input['dependencies']
-    if hasattr(input, 'property_names'):
+    if 'property_names' in input:
       self._property_names: CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
-    if hasattr(input, 'const'):
+    if 'const' in input:
       self._const: Any = input['const']
-    if hasattr(input, 'enum'):
+    if 'enum' in input:
       self._enum: List[Any] = input['enum']
-    if hasattr(input, 'type'):
-      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
-    if hasattr(input, 'format'):
+    if 'type' in input:
+      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
+    if 'format' in input:
       self._format: str = input['format']
-    if hasattr(input, 'content_media_type'):
+    if 'content_media_type' in input:
       self._content_media_type: str = input['content_media_type']
-    if hasattr(input, 'content_encoding'):
+    if 'content_encoding' in input:
       self._content_encoding: str = input['content_encoding']
-    if hasattr(input, 'reserved_if'):
+    if 'reserved_if' in input:
       self._reserved_if: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_if']
-    if hasattr(input, 'then'):
+    if 'then' in input:
       self._then: CoreSchemaMetaMinusSchemaObject | bool = input['then']
-    if hasattr(input, 'reserved_else'):
+    if 'reserved_else' in input:
       self._reserved_else: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_else']
-    if hasattr(input, 'all_of'):
+    if 'all_of' in input:
       self._all_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['all_of']
-    if hasattr(input, 'any_of'):
+    if 'any_of' in input:
       self._any_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['any_of']
-    if hasattr(input, 'one_of'):
+    if 'one_of' in input:
       self._one_of: List[CoreSchemaMetaMinusSchemaObject | bool] = input['one_of']
-    if hasattr(input, 'reserved_not'):
+    if 'reserved_not' in input:
       self._reserved_not: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_not']
-    if hasattr(input, 'reserved_additional_properties'):
+    if 'reserved_additional_properties' in input:
       self._reserved_additional_properties: dict[str, Any | Any] = input['reserved_additional_properties']
 
   @property
@@ -344,10 +345,10 @@ class CoreSchemaMetaMinusSchemaObject:
     self._enum = enum
 
   @property
-  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
+  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
     return self._type
   @type.setter
-  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
+  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
     self._type = type
 
   @property

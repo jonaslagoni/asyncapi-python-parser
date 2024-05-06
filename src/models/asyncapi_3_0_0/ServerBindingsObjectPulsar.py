@@ -1,20 +1,21 @@
-from .ServerBindingsObjectPulsarBindingVersion import ServerBindingsObjectPulsarBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ServerBindingsObjectPulsarBindingVersion
 class ServerBindingsObjectPulsar: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ServerBindingsObjectPulsarBindingVersion = ServerBindingsObjectPulsarBindingVersion(input['binding_version'])
-    if hasattr(input, 'tenant'):
+    if 'binding_version' in input:
+      self._binding_version: ServerBindingsObjectPulsarBindingVersion.ServerBindingsObjectPulsarBindingVersion = ServerBindingsObjectPulsarBindingVersion.ServerBindingsObjectPulsarBindingVersion(input['binding_version'])
+    if 'tenant' in input:
       self._tenant: str = input['tenant']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ServerBindingsObjectPulsarBindingVersion:
+  def binding_version(self) -> ServerBindingsObjectPulsarBindingVersion.ServerBindingsObjectPulsarBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectPulsarBindingVersion):
+  def binding_version(self, binding_version: ServerBindingsObjectPulsarBindingVersion.ServerBindingsObjectPulsarBindingVersion):
     self._binding_version = binding_version
 
   @property

@@ -1,23 +1,24 @@
-from .ChannelBindingsObjectJmsBindingVersion import ChannelBindingsObjectJmsBindingVersion
-from .BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType import BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ChannelBindingsObjectJmsBindingVersion
+from . import BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType
 class ChannelBindingsObjectJms: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ChannelBindingsObjectJmsBindingVersion = ChannelBindingsObjectJmsBindingVersion(input['binding_version'])
-    if hasattr(input, 'destination'):
+    if 'binding_version' in input:
+      self._binding_version: ChannelBindingsObjectJmsBindingVersion.ChannelBindingsObjectJmsBindingVersion = ChannelBindingsObjectJmsBindingVersion.ChannelBindingsObjectJmsBindingVersion(input['binding_version'])
+    if 'destination' in input:
       self._destination: str = input['destination']
-    if hasattr(input, 'destination_type'):
-      self._destination_type: BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType = BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType(input['destination_type'])
-    if hasattr(input, 'additional_properties'):
+    if 'destination_type' in input:
+      self._destination_type: BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType.BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType = BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType.BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType(input['destination_type'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ChannelBindingsObjectJmsBindingVersion:
+  def binding_version(self) -> ChannelBindingsObjectJmsBindingVersion.ChannelBindingsObjectJmsBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ChannelBindingsObjectJmsBindingVersion):
+  def binding_version(self, binding_version: ChannelBindingsObjectJmsBindingVersion.ChannelBindingsObjectJmsBindingVersion):
     self._binding_version = binding_version
 
   @property
@@ -28,10 +29,10 @@ class ChannelBindingsObjectJms:
     self._destination = destination
 
   @property
-  def destination_type(self) -> BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType:
+  def destination_type(self) -> BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType.BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType:
     return self._destination_type
   @destination_type.setter
-  def destination_type(self, destination_type: BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType):
+  def destination_type(self, destination_type: BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType.BindingsMinusJmsMinus0Dot0Dot1MinusChannelDestinationType):
     self._destination_type = destination_type
 
   @property

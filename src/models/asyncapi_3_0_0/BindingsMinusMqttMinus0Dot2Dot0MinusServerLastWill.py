@@ -1,17 +1,18 @@
-from .BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos import BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos
 class BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'topic'):
+    if 'topic' in input:
       self._topic: str = input['topic']
-    if hasattr(input, 'qos'):
-      self._qos: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos = BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos(input['qos'])
-    if hasattr(input, 'message'):
+    if 'qos' in input:
+      self._qos: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos = BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos(input['qos'])
+    if 'message' in input:
       self._message: str = input['message']
-    if hasattr(input, 'retain'):
+    if 'retain' in input:
       self._retain: bool = input['retain']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -22,10 +23,10 @@ class BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill:
     self._topic = topic
 
   @property
-  def qos(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos:
+  def qos(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos:
     return self._qos
   @qos.setter
-  def qos(self, qos: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos):
+  def qos(self, qos: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWillQos):
     self._qos = qos
 
   @property

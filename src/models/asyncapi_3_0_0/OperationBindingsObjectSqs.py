@@ -1,28 +1,29 @@
-from .BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion import BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion
-from .OperationSchema import OperationSchema
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion
+from . import OperationSchema
 class OperationBindingsObjectSqs: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion = BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion(input['binding_version'])
-    if hasattr(input, 'queues'):
-      self._queues: List[OperationSchema] = input['queues']
-    if hasattr(input, 'additional_properties'):
+    if 'binding_version' in input:
+      self._binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion = BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion(input['binding_version'])
+    if 'queues' in input:
+      self._queues: List[OperationSchema.OperationSchema] = input['queues']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion:
+  def binding_version(self) -> BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion):
+  def binding_version(self, binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion):
     self._binding_version = binding_version
 
   @property
-  def queues(self) -> List[OperationSchema]:
+  def queues(self) -> List[OperationSchema.OperationSchema]:
     return self._queues
   @queues.setter
-  def queues(self, queues: List[OperationSchema]):
+  def queues(self, queues: List[OperationSchema.OperationSchema]):
     self._queues = queues
 
   @property

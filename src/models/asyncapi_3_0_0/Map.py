@@ -1,24 +1,25 @@
-from .PrimitiveType import PrimitiveType
-from .PrimitiveTypeWithMetadata import PrimitiveTypeWithMetadata
-from .Record import Record
-from .Enum import Enum
-from .Array import Array
-from .Fixed import Fixed
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import PrimitiveType
+from . import PrimitiveTypeWithMetadata
+from . import Record
+from . import Enum
+from . import Array
+from . import Fixed
 class Map: 
   def __init__(self, input: Dict):
     self._type: str = 'map'
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'namespace'):
+    if 'namespace' in input:
       self._namespace: str = input['namespace']
-    if hasattr(input, 'doc'):
+    if 'doc' in input:
       self._doc: str = input['doc']
-    if hasattr(input, 'aliases'):
+    if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
-    self._values: PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[] = input['values']
-    if hasattr(input, 'additional_properties'):
+    self._values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[] = input['values']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -54,10 +55,10 @@ class Map:
     self._aliases = aliases
 
   @property
-  def values(self) -> PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]:
+  def values(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[]:
     return self._values
   @values.setter
-  def values(self, values: PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]):
+  def values(self, values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[]):
     self._values = values
 
   @property

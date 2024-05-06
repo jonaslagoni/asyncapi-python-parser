@@ -1,19 +1,20 @@
-from .SaslPlainSecuritySchemeType import SaslPlainSecuritySchemeType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import SaslPlainSecuritySchemeType
 class SaslPlainSecurityScheme: 
   def __init__(self, input: Dict):
-    self._type: SaslPlainSecuritySchemeType = SaslPlainSecuritySchemeType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: SaslPlainSecuritySchemeType.SaslPlainSecuritySchemeType = SaslPlainSecuritySchemeType.SaslPlainSecuritySchemeType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> SaslPlainSecuritySchemeType:
+  def type(self) -> SaslPlainSecuritySchemeType.SaslPlainSecuritySchemeType:
     return self._type
   @type.setter
-  def type(self, type: SaslPlainSecuritySchemeType):
+  def type(self, type: SaslPlainSecuritySchemeType.SaslPlainSecuritySchemeType):
     self._type = type
 
   @property

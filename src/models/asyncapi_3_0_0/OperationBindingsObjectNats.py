@@ -1,20 +1,21 @@
-from .OperationBindingsObjectNatsBindingVersion import OperationBindingsObjectNatsBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import OperationBindingsObjectNatsBindingVersion
 class OperationBindingsObjectNats: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: OperationBindingsObjectNatsBindingVersion = OperationBindingsObjectNatsBindingVersion(input['binding_version'])
-    if hasattr(input, 'queue'):
+    if 'binding_version' in input:
+      self._binding_version: OperationBindingsObjectNatsBindingVersion.OperationBindingsObjectNatsBindingVersion = OperationBindingsObjectNatsBindingVersion.OperationBindingsObjectNatsBindingVersion(input['binding_version'])
+    if 'queue' in input:
       self._queue: str = input['queue']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> OperationBindingsObjectNatsBindingVersion:
+  def binding_version(self) -> OperationBindingsObjectNatsBindingVersion.OperationBindingsObjectNatsBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: OperationBindingsObjectNatsBindingVersion):
+  def binding_version(self, binding_version: OperationBindingsObjectNatsBindingVersion.OperationBindingsObjectNatsBindingVersion):
     self._binding_version = binding_version
 
   @property

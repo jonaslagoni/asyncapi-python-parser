@@ -1,15 +1,16 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings: 
   def __init__(self, input: Dict):
     self._encoding: str = input['encoding']
-    if hasattr(input, 'first_revision_id'):
+    if 'first_revision_id' in input:
       self._first_revision_id: str = input['first_revision_id']
-    if hasattr(input, 'last_revision_id'):
+    if 'last_revision_id' in input:
       self._last_revision_id: str = input['last_revision_id']
     self._name: str = input['name']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

@@ -1,18 +1,19 @@
-from .ServerScheme import ServerScheme
-from .ServerVariable import ServerVariable
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import ServerScheme
+from . import ServerVariable
 class Server: 
   def __init__(self, input: Dict):
     self._url: str = input['url']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    self._scheme: ServerScheme = ServerScheme(input['scheme'])
-    if hasattr(input, 'scheme_version'):
+    self._scheme: ServerScheme.ServerScheme = ServerScheme.ServerScheme(input['scheme'])
+    if 'scheme_version' in input:
       self._scheme_version: str = input['scheme_version']
-    if hasattr(input, 'variables'):
-      self._variables: dict[str, ServerVariable] = input['variables']
-    if hasattr(input, 'additional_properties'):
+    if 'variables' in input:
+      self._variables: dict[str, ServerVariable.ServerVariable] = input['variables']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -30,10 +31,10 @@ class Server:
     self._description = description
 
   @property
-  def scheme(self) -> ServerScheme:
+  def scheme(self) -> ServerScheme.ServerScheme:
     return self._scheme
   @scheme.setter
-  def scheme(self, scheme: ServerScheme):
+  def scheme(self, scheme: ServerScheme.ServerScheme):
     self._scheme = scheme
 
   @property
@@ -44,10 +45,10 @@ class Server:
     self._scheme_version = scheme_version
 
   @property
-  def variables(self) -> dict[str, ServerVariable]:
+  def variables(self) -> dict[str, ServerVariable.ServerVariable]:
     return self._variables
   @variables.setter
-  def variables(self, variables: dict[str, ServerVariable]):
+  def variables(self, variables: dict[str, ServerVariable.ServerVariable]):
     self._variables = variables
 
   @property

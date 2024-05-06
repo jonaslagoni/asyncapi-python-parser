@@ -1,15 +1,16 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class Contact: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'url'):
+    if 'url' in input:
       self._url: str = input['url']
-    if hasattr(input, 'email'):
+    if 'email' in input:
       self._email: str = input['email']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

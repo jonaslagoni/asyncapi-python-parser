@@ -1,52 +1,53 @@
-from .ChannelBindingsObjectWs import ChannelBindingsObjectWs
-from .ChannelBindingsObjectAmqp import ChannelBindingsObjectAmqp
-from .ChannelBindingsObjectKafka import ChannelBindingsObjectKafka
-from .ChannelBindingsObjectAnypointmq import ChannelBindingsObjectAnypointmq
-from .ChannelBindingsObjectJms import ChannelBindingsObjectJms
-from .ChannelBindingsObjectSns import ChannelBindingsObjectSns
-from .ChannelBindingsObjectSqs import ChannelBindingsObjectSqs
-from .ChannelBindingsObjectIbmmq import ChannelBindingsObjectIbmmq
-from .ChannelBindingsObjectGooglepubsub import ChannelBindingsObjectGooglepubsub
-from .ChannelBindingsObjectPulsar import ChannelBindingsObjectPulsar
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import ChannelBindingsObjectWs
+from . import ChannelBindingsObjectAmqp
+from . import ChannelBindingsObjectKafka
+from . import ChannelBindingsObjectAnypointmq
+from . import ChannelBindingsObjectJms
+from . import ChannelBindingsObjectSns
+from . import ChannelBindingsObjectSqs
+from . import ChannelBindingsObjectIbmmq
+from . import ChannelBindingsObjectGooglepubsub
+from . import ChannelBindingsObjectPulsar
 class ChannelBindingsObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'http'):
+    if 'http' in input:
       self._http: Any = input['http']
-    if hasattr(input, 'ws'):
-      self._ws: ChannelBindingsObjectWs = ChannelBindingsObjectWs(input['ws'])
-    if hasattr(input, 'amqp'):
-      self._amqp: ChannelBindingsObjectAmqp = ChannelBindingsObjectAmqp(input['amqp'])
-    if hasattr(input, 'amqp1'):
+    if 'ws' in input:
+      self._ws: ChannelBindingsObjectWs.ChannelBindingsObjectWs = ChannelBindingsObjectWs.ChannelBindingsObjectWs(input['ws'])
+    if 'amqp' in input:
+      self._amqp: ChannelBindingsObjectAmqp.ChannelBindingsObjectAmqp = ChannelBindingsObjectAmqp.ChannelBindingsObjectAmqp(input['amqp'])
+    if 'amqp1' in input:
       self._amqp1: Any = input['amqp1']
-    if hasattr(input, 'mqtt'):
+    if 'mqtt' in input:
       self._mqtt: Any = input['mqtt']
-    if hasattr(input, 'kafka'):
-      self._kafka: ChannelBindingsObjectKafka = ChannelBindingsObjectKafka(input['kafka'])
-    if hasattr(input, 'anypointmq'):
-      self._anypointmq: ChannelBindingsObjectAnypointmq = ChannelBindingsObjectAnypointmq(input['anypointmq'])
-    if hasattr(input, 'nats'):
+    if 'kafka' in input:
+      self._kafka: ChannelBindingsObjectKafka.ChannelBindingsObjectKafka = ChannelBindingsObjectKafka.ChannelBindingsObjectKafka(input['kafka'])
+    if 'anypointmq' in input:
+      self._anypointmq: ChannelBindingsObjectAnypointmq.ChannelBindingsObjectAnypointmq = ChannelBindingsObjectAnypointmq.ChannelBindingsObjectAnypointmq(input['anypointmq'])
+    if 'nats' in input:
       self._nats: Any = input['nats']
-    if hasattr(input, 'jms'):
-      self._jms: ChannelBindingsObjectJms = ChannelBindingsObjectJms(input['jms'])
-    if hasattr(input, 'sns'):
-      self._sns: ChannelBindingsObjectSns = ChannelBindingsObjectSns(input['sns'])
-    if hasattr(input, 'sqs'):
-      self._sqs: ChannelBindingsObjectSqs = ChannelBindingsObjectSqs(input['sqs'])
-    if hasattr(input, 'stomp'):
+    if 'jms' in input:
+      self._jms: ChannelBindingsObjectJms.ChannelBindingsObjectJms = ChannelBindingsObjectJms.ChannelBindingsObjectJms(input['jms'])
+    if 'sns' in input:
+      self._sns: ChannelBindingsObjectSns.ChannelBindingsObjectSns = ChannelBindingsObjectSns.ChannelBindingsObjectSns(input['sns'])
+    if 'sqs' in input:
+      self._sqs: ChannelBindingsObjectSqs.ChannelBindingsObjectSqs = ChannelBindingsObjectSqs.ChannelBindingsObjectSqs(input['sqs'])
+    if 'stomp' in input:
       self._stomp: Any = input['stomp']
-    if hasattr(input, 'redis'):
+    if 'redis' in input:
       self._redis: Any = input['redis']
-    if hasattr(input, 'ibmmq'):
-      self._ibmmq: ChannelBindingsObjectIbmmq = ChannelBindingsObjectIbmmq(input['ibmmq'])
-    if hasattr(input, 'solace'):
+    if 'ibmmq' in input:
+      self._ibmmq: ChannelBindingsObjectIbmmq.ChannelBindingsObjectIbmmq = ChannelBindingsObjectIbmmq.ChannelBindingsObjectIbmmq(input['ibmmq'])
+    if 'solace' in input:
       self._solace: Any = input['solace']
-    if hasattr(input, 'googlepubsub'):
-      self._googlepubsub: ChannelBindingsObjectGooglepubsub = ChannelBindingsObjectGooglepubsub(input['googlepubsub'])
-    if hasattr(input, 'pulsar'):
-      self._pulsar: ChannelBindingsObjectPulsar = ChannelBindingsObjectPulsar(input['pulsar'])
-    if hasattr(input, 'additional_properties'):
+    if 'googlepubsub' in input:
+      self._googlepubsub: ChannelBindingsObjectGooglepubsub.ChannelBindingsObjectGooglepubsub = ChannelBindingsObjectGooglepubsub.ChannelBindingsObjectGooglepubsub(input['googlepubsub'])
+    if 'pulsar' in input:
+      self._pulsar: ChannelBindingsObjectPulsar.ChannelBindingsObjectPulsar = ChannelBindingsObjectPulsar.ChannelBindingsObjectPulsar(input['pulsar'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -57,17 +58,17 @@ class ChannelBindingsObject:
     self._http = http
 
   @property
-  def ws(self) -> ChannelBindingsObjectWs:
+  def ws(self) -> ChannelBindingsObjectWs.ChannelBindingsObjectWs:
     return self._ws
   @ws.setter
-  def ws(self, ws: ChannelBindingsObjectWs):
+  def ws(self, ws: ChannelBindingsObjectWs.ChannelBindingsObjectWs):
     self._ws = ws
 
   @property
-  def amqp(self) -> ChannelBindingsObjectAmqp:
+  def amqp(self) -> ChannelBindingsObjectAmqp.ChannelBindingsObjectAmqp:
     return self._amqp
   @amqp.setter
-  def amqp(self, amqp: ChannelBindingsObjectAmqp):
+  def amqp(self, amqp: ChannelBindingsObjectAmqp.ChannelBindingsObjectAmqp):
     self._amqp = amqp
 
   @property
@@ -85,17 +86,17 @@ class ChannelBindingsObject:
     self._mqtt = mqtt
 
   @property
-  def kafka(self) -> ChannelBindingsObjectKafka:
+  def kafka(self) -> ChannelBindingsObjectKafka.ChannelBindingsObjectKafka:
     return self._kafka
   @kafka.setter
-  def kafka(self, kafka: ChannelBindingsObjectKafka):
+  def kafka(self, kafka: ChannelBindingsObjectKafka.ChannelBindingsObjectKafka):
     self._kafka = kafka
 
   @property
-  def anypointmq(self) -> ChannelBindingsObjectAnypointmq:
+  def anypointmq(self) -> ChannelBindingsObjectAnypointmq.ChannelBindingsObjectAnypointmq:
     return self._anypointmq
   @anypointmq.setter
-  def anypointmq(self, anypointmq: ChannelBindingsObjectAnypointmq):
+  def anypointmq(self, anypointmq: ChannelBindingsObjectAnypointmq.ChannelBindingsObjectAnypointmq):
     self._anypointmq = anypointmq
 
   @property
@@ -106,24 +107,24 @@ class ChannelBindingsObject:
     self._nats = nats
 
   @property
-  def jms(self) -> ChannelBindingsObjectJms:
+  def jms(self) -> ChannelBindingsObjectJms.ChannelBindingsObjectJms:
     return self._jms
   @jms.setter
-  def jms(self, jms: ChannelBindingsObjectJms):
+  def jms(self, jms: ChannelBindingsObjectJms.ChannelBindingsObjectJms):
     self._jms = jms
 
   @property
-  def sns(self) -> ChannelBindingsObjectSns:
+  def sns(self) -> ChannelBindingsObjectSns.ChannelBindingsObjectSns:
     return self._sns
   @sns.setter
-  def sns(self, sns: ChannelBindingsObjectSns):
+  def sns(self, sns: ChannelBindingsObjectSns.ChannelBindingsObjectSns):
     self._sns = sns
 
   @property
-  def sqs(self) -> ChannelBindingsObjectSqs:
+  def sqs(self) -> ChannelBindingsObjectSqs.ChannelBindingsObjectSqs:
     return self._sqs
   @sqs.setter
-  def sqs(self, sqs: ChannelBindingsObjectSqs):
+  def sqs(self, sqs: ChannelBindingsObjectSqs.ChannelBindingsObjectSqs):
     self._sqs = sqs
 
   @property
@@ -141,10 +142,10 @@ class ChannelBindingsObject:
     self._redis = redis
 
   @property
-  def ibmmq(self) -> ChannelBindingsObjectIbmmq:
+  def ibmmq(self) -> ChannelBindingsObjectIbmmq.ChannelBindingsObjectIbmmq:
     return self._ibmmq
   @ibmmq.setter
-  def ibmmq(self, ibmmq: ChannelBindingsObjectIbmmq):
+  def ibmmq(self, ibmmq: ChannelBindingsObjectIbmmq.ChannelBindingsObjectIbmmq):
     self._ibmmq = ibmmq
 
   @property
@@ -155,17 +156,17 @@ class ChannelBindingsObject:
     self._solace = solace
 
   @property
-  def googlepubsub(self) -> ChannelBindingsObjectGooglepubsub:
+  def googlepubsub(self) -> ChannelBindingsObjectGooglepubsub.ChannelBindingsObjectGooglepubsub:
     return self._googlepubsub
   @googlepubsub.setter
-  def googlepubsub(self, googlepubsub: ChannelBindingsObjectGooglepubsub):
+  def googlepubsub(self, googlepubsub: ChannelBindingsObjectGooglepubsub.ChannelBindingsObjectGooglepubsub):
     self._googlepubsub = googlepubsub
 
   @property
-  def pulsar(self) -> ChannelBindingsObjectPulsar:
+  def pulsar(self) -> ChannelBindingsObjectPulsar.ChannelBindingsObjectPulsar:
     return self._pulsar
   @pulsar.setter
-  def pulsar(self, pulsar: ChannelBindingsObjectPulsar):
+  def pulsar(self, pulsar: ChannelBindingsObjectPulsar.ChannelBindingsObjectPulsar):
     self._pulsar = pulsar
 
   @property

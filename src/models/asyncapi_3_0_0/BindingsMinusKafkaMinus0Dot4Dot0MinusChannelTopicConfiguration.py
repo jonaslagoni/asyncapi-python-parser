@@ -1,24 +1,25 @@
-from .BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem import BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem
+from __future__ import annotations
 import json
 from typing import List, Dict
+from . import BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem
 class BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfiguration: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'cleanup_dot_policy'):
-      self._cleanup_dot_policy: List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem] = input['cleanup_dot_policy']
-    if hasattr(input, 'retention_dot_ms'):
+    if 'cleanup_dot_policy' in input:
+      self._cleanup_dot_policy: List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem.BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem] = input['cleanup_dot_policy']
+    if 'retention_dot_ms' in input:
       self._retention_dot_ms: int = input['retention_dot_ms']
-    if hasattr(input, 'retention_dot_bytes'):
+    if 'retention_dot_bytes' in input:
       self._retention_dot_bytes: int = input['retention_dot_bytes']
-    if hasattr(input, 'delete_dot_retention_dot_ms'):
+    if 'delete_dot_retention_dot_ms' in input:
       self._delete_dot_retention_dot_ms: int = input['delete_dot_retention_dot_ms']
-    if hasattr(input, 'max_dot_message_dot_bytes'):
+    if 'max_dot_message_dot_bytes' in input:
       self._max_dot_message_dot_bytes: int = input['max_dot_message_dot_bytes']
 
   @property
-  def cleanup_dot_policy(self) -> List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem]:
+  def cleanup_dot_policy(self) -> List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem.BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem]:
     return self._cleanup_dot_policy
   @cleanup_dot_policy.setter
-  def cleanup_dot_policy(self, cleanup_dot_policy: List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem]):
+  def cleanup_dot_policy(self, cleanup_dot_policy: List[BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem.BindingsMinusKafkaMinus0Dot4Dot0MinusChannelTopicConfigurationCleanupDotPolicyItem]):
     self._cleanup_dot_policy = cleanup_dot_policy
 
   @property

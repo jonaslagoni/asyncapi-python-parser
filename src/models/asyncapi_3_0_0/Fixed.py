@@ -1,18 +1,19 @@
-
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+
 class Fixed: 
   def __init__(self, input: Dict):
     self._type: str = 'fixed'
     self._name: str = input['name']
-    if hasattr(input, 'namespace'):
+    if 'namespace' in input:
       self._namespace: str = input['namespace']
-    if hasattr(input, 'doc'):
+    if 'doc' in input:
       self._doc: str = input['doc']
-    if hasattr(input, 'aliases'):
+    if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
     self._size: float = input['size']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

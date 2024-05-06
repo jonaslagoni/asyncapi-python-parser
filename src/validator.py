@@ -3,8 +3,7 @@ import traceback
 from jsonschema import validate, exceptions
 
 class ValidationError(Exception):
-    def __init__(self, message):            
-        # Call the base class constructor with the parameters it needs
+    def __init__(self, message):
         super().__init__(message)
 
 def get_schema_file(asyncapi_version: str):

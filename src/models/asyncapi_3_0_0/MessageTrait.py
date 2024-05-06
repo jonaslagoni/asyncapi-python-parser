@@ -1,38 +1,39 @@
-from .AnySchemaObject import AnySchemaObject
-from .Reference import Reference
-from .CorrelationId import CorrelationId
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
-from .MessageBindingsObject import MessageBindingsObject
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import AnySchemaObject
+from . import Reference
+from . import CorrelationId
+from . import Tag
+from . import ExternalDocs
+from . import MessageBindingsObject
 class MessageTrait: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'content_type'):
+    if 'content_type' in input:
       self._content_type: str = input['content_type']
-    if hasattr(input, 'headers'):
-      self._headers: AnySchemaObject | bool = input['headers']
-    if hasattr(input, 'correlation_id'):
-      self._correlation_id: Reference | CorrelationId = input['correlation_id']
-    if hasattr(input, 'tags'):
-      self._tags: List[Reference | Tag] = input['tags']
-    if hasattr(input, 'summary'):
+    if 'headers' in input:
+      self._headers: AnySchemaObject.AnySchemaObject | bool = input['headers']
+    if 'correlation_id' in input:
+      self._correlation_id: Reference.Reference | CorrelationId.CorrelationId = input['correlation_id']
+    if 'tags' in input:
+      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: Reference | ExternalDocs = input['external_docs']
-    if hasattr(input, 'deprecated'):
+    if 'external_docs' in input:
+      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[dict[str, Any]] = input['examples']
-    if hasattr(input, 'bindings'):
-      self._bindings: Reference | MessageBindingsObject = input['bindings']
-    if hasattr(input, 'additional_properties'):
+    if 'bindings' in input:
+      self._bindings: Reference.Reference | MessageBindingsObject.MessageBindingsObject = input['bindings']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -43,24 +44,24 @@ class MessageTrait:
     self._content_type = content_type
 
   @property
-  def headers(self) -> AnySchemaObject | bool:
+  def headers(self) -> AnySchemaObject.AnySchemaObject | bool:
     return self._headers
   @headers.setter
-  def headers(self, headers: AnySchemaObject | bool):
+  def headers(self, headers: AnySchemaObject.AnySchemaObject | bool):
     self._headers = headers
 
   @property
-  def correlation_id(self) -> Reference | CorrelationId:
+  def correlation_id(self) -> Reference.Reference | CorrelationId.CorrelationId:
     return self._correlation_id
   @correlation_id.setter
-  def correlation_id(self, correlation_id: Reference | CorrelationId):
+  def correlation_id(self, correlation_id: Reference.Reference | CorrelationId.CorrelationId):
     self._correlation_id = correlation_id
 
   @property
-  def tags(self) -> List[Reference | Tag]:
+  def tags(self) -> List[Reference.Reference | Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Reference | Tag]):
+  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
     self._tags = tags
 
   @property
@@ -92,10 +93,10 @@ class MessageTrait:
     self._description = description
 
   @property
-  def external_docs(self) -> Reference | ExternalDocs:
+  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: Reference | ExternalDocs):
+  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
@@ -113,10 +114,10 @@ class MessageTrait:
     self._examples = examples
 
   @property
-  def bindings(self) -> Reference | MessageBindingsObject:
+  def bindings(self) -> Reference.Reference | MessageBindingsObject.MessageBindingsObject:
     return self._bindings
   @bindings.setter
-  def bindings(self, bindings: Reference | MessageBindingsObject):
+  def bindings(self, bindings: Reference.Reference | MessageBindingsObject.MessageBindingsObject):
     self._bindings = bindings
 
   @property

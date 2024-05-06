@@ -1,15 +1,16 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class Oauth2FlowsFlowsClientCredentials: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'authorization_url'):
+    if 'authorization_url' in input:
       self._authorization_url: str = input['authorization_url']
     self._token_url: str = input['token_url']
-    if hasattr(input, 'refresh_url'):
+    if 'refresh_url' in input:
       self._refresh_url: str = input['refresh_url']
     self._scopes: dict[str, str] = input['scopes']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

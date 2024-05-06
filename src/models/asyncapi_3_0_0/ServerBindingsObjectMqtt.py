@@ -1,33 +1,34 @@
-from .ServerBindingsObjectMqttBindingVersion import ServerBindingsObjectMqttBindingVersion
-from .BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill import BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill
-from .SchemaObject import SchemaObject
-from .Reference import Reference
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import ServerBindingsObjectMqttBindingVersion
+from . import BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill
+from . import SchemaObject
+from . import Reference
 class ServerBindingsObjectMqtt: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ServerBindingsObjectMqttBindingVersion = ServerBindingsObjectMqttBindingVersion(input['binding_version'])
-    if hasattr(input, 'client_id'):
+    if 'binding_version' in input:
+      self._binding_version: ServerBindingsObjectMqttBindingVersion.ServerBindingsObjectMqttBindingVersion = ServerBindingsObjectMqttBindingVersion.ServerBindingsObjectMqttBindingVersion(input['binding_version'])
+    if 'client_id' in input:
       self._client_id: str = input['client_id']
-    if hasattr(input, 'clean_session'):
+    if 'clean_session' in input:
       self._clean_session: bool = input['clean_session']
-    if hasattr(input, 'last_will'):
-      self._last_will: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill = BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill(input['last_will'])
-    if hasattr(input, 'keep_alive'):
+    if 'last_will' in input:
+      self._last_will: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill = BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill(input['last_will'])
+    if 'keep_alive' in input:
       self._keep_alive: int = input['keep_alive']
-    if hasattr(input, 'session_expiry_interval'):
-      self._session_expiry_interval: int | SchemaObject | bool | Reference = input['session_expiry_interval']
-    if hasattr(input, 'maximum_packet_size'):
-      self._maximum_packet_size: int | SchemaObject | bool | Reference = input['maximum_packet_size']
-    if hasattr(input, 'additional_properties'):
+    if 'session_expiry_interval' in input:
+      self._session_expiry_interval: int | SchemaObject.SchemaObject | bool | Reference.Reference = input['session_expiry_interval']
+    if 'maximum_packet_size' in input:
+      self._maximum_packet_size: int | SchemaObject.SchemaObject | bool | Reference.Reference = input['maximum_packet_size']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ServerBindingsObjectMqttBindingVersion:
+  def binding_version(self) -> ServerBindingsObjectMqttBindingVersion.ServerBindingsObjectMqttBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectMqttBindingVersion):
+  def binding_version(self, binding_version: ServerBindingsObjectMqttBindingVersion.ServerBindingsObjectMqttBindingVersion):
     self._binding_version = binding_version
 
   @property
@@ -45,10 +46,10 @@ class ServerBindingsObjectMqtt:
     self._clean_session = clean_session
 
   @property
-  def last_will(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill:
+  def last_will(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill:
     return self._last_will
   @last_will.setter
-  def last_will(self, last_will: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill):
+  def last_will(self, last_will: BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill.BindingsMinusMqttMinus0Dot2Dot0MinusServerLastWill):
     self._last_will = last_will
 
   @property
@@ -59,17 +60,17 @@ class ServerBindingsObjectMqtt:
     self._keep_alive = keep_alive
 
   @property
-  def session_expiry_interval(self) -> int | SchemaObject | bool | Reference:
+  def session_expiry_interval(self) -> int | SchemaObject.SchemaObject | bool | Reference.Reference:
     return self._session_expiry_interval
   @session_expiry_interval.setter
-  def session_expiry_interval(self, session_expiry_interval: int | SchemaObject | bool | Reference):
+  def session_expiry_interval(self, session_expiry_interval: int | SchemaObject.SchemaObject | bool | Reference.Reference):
     self._session_expiry_interval = session_expiry_interval
 
   @property
-  def maximum_packet_size(self) -> int | SchemaObject | bool | Reference:
+  def maximum_packet_size(self) -> int | SchemaObject.SchemaObject | bool | Reference.Reference:
     return self._maximum_packet_size
   @maximum_packet_size.setter
-  def maximum_packet_size(self, maximum_packet_size: int | SchemaObject | bool | Reference):
+  def maximum_packet_size(self, maximum_packet_size: int | SchemaObject.SchemaObject | bool | Reference.Reference):
     self._maximum_packet_size = maximum_packet_size
 
   @property

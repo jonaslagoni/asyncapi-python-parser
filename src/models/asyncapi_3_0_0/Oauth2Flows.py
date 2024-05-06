@@ -1,23 +1,24 @@
-from .Oauth2FlowsType import Oauth2FlowsType
-from .Oauth2FlowsFlows import Oauth2FlowsFlows
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Oauth2FlowsType
+from . import Oauth2FlowsFlows
 class Oauth2Flows: 
   def __init__(self, input: Dict):
-    self._type: Oauth2FlowsType = Oauth2FlowsType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: Oauth2FlowsType.Oauth2FlowsType = Oauth2FlowsType.Oauth2FlowsType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    self._flows: Oauth2FlowsFlows = Oauth2FlowsFlows(input['flows'])
-    if hasattr(input, 'scopes'):
+    self._flows: Oauth2FlowsFlows.Oauth2FlowsFlows = Oauth2FlowsFlows.Oauth2FlowsFlows(input['flows'])
+    if 'scopes' in input:
       self._scopes: List[str] = input['scopes']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any | Any] = input['additional_properties']
 
   @property
-  def type(self) -> Oauth2FlowsType:
+  def type(self) -> Oauth2FlowsType.Oauth2FlowsType:
     return self._type
   @type.setter
-  def type(self, type: Oauth2FlowsType):
+  def type(self, type: Oauth2FlowsType.Oauth2FlowsType):
     self._type = type
 
   @property
@@ -28,10 +29,10 @@ class Oauth2Flows:
     self._description = description
 
   @property
-  def flows(self) -> Oauth2FlowsFlows:
+  def flows(self) -> Oauth2FlowsFlows.Oauth2FlowsFlows:
     return self._flows
   @flows.setter
-  def flows(self, flows: Oauth2FlowsFlows):
+  def flows(self, flows: Oauth2FlowsFlows.Oauth2FlowsFlows):
     self._flows = flows
 
   @property

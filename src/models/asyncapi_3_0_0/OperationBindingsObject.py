@@ -1,55 +1,56 @@
-from .OperationBindingsObjectHttp import OperationBindingsObjectHttp
-from .OperationBindingsObjectAmqp import OperationBindingsObjectAmqp
-from .OperationBindingsObjectMqtt import OperationBindingsObjectMqtt
-from .OperationBindingsObjectKafka import OperationBindingsObjectKafka
-from .OperationBindingsObjectNats import OperationBindingsObjectNats
-from .OperationBindingsObjectSns import OperationBindingsObjectSns
-from .OperationBindingsObjectSqs import OperationBindingsObjectSqs
-from .OperationBindingsObjectSolace import OperationBindingsObjectSolace
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import OperationBindingsObjectHttp
+from . import OperationBindingsObjectAmqp
+from . import OperationBindingsObjectMqtt
+from . import OperationBindingsObjectKafka
+from . import OperationBindingsObjectNats
+from . import OperationBindingsObjectSns
+from . import OperationBindingsObjectSqs
+from . import OperationBindingsObjectSolace
 class OperationBindingsObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'http'):
-      self._http: OperationBindingsObjectHttp = OperationBindingsObjectHttp(input['http'])
-    if hasattr(input, 'ws'):
+    if 'http' in input:
+      self._http: OperationBindingsObjectHttp.OperationBindingsObjectHttp = OperationBindingsObjectHttp.OperationBindingsObjectHttp(input['http'])
+    if 'ws' in input:
       self._ws: Any = input['ws']
-    if hasattr(input, 'amqp'):
-      self._amqp: OperationBindingsObjectAmqp = OperationBindingsObjectAmqp(input['amqp'])
-    if hasattr(input, 'amqp1'):
+    if 'amqp' in input:
+      self._amqp: OperationBindingsObjectAmqp.OperationBindingsObjectAmqp = OperationBindingsObjectAmqp.OperationBindingsObjectAmqp(input['amqp'])
+    if 'amqp1' in input:
       self._amqp1: Any = input['amqp1']
-    if hasattr(input, 'mqtt'):
-      self._mqtt: OperationBindingsObjectMqtt = OperationBindingsObjectMqtt(input['mqtt'])
-    if hasattr(input, 'kafka'):
-      self._kafka: OperationBindingsObjectKafka = OperationBindingsObjectKafka(input['kafka'])
-    if hasattr(input, 'anypointmq'):
+    if 'mqtt' in input:
+      self._mqtt: OperationBindingsObjectMqtt.OperationBindingsObjectMqtt = OperationBindingsObjectMqtt.OperationBindingsObjectMqtt(input['mqtt'])
+    if 'kafka' in input:
+      self._kafka: OperationBindingsObjectKafka.OperationBindingsObjectKafka = OperationBindingsObjectKafka.OperationBindingsObjectKafka(input['kafka'])
+    if 'anypointmq' in input:
       self._anypointmq: Any = input['anypointmq']
-    if hasattr(input, 'nats'):
-      self._nats: OperationBindingsObjectNats = OperationBindingsObjectNats(input['nats'])
-    if hasattr(input, 'jms'):
+    if 'nats' in input:
+      self._nats: OperationBindingsObjectNats.OperationBindingsObjectNats = OperationBindingsObjectNats.OperationBindingsObjectNats(input['nats'])
+    if 'jms' in input:
       self._jms: Any = input['jms']
-    if hasattr(input, 'sns'):
-      self._sns: OperationBindingsObjectSns = OperationBindingsObjectSns(input['sns'])
-    if hasattr(input, 'sqs'):
-      self._sqs: OperationBindingsObjectSqs = OperationBindingsObjectSqs(input['sqs'])
-    if hasattr(input, 'stomp'):
+    if 'sns' in input:
+      self._sns: OperationBindingsObjectSns.OperationBindingsObjectSns = OperationBindingsObjectSns.OperationBindingsObjectSns(input['sns'])
+    if 'sqs' in input:
+      self._sqs: OperationBindingsObjectSqs.OperationBindingsObjectSqs = OperationBindingsObjectSqs.OperationBindingsObjectSqs(input['sqs'])
+    if 'stomp' in input:
       self._stomp: Any = input['stomp']
-    if hasattr(input, 'redis'):
+    if 'redis' in input:
       self._redis: Any = input['redis']
-    if hasattr(input, 'ibmmq'):
+    if 'ibmmq' in input:
       self._ibmmq: Any = input['ibmmq']
-    if hasattr(input, 'solace'):
-      self._solace: OperationBindingsObjectSolace = OperationBindingsObjectSolace(input['solace'])
-    if hasattr(input, 'googlepubsub'):
+    if 'solace' in input:
+      self._solace: OperationBindingsObjectSolace.OperationBindingsObjectSolace = OperationBindingsObjectSolace.OperationBindingsObjectSolace(input['solace'])
+    if 'googlepubsub' in input:
       self._googlepubsub: Any = input['googlepubsub']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def http(self) -> OperationBindingsObjectHttp:
+  def http(self) -> OperationBindingsObjectHttp.OperationBindingsObjectHttp:
     return self._http
   @http.setter
-  def http(self, http: OperationBindingsObjectHttp):
+  def http(self, http: OperationBindingsObjectHttp.OperationBindingsObjectHttp):
     self._http = http
 
   @property
@@ -60,10 +61,10 @@ class OperationBindingsObject:
     self._ws = ws
 
   @property
-  def amqp(self) -> OperationBindingsObjectAmqp:
+  def amqp(self) -> OperationBindingsObjectAmqp.OperationBindingsObjectAmqp:
     return self._amqp
   @amqp.setter
-  def amqp(self, amqp: OperationBindingsObjectAmqp):
+  def amqp(self, amqp: OperationBindingsObjectAmqp.OperationBindingsObjectAmqp):
     self._amqp = amqp
 
   @property
@@ -74,17 +75,17 @@ class OperationBindingsObject:
     self._amqp1 = amqp1
 
   @property
-  def mqtt(self) -> OperationBindingsObjectMqtt:
+  def mqtt(self) -> OperationBindingsObjectMqtt.OperationBindingsObjectMqtt:
     return self._mqtt
   @mqtt.setter
-  def mqtt(self, mqtt: OperationBindingsObjectMqtt):
+  def mqtt(self, mqtt: OperationBindingsObjectMqtt.OperationBindingsObjectMqtt):
     self._mqtt = mqtt
 
   @property
-  def kafka(self) -> OperationBindingsObjectKafka:
+  def kafka(self) -> OperationBindingsObjectKafka.OperationBindingsObjectKafka:
     return self._kafka
   @kafka.setter
-  def kafka(self, kafka: OperationBindingsObjectKafka):
+  def kafka(self, kafka: OperationBindingsObjectKafka.OperationBindingsObjectKafka):
     self._kafka = kafka
 
   @property
@@ -95,10 +96,10 @@ class OperationBindingsObject:
     self._anypointmq = anypointmq
 
   @property
-  def nats(self) -> OperationBindingsObjectNats:
+  def nats(self) -> OperationBindingsObjectNats.OperationBindingsObjectNats:
     return self._nats
   @nats.setter
-  def nats(self, nats: OperationBindingsObjectNats):
+  def nats(self, nats: OperationBindingsObjectNats.OperationBindingsObjectNats):
     self._nats = nats
 
   @property
@@ -109,17 +110,17 @@ class OperationBindingsObject:
     self._jms = jms
 
   @property
-  def sns(self) -> OperationBindingsObjectSns:
+  def sns(self) -> OperationBindingsObjectSns.OperationBindingsObjectSns:
     return self._sns
   @sns.setter
-  def sns(self, sns: OperationBindingsObjectSns):
+  def sns(self, sns: OperationBindingsObjectSns.OperationBindingsObjectSns):
     self._sns = sns
 
   @property
-  def sqs(self) -> OperationBindingsObjectSqs:
+  def sqs(self) -> OperationBindingsObjectSqs.OperationBindingsObjectSqs:
     return self._sqs
   @sqs.setter
-  def sqs(self, sqs: OperationBindingsObjectSqs):
+  def sqs(self, sqs: OperationBindingsObjectSqs.OperationBindingsObjectSqs):
     self._sqs = sqs
 
   @property
@@ -144,10 +145,10 @@ class OperationBindingsObject:
     self._ibmmq = ibmmq
 
   @property
-  def solace(self) -> OperationBindingsObjectSolace:
+  def solace(self) -> OperationBindingsObjectSolace.OperationBindingsObjectSolace:
     return self._solace
   @solace.setter
-  def solace(self, solace: OperationBindingsObjectSolace):
+  def solace(self, solace: OperationBindingsObjectSolace.OperationBindingsObjectSolace):
     self._solace = solace
 
   @property

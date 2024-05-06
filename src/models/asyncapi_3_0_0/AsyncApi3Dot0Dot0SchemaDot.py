@@ -1,28 +1,29 @@
-from .Info import Info
-from .Reference import Reference
-from .Server import Server
-from .Channel import Channel
-from .Operation import Operation
-from .Components import Components
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Info
+from . import Reference
+from . import Server
+from . import Channel
+from . import Operation
+from . import Components
 class AsyncApi3Dot0Dot0SchemaDot: 
   def __init__(self, input: Dict):
     self._asyncapi: str = '3.0.0'
-    if hasattr(input, 'id'):
+    if 'id' in input:
       self._id: str = input['id']
-    self._info: Info = Info(input['info'])
-    if hasattr(input, 'servers'):
-      self._servers: dict[str, Reference | Server] = input['servers']
-    if hasattr(input, 'default_content_type'):
+    self._info: Info.Info = Info.Info(input['info'])
+    if 'servers' in input:
+      self._servers: dict[str, Reference.Reference | Server.Server] = input['servers']
+    if 'default_content_type' in input:
       self._default_content_type: str = input['default_content_type']
-    if hasattr(input, 'channels'):
-      self._channels: dict[str, Reference | Channel] = input['channels']
-    if hasattr(input, 'operations'):
-      self._operations: dict[str, Reference | Operation] = input['operations']
-    if hasattr(input, 'components'):
-      self._components: Components = Components(input['components'])
-    if hasattr(input, 'additional_properties'):
+    if 'channels' in input:
+      self._channels: dict[str, Reference.Reference | Channel.Channel] = input['channels']
+    if 'operations' in input:
+      self._operations: dict[str, Reference.Reference | Operation.Operation] = input['operations']
+    if 'components' in input:
+      self._components: Components.Components = Components.Components(input['components'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -37,17 +38,17 @@ class AsyncApi3Dot0Dot0SchemaDot:
     self._id = id
 
   @property
-  def info(self) -> Info:
+  def info(self) -> Info.Info:
     return self._info
   @info.setter
-  def info(self, info: Info):
+  def info(self, info: Info.Info):
     self._info = info
 
   @property
-  def servers(self) -> dict[str, Reference | Server]:
+  def servers(self) -> dict[str, Reference.Reference | Server.Server]:
     return self._servers
   @servers.setter
-  def servers(self, servers: dict[str, Reference | Server]):
+  def servers(self, servers: dict[str, Reference.Reference | Server.Server]):
     self._servers = servers
 
   @property
@@ -58,24 +59,24 @@ class AsyncApi3Dot0Dot0SchemaDot:
     self._default_content_type = default_content_type
 
   @property
-  def channels(self) -> dict[str, Reference | Channel]:
+  def channels(self) -> dict[str, Reference.Reference | Channel.Channel]:
     return self._channels
   @channels.setter
-  def channels(self, channels: dict[str, Reference | Channel]):
+  def channels(self, channels: dict[str, Reference.Reference | Channel.Channel]):
     self._channels = channels
 
   @property
-  def operations(self) -> dict[str, Reference | Operation]:
+  def operations(self) -> dict[str, Reference.Reference | Operation.Operation]:
     return self._operations
   @operations.setter
-  def operations(self, operations: dict[str, Reference | Operation]):
+  def operations(self, operations: dict[str, Reference.Reference | Operation.Operation]):
     self._operations = operations
 
   @property
-  def components(self) -> Components:
+  def components(self) -> Components.Components:
     return self._components
   @components.setter
-  def components(self, components: Components):
+  def components(self, components: Components.Components):
     self._components = components
 
   @property

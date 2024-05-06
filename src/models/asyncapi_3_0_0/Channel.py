@@ -1,34 +1,35 @@
-from .Reference import Reference
-from .MessageObject import MessageObject
-from .Parameter import Parameter
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
-from .ChannelBindingsObject import ChannelBindingsObject
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Reference
+from . import MessageObject
+from . import Parameter
+from . import Tag
+from . import ExternalDocs
+from . import ChannelBindingsObject
 class Channel: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'address'):
+    if 'address' in input:
       self._address: str = input['address']
-    if hasattr(input, 'messages'):
-      self._messages: dict[str, Reference | MessageObject] = input['messages']
-    if hasattr(input, 'parameters'):
-      self._parameters: dict[str, Reference | Parameter] = input['parameters']
-    if hasattr(input, 'title'):
+    if 'messages' in input:
+      self._messages: dict[str, Reference.Reference | MessageObject.MessageObject] = input['messages']
+    if 'parameters' in input:
+      self._parameters: dict[str, Reference.Reference | Parameter.Parameter] = input['parameters']
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'summary'):
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'servers'):
-      self._servers: List[Reference] = input['servers']
-    if hasattr(input, 'tags'):
-      self._tags: List[Reference | Tag] = input['tags']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: Reference | ExternalDocs = input['external_docs']
-    if hasattr(input, 'bindings'):
-      self._bindings: Reference | ChannelBindingsObject = input['bindings']
-    if hasattr(input, 'additional_properties'):
+    if 'servers' in input:
+      self._servers: List[Reference.Reference] = input['servers']
+    if 'tags' in input:
+      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
+    if 'external_docs' in input:
+      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
+    if 'bindings' in input:
+      self._bindings: Reference.Reference | ChannelBindingsObject.ChannelBindingsObject = input['bindings']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -39,17 +40,17 @@ class Channel:
     self._address = address
 
   @property
-  def messages(self) -> dict[str, Reference | MessageObject]:
+  def messages(self) -> dict[str, Reference.Reference | MessageObject.MessageObject]:
     return self._messages
   @messages.setter
-  def messages(self, messages: dict[str, Reference | MessageObject]):
+  def messages(self, messages: dict[str, Reference.Reference | MessageObject.MessageObject]):
     self._messages = messages
 
   @property
-  def parameters(self) -> dict[str, Reference | Parameter]:
+  def parameters(self) -> dict[str, Reference.Reference | Parameter.Parameter]:
     return self._parameters
   @parameters.setter
-  def parameters(self, parameters: dict[str, Reference | Parameter]):
+  def parameters(self, parameters: dict[str, Reference.Reference | Parameter.Parameter]):
     self._parameters = parameters
 
   @property
@@ -74,31 +75,31 @@ class Channel:
     self._description = description
 
   @property
-  def servers(self) -> List[Reference]:
+  def servers(self) -> List[Reference.Reference]:
     return self._servers
   @servers.setter
-  def servers(self, servers: List[Reference]):
+  def servers(self, servers: List[Reference.Reference]):
     self._servers = servers
 
   @property
-  def tags(self) -> List[Reference | Tag]:
+  def tags(self) -> List[Reference.Reference | Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Reference | Tag]):
+  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
     self._tags = tags
 
   @property
-  def external_docs(self) -> Reference | ExternalDocs:
+  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: Reference | ExternalDocs):
+  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
-  def bindings(self) -> Reference | ChannelBindingsObject:
+  def bindings(self) -> Reference.Reference | ChannelBindingsObject.ChannelBindingsObject:
     return self._bindings
   @bindings.setter
-  def bindings(self, bindings: Reference | ChannelBindingsObject):
+  def bindings(self, bindings: Reference.Reference | ChannelBindingsObject.ChannelBindingsObject):
     self._bindings = bindings
 
   @property

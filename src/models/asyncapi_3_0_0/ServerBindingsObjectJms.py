@@ -1,25 +1,26 @@
-from .BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion import BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion
-from .ServerSchema import ServerSchema
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion
+from . import ServerSchema
 class ServerBindingsObjectJms: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion = BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion(input['binding_version'])
-    if hasattr(input, 'jms_connection_factory'):
+    if 'binding_version' in input:
+      self._binding_version: BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion.BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion = BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion.BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion(input['binding_version'])
+    if 'jms_connection_factory' in input:
       self._jms_connection_factory: str = input['jms_connection_factory']
-    if hasattr(input, 'properties'):
-      self._properties: List[ServerSchema] = input['properties']
-    if hasattr(input, 'client_id'):
+    if 'properties' in input:
+      self._properties: List[ServerSchema.ServerSchema] = input['properties']
+    if 'client_id' in input:
       self._client_id: str = input['client_id']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion:
+  def binding_version(self) -> BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion.BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion):
+  def binding_version(self, binding_version: BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion.BindingsMinusJmsMinus0Dot0Dot1MinusServerBindingVersion):
     self._binding_version = binding_version
 
   @property
@@ -30,10 +31,10 @@ class ServerBindingsObjectJms:
     self._jms_connection_factory = jms_connection_factory
 
   @property
-  def properties(self) -> List[ServerSchema]:
+  def properties(self) -> List[ServerSchema.ServerSchema]:
     return self._properties
   @properties.setter
-  def properties(self, properties: List[ServerSchema]):
+  def properties(self, properties: List[ServerSchema.ServerSchema]):
     self._properties = properties
 
   @property

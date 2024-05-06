@@ -1,44 +1,45 @@
-from .Reference import Reference
-from .Schema import Schema
-from .CorrelationId import CorrelationId
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
-from .MessageTrait import MessageTrait
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Reference
+from . import Schema
+from . import CorrelationId
+from . import Tag
+from . import ExternalDocs
+from . import MessageTrait
 class Message: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'schema_format'):
+    if 'schema_format' in input:
       self._schema_format: str = input['schema_format']
-    if hasattr(input, 'content_type'):
+    if 'content_type' in input:
       self._content_type: str = input['content_type']
-    if hasattr(input, 'headers'):
-      self._headers: dict[str, Reference | Schema] = input['headers']
-    if hasattr(input, 'payload'):
+    if 'headers' in input:
+      self._headers: dict[str, Reference.Reference | Schema.Schema] = input['headers']
+    if 'payload' in input:
       self._payload: Any = input['payload']
-    if hasattr(input, 'correlation_id'):
-      self._correlation_id: Reference | CorrelationId = input['correlation_id']
-    if hasattr(input, 'tags'):
-      self._tags: List[Tag] = input['tags']
-    if hasattr(input, 'summary'):
+    if 'correlation_id' in input:
+      self._correlation_id: Reference.Reference | CorrelationId.CorrelationId = input['correlation_id']
+    if 'tags' in input:
+      self._tags: List[Tag.Tag] = input['tags']
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: ExternalDocs = ExternalDocs(input['external_docs'])
-    if hasattr(input, 'deprecated'):
+    if 'external_docs' in input:
+      self._external_docs: ExternalDocs.ExternalDocs = ExternalDocs.ExternalDocs(input['external_docs'])
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[dict[str, Any]] = input['examples']
-    if hasattr(input, 'protocol_info'):
+    if 'protocol_info' in input:
       self._protocol_info: dict[str, dict[str, Any]] = input['protocol_info']
-    if hasattr(input, 'traits'):
-      self._traits: List[Reference | MessageTrait] = input['traits']
-    if hasattr(input, 'additional_properties'):
+    if 'traits' in input:
+      self._traits: List[Reference.Reference | MessageTrait.MessageTrait] = input['traits']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -56,10 +57,10 @@ class Message:
     self._content_type = content_type
 
   @property
-  def headers(self) -> dict[str, Reference | Schema]:
+  def headers(self) -> dict[str, Reference.Reference | Schema.Schema]:
     return self._headers
   @headers.setter
-  def headers(self, headers: dict[str, Reference | Schema]):
+  def headers(self, headers: dict[str, Reference.Reference | Schema.Schema]):
     self._headers = headers
 
   @property
@@ -70,17 +71,17 @@ class Message:
     self._payload = payload
 
   @property
-  def correlation_id(self) -> Reference | CorrelationId:
+  def correlation_id(self) -> Reference.Reference | CorrelationId.CorrelationId:
     return self._correlation_id
   @correlation_id.setter
-  def correlation_id(self, correlation_id: Reference | CorrelationId):
+  def correlation_id(self, correlation_id: Reference.Reference | CorrelationId.CorrelationId):
     self._correlation_id = correlation_id
 
   @property
-  def tags(self) -> List[Tag]:
+  def tags(self) -> List[Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Tag]):
+  def tags(self, tags: List[Tag.Tag]):
     self._tags = tags
 
   @property
@@ -112,10 +113,10 @@ class Message:
     self._description = description
 
   @property
-  def external_docs(self) -> ExternalDocs:
+  def external_docs(self) -> ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: ExternalDocs):
+  def external_docs(self, external_docs: ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
@@ -140,10 +141,10 @@ class Message:
     self._protocol_info = protocol_info
 
   @property
-  def traits(self) -> List[Reference | MessageTrait]:
+  def traits(self) -> List[Reference.Reference | MessageTrait.MessageTrait]:
     return self._traits
   @traits.setter
-  def traits(self, traits: List[Reference | MessageTrait]):
+  def traits(self, traits: List[Reference.Reference | MessageTrait.MessageTrait]):
     self._traits = traits
 
   @property

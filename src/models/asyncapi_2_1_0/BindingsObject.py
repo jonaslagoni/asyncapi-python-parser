@@ -1,37 +1,38 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class BindingsObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'http'):
+    if 'http' in input:
       self._http: Any = input['http']
-    if hasattr(input, 'ws'):
+    if 'ws' in input:
       self._ws: Any = input['ws']
-    if hasattr(input, 'amqp'):
+    if 'amqp' in input:
       self._amqp: Any = input['amqp']
-    if hasattr(input, 'amqp1'):
+    if 'amqp1' in input:
       self._amqp1: Any = input['amqp1']
-    if hasattr(input, 'mqtt'):
+    if 'mqtt' in input:
       self._mqtt: Any = input['mqtt']
-    if hasattr(input, 'mqtt5'):
+    if 'mqtt5' in input:
       self._mqtt5: Any = input['mqtt5']
-    if hasattr(input, 'kafka'):
+    if 'kafka' in input:
       self._kafka: Any = input['kafka']
-    if hasattr(input, 'nats'):
+    if 'nats' in input:
       self._nats: Any = input['nats']
-    if hasattr(input, 'jms'):
+    if 'jms' in input:
       self._jms: Any = input['jms']
-    if hasattr(input, 'sns'):
+    if 'sns' in input:
       self._sns: Any = input['sns']
-    if hasattr(input, 'sqs'):
+    if 'sqs' in input:
       self._sqs: Any = input['sqs']
-    if hasattr(input, 'stomp'):
+    if 'stomp' in input:
       self._stomp: Any = input['stomp']
-    if hasattr(input, 'redis'):
+    if 'redis' in input:
       self._redis: Any = input['redis']
-    if hasattr(input, 'ibmmq'):
+    if 'ibmmq' in input:
       self._ibmmq: Any = input['ibmmq']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

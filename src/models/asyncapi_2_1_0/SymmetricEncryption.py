@@ -1,19 +1,20 @@
-from .SymmetricEncryptionType import SymmetricEncryptionType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import SymmetricEncryptionType
 class SymmetricEncryption: 
   def __init__(self, input: Dict):
-    self._type: SymmetricEncryptionType = SymmetricEncryptionType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: SymmetricEncryptionType.SymmetricEncryptionType = SymmetricEncryptionType.SymmetricEncryptionType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> SymmetricEncryptionType:
+  def type(self) -> SymmetricEncryptionType.SymmetricEncryptionType:
     return self._type
   @type.setter
-  def type(self, type: SymmetricEncryptionType):
+  def type(self, type: SymmetricEncryptionType.SymmetricEncryptionType):
     self._type = type
 
   @property

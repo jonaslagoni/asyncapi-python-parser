@@ -1,55 +1,56 @@
-from .MessageBindingsObjectHttp import MessageBindingsObjectHttp
-from .MessageBindingsObjectAmqp import MessageBindingsObjectAmqp
-from .MessageBindingsObjectMqtt import MessageBindingsObjectMqtt
-from .MessageBindingsObjectKafka import MessageBindingsObjectKafka
-from .MessageBindingsObjectAnypointmq import MessageBindingsObjectAnypointmq
-from .MessageBindingsObjectJms import MessageBindingsObjectJms
-from .MessageBindingsObjectIbmmq import MessageBindingsObjectIbmmq
-from .MessageBindingsObjectGooglepubsub import MessageBindingsObjectGooglepubsub
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import MessageBindingsObjectHttp
+from . import MessageBindingsObjectAmqp
+from . import MessageBindingsObjectMqtt
+from . import MessageBindingsObjectKafka
+from . import MessageBindingsObjectAnypointmq
+from . import MessageBindingsObjectJms
+from . import MessageBindingsObjectIbmmq
+from . import MessageBindingsObjectGooglepubsub
 class MessageBindingsObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'http'):
-      self._http: MessageBindingsObjectHttp = MessageBindingsObjectHttp(input['http'])
-    if hasattr(input, 'ws'):
+    if 'http' in input:
+      self._http: MessageBindingsObjectHttp.MessageBindingsObjectHttp = MessageBindingsObjectHttp.MessageBindingsObjectHttp(input['http'])
+    if 'ws' in input:
       self._ws: Any = input['ws']
-    if hasattr(input, 'amqp'):
-      self._amqp: MessageBindingsObjectAmqp = MessageBindingsObjectAmqp(input['amqp'])
-    if hasattr(input, 'amqp1'):
+    if 'amqp' in input:
+      self._amqp: MessageBindingsObjectAmqp.MessageBindingsObjectAmqp = MessageBindingsObjectAmqp.MessageBindingsObjectAmqp(input['amqp'])
+    if 'amqp1' in input:
       self._amqp1: Any = input['amqp1']
-    if hasattr(input, 'mqtt'):
-      self._mqtt: MessageBindingsObjectMqtt = MessageBindingsObjectMqtt(input['mqtt'])
-    if hasattr(input, 'kafka'):
-      self._kafka: MessageBindingsObjectKafka = MessageBindingsObjectKafka(input['kafka'])
-    if hasattr(input, 'anypointmq'):
-      self._anypointmq: MessageBindingsObjectAnypointmq = MessageBindingsObjectAnypointmq(input['anypointmq'])
-    if hasattr(input, 'nats'):
+    if 'mqtt' in input:
+      self._mqtt: MessageBindingsObjectMqtt.MessageBindingsObjectMqtt = MessageBindingsObjectMqtt.MessageBindingsObjectMqtt(input['mqtt'])
+    if 'kafka' in input:
+      self._kafka: MessageBindingsObjectKafka.MessageBindingsObjectKafka = MessageBindingsObjectKafka.MessageBindingsObjectKafka(input['kafka'])
+    if 'anypointmq' in input:
+      self._anypointmq: MessageBindingsObjectAnypointmq.MessageBindingsObjectAnypointmq = MessageBindingsObjectAnypointmq.MessageBindingsObjectAnypointmq(input['anypointmq'])
+    if 'nats' in input:
       self._nats: Any = input['nats']
-    if hasattr(input, 'jms'):
-      self._jms: MessageBindingsObjectJms = MessageBindingsObjectJms(input['jms'])
-    if hasattr(input, 'sns'):
+    if 'jms' in input:
+      self._jms: MessageBindingsObjectJms.MessageBindingsObjectJms = MessageBindingsObjectJms.MessageBindingsObjectJms(input['jms'])
+    if 'sns' in input:
       self._sns: Any = input['sns']
-    if hasattr(input, 'sqs'):
+    if 'sqs' in input:
       self._sqs: Any = input['sqs']
-    if hasattr(input, 'stomp'):
+    if 'stomp' in input:
       self._stomp: Any = input['stomp']
-    if hasattr(input, 'redis'):
+    if 'redis' in input:
       self._redis: Any = input['redis']
-    if hasattr(input, 'ibmmq'):
-      self._ibmmq: MessageBindingsObjectIbmmq = MessageBindingsObjectIbmmq(input['ibmmq'])
-    if hasattr(input, 'solace'):
+    if 'ibmmq' in input:
+      self._ibmmq: MessageBindingsObjectIbmmq.MessageBindingsObjectIbmmq = MessageBindingsObjectIbmmq.MessageBindingsObjectIbmmq(input['ibmmq'])
+    if 'solace' in input:
       self._solace: Any = input['solace']
-    if hasattr(input, 'googlepubsub'):
-      self._googlepubsub: MessageBindingsObjectGooglepubsub = MessageBindingsObjectGooglepubsub(input['googlepubsub'])
-    if hasattr(input, 'additional_properties'):
+    if 'googlepubsub' in input:
+      self._googlepubsub: MessageBindingsObjectGooglepubsub.MessageBindingsObjectGooglepubsub = MessageBindingsObjectGooglepubsub.MessageBindingsObjectGooglepubsub(input['googlepubsub'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def http(self) -> MessageBindingsObjectHttp:
+  def http(self) -> MessageBindingsObjectHttp.MessageBindingsObjectHttp:
     return self._http
   @http.setter
-  def http(self, http: MessageBindingsObjectHttp):
+  def http(self, http: MessageBindingsObjectHttp.MessageBindingsObjectHttp):
     self._http = http
 
   @property
@@ -60,10 +61,10 @@ class MessageBindingsObject:
     self._ws = ws
 
   @property
-  def amqp(self) -> MessageBindingsObjectAmqp:
+  def amqp(self) -> MessageBindingsObjectAmqp.MessageBindingsObjectAmqp:
     return self._amqp
   @amqp.setter
-  def amqp(self, amqp: MessageBindingsObjectAmqp):
+  def amqp(self, amqp: MessageBindingsObjectAmqp.MessageBindingsObjectAmqp):
     self._amqp = amqp
 
   @property
@@ -74,24 +75,24 @@ class MessageBindingsObject:
     self._amqp1 = amqp1
 
   @property
-  def mqtt(self) -> MessageBindingsObjectMqtt:
+  def mqtt(self) -> MessageBindingsObjectMqtt.MessageBindingsObjectMqtt:
     return self._mqtt
   @mqtt.setter
-  def mqtt(self, mqtt: MessageBindingsObjectMqtt):
+  def mqtt(self, mqtt: MessageBindingsObjectMqtt.MessageBindingsObjectMqtt):
     self._mqtt = mqtt
 
   @property
-  def kafka(self) -> MessageBindingsObjectKafka:
+  def kafka(self) -> MessageBindingsObjectKafka.MessageBindingsObjectKafka:
     return self._kafka
   @kafka.setter
-  def kafka(self, kafka: MessageBindingsObjectKafka):
+  def kafka(self, kafka: MessageBindingsObjectKafka.MessageBindingsObjectKafka):
     self._kafka = kafka
 
   @property
-  def anypointmq(self) -> MessageBindingsObjectAnypointmq:
+  def anypointmq(self) -> MessageBindingsObjectAnypointmq.MessageBindingsObjectAnypointmq:
     return self._anypointmq
   @anypointmq.setter
-  def anypointmq(self, anypointmq: MessageBindingsObjectAnypointmq):
+  def anypointmq(self, anypointmq: MessageBindingsObjectAnypointmq.MessageBindingsObjectAnypointmq):
     self._anypointmq = anypointmq
 
   @property
@@ -102,10 +103,10 @@ class MessageBindingsObject:
     self._nats = nats
 
   @property
-  def jms(self) -> MessageBindingsObjectJms:
+  def jms(self) -> MessageBindingsObjectJms.MessageBindingsObjectJms:
     return self._jms
   @jms.setter
-  def jms(self, jms: MessageBindingsObjectJms):
+  def jms(self, jms: MessageBindingsObjectJms.MessageBindingsObjectJms):
     self._jms = jms
 
   @property
@@ -137,10 +138,10 @@ class MessageBindingsObject:
     self._redis = redis
 
   @property
-  def ibmmq(self) -> MessageBindingsObjectIbmmq:
+  def ibmmq(self) -> MessageBindingsObjectIbmmq.MessageBindingsObjectIbmmq:
     return self._ibmmq
   @ibmmq.setter
-  def ibmmq(self, ibmmq: MessageBindingsObjectIbmmq):
+  def ibmmq(self, ibmmq: MessageBindingsObjectIbmmq.MessageBindingsObjectIbmmq):
     self._ibmmq = ibmmq
 
   @property
@@ -151,10 +152,10 @@ class MessageBindingsObject:
     self._solace = solace
 
   @property
-  def googlepubsub(self) -> MessageBindingsObjectGooglepubsub:
+  def googlepubsub(self) -> MessageBindingsObjectGooglepubsub.MessageBindingsObjectGooglepubsub:
     return self._googlepubsub
   @googlepubsub.setter
-  def googlepubsub(self, googlepubsub: MessageBindingsObjectGooglepubsub):
+  def googlepubsub(self, googlepubsub: MessageBindingsObjectGooglepubsub.MessageBindingsObjectGooglepubsub):
     self._googlepubsub = googlepubsub
 
   @property

@@ -1,19 +1,20 @@
-from .AsymmetricEncryptionType import AsymmetricEncryptionType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import AsymmetricEncryptionType
 class AsymmetricEncryption: 
   def __init__(self, input: Dict):
-    self._type: AsymmetricEncryptionType = AsymmetricEncryptionType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: AsymmetricEncryptionType.AsymmetricEncryptionType = AsymmetricEncryptionType.AsymmetricEncryptionType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> AsymmetricEncryptionType:
+  def type(self) -> AsymmetricEncryptionType.AsymmetricEncryptionType:
     return self._type
   @type.setter
-  def type(self, type: AsymmetricEncryptionType):
+  def type(self, type: AsymmetricEncryptionType.AsymmetricEncryptionType):
     self._type = type
 
   @property

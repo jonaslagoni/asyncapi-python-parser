@@ -1,75 +1,76 @@
-from .JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
 class JsonMinusSchemaMinusDraftMinus07MinusSchema: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'id'):
+    if 'id' in input:
       self._id: str = input['id']
-    if hasattr(input, 'dollar_schema'):
+    if 'dollar_schema' in input:
       self._dollar_schema: str = input['dollar_schema']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: Any = input['default']
-    if hasattr(input, 'multiple_of'):
+    if 'multiple_of' in input:
       self._multiple_of: float = input['multiple_of']
-    if hasattr(input, 'maximum'):
+    if 'maximum' in input:
       self._maximum: float = input['maximum']
-    if hasattr(input, 'exclusive_maximum'):
+    if 'exclusive_maximum' in input:
       self._exclusive_maximum: bool = input['exclusive_maximum']
-    if hasattr(input, 'minimum'):
+    if 'minimum' in input:
       self._minimum: float = input['minimum']
-    if hasattr(input, 'exclusive_minimum'):
+    if 'exclusive_minimum' in input:
       self._exclusive_minimum: bool = input['exclusive_minimum']
-    if hasattr(input, 'max_length'):
+    if 'max_length' in input:
       self._max_length: int = input['max_length']
-    if hasattr(input, 'min_length'):
+    if 'min_length' in input:
       self._min_length: int = input['min_length']
-    if hasattr(input, 'pattern'):
+    if 'pattern' in input:
       self._pattern: str = input['pattern']
-    if hasattr(input, 'additional_items'):
+    if 'additional_items' in input:
       self._additional_items: bool | JsonMinusSchemaMinusDraftMinus07MinusSchema = input['additional_items']
-    if hasattr(input, 'items'):
+    if 'items' in input:
       self._items: JsonMinusSchemaMinusDraftMinus07MinusSchema | List[JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['items']
-    if hasattr(input, 'max_items'):
+    if 'max_items' in input:
       self._max_items: int = input['max_items']
-    if hasattr(input, 'min_items'):
+    if 'min_items' in input:
       self._min_items: int = input['min_items']
-    if hasattr(input, 'unique_items'):
+    if 'unique_items' in input:
       self._unique_items: bool = input['unique_items']
-    if hasattr(input, 'max_properties'):
+    if 'max_properties' in input:
       self._max_properties: int = input['max_properties']
-    if hasattr(input, 'min_properties'):
+    if 'min_properties' in input:
       self._min_properties: int = input['min_properties']
-    if hasattr(input, 'required'):
+    if 'required' in input:
       self._required: List[str] = input['required']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: bool | JsonMinusSchemaMinusDraftMinus07MinusSchema = input['additional_properties']
-    if hasattr(input, 'definitions'):
+    if 'definitions' in input:
       self._definitions: dict[str, JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['definitions']
-    if hasattr(input, 'properties'):
+    if 'properties' in input:
       self._properties: dict[str, JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['properties']
-    if hasattr(input, 'pattern_properties'):
+    if 'pattern_properties' in input:
       self._pattern_properties: dict[str, JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['pattern_properties']
-    if hasattr(input, 'dependencies'):
+    if 'dependencies' in input:
       self._dependencies: dict[str, JsonMinusSchemaMinusDraftMinus07MinusSchema | List[str]] = input['dependencies']
-    if hasattr(input, 'enum'):
+    if 'enum' in input:
       self._enum: List[Any] = input['enum']
-    if hasattr(input, 'type'):
-      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
-    if hasattr(input, 'format'):
+    if 'type' in input:
+      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
+    if 'format' in input:
       self._format: str = input['format']
-    if hasattr(input, 'all_of'):
+    if 'all_of' in input:
       self._all_of: List[JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['all_of']
-    if hasattr(input, 'any_of'):
+    if 'any_of' in input:
       self._any_of: List[JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['any_of']
-    if hasattr(input, 'one_of'):
+    if 'one_of' in input:
       self._one_of: List[JsonMinusSchemaMinusDraftMinus07MinusSchema] = input['one_of']
-    if hasattr(input, 'reserved_not'):
+    if 'reserved_not' in input:
       self._reserved_not: JsonMinusSchemaMinusDraftMinus07MinusSchema = JsonMinusSchemaMinusDraftMinus07MinusSchema(input['reserved_not'])
-    if hasattr(input, 'reserved_additional_properties'):
+    if 'reserved_additional_properties' in input:
       self._reserved_additional_properties: dict[str, Any] = input['reserved_additional_properties']
 
   @property
@@ -262,10 +263,10 @@ class JsonMinusSchemaMinusDraftMinus07MinusSchema:
     self._enum = enum
 
   @property
-  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
+  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
     return self._type
   @type.setter
-  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
+  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
     self._type = type
 
   @property

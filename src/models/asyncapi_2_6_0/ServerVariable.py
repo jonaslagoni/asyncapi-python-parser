@@ -1,17 +1,18 @@
-
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+
 class ServerVariable: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'enum'):
+    if 'enum' in input:
       self._enum: List[str] = input['enum']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: str = input['default']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[str] = input['examples']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

@@ -1,26 +1,27 @@
-from .PrimitiveType import PrimitiveType
-from .PrimitiveTypeWithMetadata import PrimitiveTypeWithMetadata
-from .Record import Record
-from .Enum import Enum
-from .Array import Array
-from .Map import Map
-from .Fixed import Fixed
-from .AvroSchemaV1AvroFieldOrder import AvroSchemaV1AvroFieldOrder
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import PrimitiveType
+from . import PrimitiveTypeWithMetadata
+from . import Record
+from . import Enum
+from . import Array
+from . import Map
+from . import Fixed
+from . import AvroSchemaV1AvroFieldOrder
 class Field: 
   def __init__(self, input: Dict):
     self._name: str = input['name']
-    self._type: PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[] = input['type']
-    if hasattr(input, 'doc'):
+    self._type: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[] = input['type']
+    if 'doc' in input:
       self._doc: str = input['doc']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: Any = input['default']
-    if hasattr(input, 'order'):
-      self._order: AvroSchemaV1AvroFieldOrder = AvroSchemaV1AvroFieldOrder(input['order'])
-    if hasattr(input, 'aliases'):
+    if 'order' in input:
+      self._order: AvroSchemaV1AvroFieldOrder.AvroSchemaV1AvroFieldOrder = AvroSchemaV1AvroFieldOrder.AvroSchemaV1AvroFieldOrder(input['order'])
+    if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -31,10 +32,10 @@ class Field:
     self._name = name
 
   @property
-  def type(self) -> PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]:
+  def type(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]:
     return self._type
   @type.setter
-  def type(self, type: PrimitiveType | PrimitiveTypeWithMetadata | Any | Record | Enum | Array | Map | Fixed | List[]):
+  def type(self, type: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]):
     self._type = type
 
   @property
@@ -52,10 +53,10 @@ class Field:
     self._default = default
 
   @property
-  def order(self) -> AvroSchemaV1AvroFieldOrder:
+  def order(self) -> AvroSchemaV1AvroFieldOrder.AvroSchemaV1AvroFieldOrder:
     return self._order
   @order.setter
-  def order(self, order: AvroSchemaV1AvroFieldOrder):
+  def order(self, order: AvroSchemaV1AvroFieldOrder.AvroSchemaV1AvroFieldOrder):
     self._order = order
 
   @property

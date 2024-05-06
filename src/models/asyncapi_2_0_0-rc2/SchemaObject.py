@@ -1,109 +1,110 @@
-from .CoreSchemaMetaMinusSchemaObject import CoreSchemaMetaMinusSchemaObject
-from .JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
-from .ExternalDocs import ExternalDocs
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import CoreSchemaMetaMinusSchemaObject
+from . import JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes
+from . import ExternalDocs
 class SchemaObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'dollar_id'):
+    if 'dollar_id' in input:
       self._dollar_id: str = input['dollar_id']
-    if hasattr(input, 'dollar_schema'):
+    if 'dollar_schema' in input:
       self._dollar_schema: str = input['dollar_schema']
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'dollar_comment'):
+    if 'dollar_comment' in input:
       self._dollar_comment: str = input['dollar_comment']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: Any = input['default']
-    if hasattr(input, 'read_only'):
+    if 'read_only' in input:
       self._read_only: bool = input['read_only']
-    if hasattr(input, 'write_only'):
+    if 'write_only' in input:
       self._write_only: bool = input['write_only']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[Any] = input['examples']
-    if hasattr(input, 'multiple_of'):
+    if 'multiple_of' in input:
       self._multiple_of: float = input['multiple_of']
-    if hasattr(input, 'maximum'):
+    if 'maximum' in input:
       self._maximum: float = input['maximum']
-    if hasattr(input, 'exclusive_maximum'):
+    if 'exclusive_maximum' in input:
       self._exclusive_maximum: float = input['exclusive_maximum']
-    if hasattr(input, 'minimum'):
+    if 'minimum' in input:
       self._minimum: float = input['minimum']
-    if hasattr(input, 'exclusive_minimum'):
+    if 'exclusive_minimum' in input:
       self._exclusive_minimum: float = input['exclusive_minimum']
-    if hasattr(input, 'max_length'):
+    if 'max_length' in input:
       self._max_length: int = input['max_length']
-    if hasattr(input, 'min_length'):
+    if 'min_length' in input:
       self._min_length: int = input['min_length']
-    if hasattr(input, 'pattern'):
+    if 'pattern' in input:
       self._pattern: str = input['pattern']
-    if hasattr(input, 'additional_items'):
-      self._additional_items: CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
-    if hasattr(input, 'items'):
+    if 'additional_items' in input:
+      self._additional_items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
+    if 'items' in input:
       self._items:  | List[] = input['items']
-    if hasattr(input, 'max_items'):
+    if 'max_items' in input:
       self._max_items: int = input['max_items']
-    if hasattr(input, 'min_items'):
+    if 'min_items' in input:
       self._min_items: int = input['min_items']
-    if hasattr(input, 'unique_items'):
+    if 'unique_items' in input:
       self._unique_items: bool = input['unique_items']
-    if hasattr(input, 'contains'):
-      self._contains: CoreSchemaMetaMinusSchemaObject | bool = input['contains']
-    if hasattr(input, 'max_properties'):
+    if 'contains' in input:
+      self._contains: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['contains']
+    if 'max_properties' in input:
       self._max_properties: int = input['max_properties']
-    if hasattr(input, 'min_properties'):
+    if 'min_properties' in input:
       self._min_properties: int = input['min_properties']
-    if hasattr(input, 'required'):
+    if 'required' in input:
       self._required: List[str] = input['required']
-    if hasattr(input, 'additional_properties'):
-      self._additional_properties: CoreSchemaMetaMinusSchemaObject | bool = input['additional_properties']
-    if hasattr(input, 'definitions'):
-      self._definitions: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['definitions']
-    if hasattr(input, 'properties'):
-      self._properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['properties']
-    if hasattr(input, 'pattern_properties'):
-      self._pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool] = input['pattern_properties']
-    if hasattr(input, 'dependencies'):
+    if 'additional_properties' in input:
+      self._additional_properties: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['additional_properties']
+    if 'definitions' in input:
+      self._definitions: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool] = input['definitions']
+    if 'properties' in input:
+      self._properties: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool] = input['properties']
+    if 'pattern_properties' in input:
+      self._pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool] = input['pattern_properties']
+    if 'dependencies' in input:
       self._dependencies: dict[str,  | List[str]] = input['dependencies']
-    if hasattr(input, 'property_names'):
-      self._property_names: CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
-    if hasattr(input, 'const'):
+    if 'property_names' in input:
+      self._property_names: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
+    if 'const' in input:
       self._const: Any = input['const']
-    if hasattr(input, 'enum'):
+    if 'enum' in input:
       self._enum: List[Any] = input['enum']
-    if hasattr(input, 'type'):
-      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
-    if hasattr(input, 'format'):
+    if 'type' in input:
+      self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes] = input['type']
+    if 'format' in input:
       self._format: str = input['format']
-    if hasattr(input, 'content_media_type'):
+    if 'content_media_type' in input:
       self._content_media_type: str = input['content_media_type']
-    if hasattr(input, 'content_encoding'):
+    if 'content_encoding' in input:
       self._content_encoding: str = input['content_encoding']
-    if hasattr(input, 'reserved_if'):
-      self._reserved_if: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_if']
-    if hasattr(input, 'then'):
-      self._then: CoreSchemaMetaMinusSchemaObject | bool = input['then']
-    if hasattr(input, 'reserved_else'):
-      self._reserved_else: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_else']
-    if hasattr(input, 'all_of'):
+    if 'reserved_if' in input:
+      self._reserved_if: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['reserved_if']
+    if 'then' in input:
+      self._then: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['then']
+    if 'reserved_else' in input:
+      self._reserved_else: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['reserved_else']
+    if 'all_of' in input:
       self._all_of: List[] = input['all_of']
-    if hasattr(input, 'any_of'):
+    if 'any_of' in input:
       self._any_of: List[] = input['any_of']
-    if hasattr(input, 'one_of'):
+    if 'one_of' in input:
       self._one_of: List[] = input['one_of']
-    if hasattr(input, 'reserved_not'):
-      self._reserved_not: CoreSchemaMetaMinusSchemaObject | bool = input['reserved_not']
-    if hasattr(input, 'discriminator'):
+    if 'reserved_not' in input:
+      self._reserved_not: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['reserved_not']
+    if 'discriminator' in input:
       self._discriminator: str = input['discriminator']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: ExternalDocs = ExternalDocs(input['external_docs'])
-    if hasattr(input, 'deprecated'):
+    if 'external_docs' in input:
+      self._external_docs: ExternalDocs.ExternalDocs = ExternalDocs.ExternalDocs(input['external_docs'])
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'reserved_additional_properties'):
+    if 'reserved_additional_properties' in input:
       self._reserved_additional_properties: dict[str, Any | Any] = input['reserved_additional_properties']
 
   @property
@@ -233,10 +234,10 @@ class SchemaObject:
     self._pattern = pattern
 
   @property
-  def additional_items(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def additional_items(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._additional_items
   @additional_items.setter
-  def additional_items(self, additional_items: CoreSchemaMetaMinusSchemaObject | bool):
+  def additional_items(self, additional_items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._additional_items = additional_items
 
   @property
@@ -268,10 +269,10 @@ class SchemaObject:
     self._unique_items = unique_items
 
   @property
-  def contains(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def contains(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._contains
   @contains.setter
-  def contains(self, contains: CoreSchemaMetaMinusSchemaObject | bool):
+  def contains(self, contains: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._contains = contains
 
   @property
@@ -296,31 +297,31 @@ class SchemaObject:
     self._required = required
 
   @property
-  def additional_properties(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def additional_properties(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._additional_properties
   @additional_properties.setter
-  def additional_properties(self, additional_properties: CoreSchemaMetaMinusSchemaObject | bool):
+  def additional_properties(self, additional_properties: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._additional_properties = additional_properties
 
   @property
-  def definitions(self) -> dict[str, CoreSchemaMetaMinusSchemaObject | bool]:
+  def definitions(self) -> dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]:
     return self._definitions
   @definitions.setter
-  def definitions(self, definitions: dict[str, CoreSchemaMetaMinusSchemaObject | bool]):
+  def definitions(self, definitions: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]):
     self._definitions = definitions
 
   @property
-  def properties(self) -> dict[str, CoreSchemaMetaMinusSchemaObject | bool]:
+  def properties(self) -> dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]:
     return self._properties
   @properties.setter
-  def properties(self, properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool]):
+  def properties(self, properties: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]):
     self._properties = properties
 
   @property
-  def pattern_properties(self) -> dict[str, CoreSchemaMetaMinusSchemaObject | bool]:
+  def pattern_properties(self) -> dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]:
     return self._pattern_properties
   @pattern_properties.setter
-  def pattern_properties(self, pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject | bool]):
+  def pattern_properties(self, pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool]):
     self._pattern_properties = pattern_properties
 
   @property
@@ -331,10 +332,10 @@ class SchemaObject:
     self._dependencies = dependencies
 
   @property
-  def property_names(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def property_names(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._property_names
   @property_names.setter
-  def property_names(self, property_names: CoreSchemaMetaMinusSchemaObject | bool):
+  def property_names(self, property_names: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._property_names = property_names
 
   @property
@@ -352,10 +353,10 @@ class SchemaObject:
     self._enum = enum
 
   @property
-  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
+  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]:
     return self._type
   @type.setter
-  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
+  def type(self, type: JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes | List[JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes.JsonMinusSchemaMinusDraftMinus07MinusSchemaSimpleTypes]):
     self._type = type
 
   @property
@@ -380,24 +381,24 @@ class SchemaObject:
     self._content_encoding = content_encoding
 
   @property
-  def reserved_if(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def reserved_if(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._reserved_if
   @reserved_if.setter
-  def reserved_if(self, reserved_if: CoreSchemaMetaMinusSchemaObject | bool):
+  def reserved_if(self, reserved_if: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._reserved_if = reserved_if
 
   @property
-  def then(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def then(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._then
   @then.setter
-  def then(self, then: CoreSchemaMetaMinusSchemaObject | bool):
+  def then(self, then: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._then = then
 
   @property
-  def reserved_else(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def reserved_else(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._reserved_else
   @reserved_else.setter
-  def reserved_else(self, reserved_else: CoreSchemaMetaMinusSchemaObject | bool):
+  def reserved_else(self, reserved_else: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._reserved_else = reserved_else
 
   @property
@@ -422,10 +423,10 @@ class SchemaObject:
     self._one_of = one_of
 
   @property
-  def reserved_not(self) -> CoreSchemaMetaMinusSchemaObject | bool:
+  def reserved_not(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool:
     return self._reserved_not
   @reserved_not.setter
-  def reserved_not(self, reserved_not: CoreSchemaMetaMinusSchemaObject | bool):
+  def reserved_not(self, reserved_not: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool):
     self._reserved_not = reserved_not
 
   @property
@@ -436,10 +437,10 @@ class SchemaObject:
     self._discriminator = discriminator
 
   @property
-  def external_docs(self) -> ExternalDocs:
+  def external_docs(self) -> ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: ExternalDocs):
+  def external_docs(self, external_docs: ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property

@@ -1,19 +1,20 @@
-from .SaslScramSecuritySchemeType import SaslScramSecuritySchemeType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import SaslScramSecuritySchemeType
 class SaslScramSecurityScheme: 
   def __init__(self, input: Dict):
-    self._type: SaslScramSecuritySchemeType = SaslScramSecuritySchemeType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: SaslScramSecuritySchemeType.SaslScramSecuritySchemeType = SaslScramSecuritySchemeType.SaslScramSecuritySchemeType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> SaslScramSecuritySchemeType:
+  def type(self) -> SaslScramSecuritySchemeType.SaslScramSecuritySchemeType:
     return self._type
   @type.setter
-  def type(self, type: SaslScramSecuritySchemeType):
+  def type(self, type: SaslScramSecuritySchemeType.SaslScramSecuritySchemeType):
     self._type = type
 
   @property

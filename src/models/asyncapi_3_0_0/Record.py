@@ -1,18 +1,19 @@
-from .Field import Field
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import Field
 class Record: 
   def __init__(self, input: Dict):
     self._type: str = 'record'
     self._name: str = input['name']
-    if hasattr(input, 'namespace'):
+    if 'namespace' in input:
       self._namespace: str = input['namespace']
-    if hasattr(input, 'doc'):
+    if 'doc' in input:
       self._doc: str = input['doc']
-    if hasattr(input, 'aliases'):
+    if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
-    self._fields: List[Field] = input['fields']
-    if hasattr(input, 'additional_properties'):
+    self._fields: List[Field.Field] = input['fields']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -48,10 +49,10 @@ class Record:
     self._aliases = aliases
 
   @property
-  def fields(self) -> List[Field]:
+  def fields(self) -> List[Field.Field]:
     return self._fields
   @fields.setter
-  def fields(self, fields: List[Field]):
+  def fields(self, fields: List[Field.Field]):
     self._fields = fields
 
   @property

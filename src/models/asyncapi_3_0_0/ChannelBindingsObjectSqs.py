@@ -1,37 +1,38 @@
-from .BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion import BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion
-from .ChannelSchema import ChannelSchema
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion
+from . import ChannelSchema
 class ChannelBindingsObjectSqs: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion = BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion(input['binding_version'])
-    if hasattr(input, 'queue'):
-      self._queue: ChannelSchema = ChannelSchema(input['queue'])
-    if hasattr(input, 'dead_letter_queue'):
-      self._dead_letter_queue: ChannelSchema = ChannelSchema(input['dead_letter_queue'])
-    if hasattr(input, 'additional_properties'):
+    if 'binding_version' in input:
+      self._binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion = BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion(input['binding_version'])
+    if 'queue' in input:
+      self._queue: ChannelSchema.ChannelSchema = ChannelSchema.ChannelSchema(input['queue'])
+    if 'dead_letter_queue' in input:
+      self._dead_letter_queue: ChannelSchema.ChannelSchema = ChannelSchema.ChannelSchema(input['dead_letter_queue'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion:
+  def binding_version(self) -> BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion):
+  def binding_version(self, binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusChannelBindingVersion):
     self._binding_version = binding_version
 
   @property
-  def queue(self) -> ChannelSchema:
+  def queue(self) -> ChannelSchema.ChannelSchema:
     return self._queue
   @queue.setter
-  def queue(self, queue: ChannelSchema):
+  def queue(self, queue: ChannelSchema.ChannelSchema):
     self._queue = queue
 
   @property
-  def dead_letter_queue(self) -> ChannelSchema:
+  def dead_letter_queue(self) -> ChannelSchema.ChannelSchema:
     return self._dead_letter_queue
   @dead_letter_queue.setter
-  def dead_letter_queue(self, dead_letter_queue: ChannelSchema):
+  def dead_letter_queue(self, dead_letter_queue: ChannelSchema.ChannelSchema):
     self._dead_letter_queue = dead_letter_queue
 
   @property

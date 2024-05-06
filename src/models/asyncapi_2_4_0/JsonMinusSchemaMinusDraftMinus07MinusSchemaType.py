@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class JsonMinusSchemaMinusDraftMinus07MinusSchemaType(Enum): 
   ARRAY = "array"
   BOOLEAN = "boolean"

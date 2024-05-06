@@ -1,11 +1,12 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class MessageOneOf1OneOf1ExamplesItem: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'headers'):
+    if 'headers' in input:
       self._headers: dict[str, Any] = input['headers']
-    if hasattr(input, 'payload'):
+    if 'payload' in input:
       self._payload: Any = input['payload']
 
   @property

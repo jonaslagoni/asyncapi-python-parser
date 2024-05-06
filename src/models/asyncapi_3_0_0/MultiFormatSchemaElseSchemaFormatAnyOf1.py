@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class MultiFormatSchemaElseSchemaFormatAnyOf1(Enum): 
   APPLICATION_SLASH_SCHEMA_PLUS_JSON_SEMICOLON_VERSION_EQUAL_DRAFT_MINUS_07 = "application/schema+json;version=draft-07"
   APPLICATION_SLASH_SCHEMA_PLUS_YAML_SEMICOLON_VERSION_EQUAL_DRAFT_MINUS_07 = "application/schema+yaml;version=draft-07"

@@ -1,9 +1,10 @@
-
+from __future__ import annotations
 import json
 from typing import List, Dict
+
 class BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'allowed_persistence_regions'):
+    if 'allowed_persistence_regions' in input:
       self._allowed_persistence_regions: List[str] = input['allowed_persistence_regions']
 
   @property

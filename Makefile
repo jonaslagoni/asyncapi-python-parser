@@ -10,5 +10,5 @@ clean:
 test:
 	python -m unittest discover .
 
-generate-models:
+generate:
 	cd generator && npm i && npm run generate

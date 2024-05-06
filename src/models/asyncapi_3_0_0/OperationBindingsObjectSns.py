@@ -1,17 +1,18 @@
-from .OperationSchema import OperationSchema
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import OperationSchema
 class OperationBindingsObjectSns: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
+    if 'binding_version' in input:
       self._binding_version: str = input['binding_version']
-    if hasattr(input, 'topic'):
-      self._topic: OperationSchema = OperationSchema(input['topic'])
-    if hasattr(input, 'consumers'):
-      self._consumers: List[OperationSchema] = input['consumers']
-    if hasattr(input, 'delivery_policy'):
-      self._delivery_policy: OperationSchema = OperationSchema(input['delivery_policy'])
-    if hasattr(input, 'additional_properties'):
+    if 'topic' in input:
+      self._topic: OperationSchema.OperationSchema = OperationSchema.OperationSchema(input['topic'])
+    if 'consumers' in input:
+      self._consumers: List[OperationSchema.OperationSchema] = input['consumers']
+    if 'delivery_policy' in input:
+      self._delivery_policy: OperationSchema.OperationSchema = OperationSchema.OperationSchema(input['delivery_policy'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -22,24 +23,24 @@ class OperationBindingsObjectSns:
     self._binding_version = binding_version
 
   @property
-  def topic(self) -> OperationSchema:
+  def topic(self) -> OperationSchema.OperationSchema:
     return self._topic
   @topic.setter
-  def topic(self, topic: OperationSchema):
+  def topic(self, topic: OperationSchema.OperationSchema):
     self._topic = topic
 
   @property
-  def consumers(self) -> List[OperationSchema]:
+  def consumers(self) -> List[OperationSchema.OperationSchema]:
     return self._consumers
   @consumers.setter
-  def consumers(self, consumers: List[OperationSchema]):
+  def consumers(self, consumers: List[OperationSchema.OperationSchema]):
     self._consumers = consumers
 
   @property
-  def delivery_policy(self) -> OperationSchema:
+  def delivery_policy(self) -> OperationSchema.OperationSchema:
     return self._delivery_policy
   @delivery_policy.setter
-  def delivery_policy(self, delivery_policy: OperationSchema):
+  def delivery_policy(self, delivery_policy: OperationSchema.OperationSchema):
     self._delivery_policy = delivery_policy
 
   @property

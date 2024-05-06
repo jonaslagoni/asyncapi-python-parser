@@ -27,7 +27,7 @@ async function defaultGenerateModels(input: FileReadType, outputDir: string) {
   //   fs.rmSync(outputDirForVersion, { recursive: true });
   // }
   const generator = new PythonFileGenerator({ 
-    importsStyle: 'explicit',
+    importsStyle: 'implicit',
     presets: [
       PYTHON_JSON_SERIALIZER_PRESET],
   });

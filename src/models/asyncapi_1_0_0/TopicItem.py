@@ -1,17 +1,18 @@
-from .Message import Message
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Message
 class TopicItem: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'publish'):
-      self._publish: Message = Message(input['publish'])
-    if hasattr(input, 'subscribe'):
-      self._subscribe: Message = Message(input['subscribe'])
-    if hasattr(input, 'deprecated'):
+    if 'publish' in input:
+      self._publish: Message.Message = Message.Message(input['publish'])
+    if 'subscribe' in input:
+      self._subscribe: Message.Message = Message.Message(input['subscribe'])
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -22,17 +23,17 @@ class TopicItem:
     self._dollar_ref = dollar_ref
 
   @property
-  def publish(self) -> Message:
+  def publish(self) -> Message.Message:
     return self._publish
   @publish.setter
-  def publish(self, publish: Message):
+  def publish(self, publish: Message.Message):
     self._publish = publish
 
   @property
-  def subscribe(self) -> Message:
+  def subscribe(self) -> Message.Message:
     return self._subscribe
   @subscribe.setter
-  def subscribe(self, subscribe: Message):
+  def subscribe(self, subscribe: Message.Message):
     self._subscribe = subscribe
 
   @property

@@ -1,10 +1,11 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class Reference: 
   def __init__(self, input: Dict):
     self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

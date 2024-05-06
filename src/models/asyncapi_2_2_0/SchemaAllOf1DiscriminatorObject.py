@@ -1,12 +1,13 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class SchemaAllOf1DiscriminatorObject: 
   def __init__(self, input: Dict):
     self._property_name: str = input['property_name']
-    if hasattr(input, 'mapping'):
+    if 'mapping' in input:
       self._mapping: dict[str, str] = input['mapping']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

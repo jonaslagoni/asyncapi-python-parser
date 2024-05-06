@@ -1,17 +1,18 @@
-
+from __future__ import annotations
 import json
 from typing import Dict
+
 class Xml: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'namespace'):
+    if 'namespace' in input:
       self._namespace: str = input['namespace']
-    if hasattr(input, 'prefix'):
+    if 'prefix' in input:
       self._prefix: str = input['prefix']
-    if hasattr(input, 'attribute'):
+    if 'attribute' in input:
       self._attribute: bool = input['attribute']
-    if hasattr(input, 'wrapped'):
+    if 'wrapped' in input:
       self._wrapped: bool = input['wrapped']
 
   @property

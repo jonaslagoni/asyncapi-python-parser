@@ -1,116 +1,117 @@
-from .CoreSchemaMetaMinusSchemaObject import CoreSchemaMetaMinusSchemaObject
-from .JsonMinusSchemaMinusDraftMinus07MinusSchemaType import JsonMinusSchemaMinusDraftMinus07MinusSchemaType
-from .SchemaAllOf1DiscriminatorObject import SchemaAllOf1DiscriminatorObject
-from .ExternalDocs import ExternalDocs
-from .OpenapiSchema30Xml import OpenapiSchema30Xml
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import CoreSchemaMetaMinusSchemaObject
+from . import JsonMinusSchemaMinusDraftMinus07MinusSchemaType
+from . import SchemaAllOf1DiscriminatorObject
+from . import ExternalDocs
+from . import OpenapiSchema30Xml
 class MessageOneOf1OneOf1PayloadObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'dollar_id'):
+    if 'dollar_id' in input:
       self._dollar_id: str = input['dollar_id']
-    if hasattr(input, 'dollar_schema'):
+    if 'dollar_schema' in input:
       self._dollar_schema: str = input['dollar_schema']
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'dollar_comment'):
+    if 'dollar_comment' in input:
       self._dollar_comment: str = input['dollar_comment']
-    if hasattr(input, 'title'):
+    if 'title' in input:
       self._title: str = input['title']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'default'):
+    if 'default' in input:
       self._default: Any = input['default']
-    if hasattr(input, 'read_only'):
+    if 'read_only' in input:
       self._read_only: bool = input['read_only']
-    if hasattr(input, 'write_only'):
+    if 'write_only' in input:
       self._write_only: bool = input['write_only']
-    if hasattr(input, 'examples'):
+    if 'examples' in input:
       self._examples: List[Any] = input['examples']
-    if hasattr(input, 'multiple_of'):
+    if 'multiple_of' in input:
       self._multiple_of: float = input['multiple_of']
-    if hasattr(input, 'maximum'):
+    if 'maximum' in input:
       self._maximum: float = input['maximum']
-    if hasattr(input, 'exclusive_maximum'):
+    if 'exclusive_maximum' in input:
       self._exclusive_maximum: float | bool = input['exclusive_maximum']
-    if hasattr(input, 'minimum'):
+    if 'minimum' in input:
       self._minimum: float = input['minimum']
-    if hasattr(input, 'exclusive_minimum'):
+    if 'exclusive_minimum' in input:
       self._exclusive_minimum: float | bool = input['exclusive_minimum']
-    if hasattr(input, 'max_length'):
+    if 'max_length' in input:
       self._max_length: int = input['max_length']
-    if hasattr(input, 'min_length'):
+    if 'min_length' in input:
       self._min_length: int = input['min_length']
-    if hasattr(input, 'pattern'):
+    if 'pattern' in input:
       self._pattern: str = input['pattern']
-    if hasattr(input, 'additional_items'):
+    if 'additional_items' in input:
       self._additional_items: MessageOneOf1OneOf1PayloadObject | bool = input['additional_items']
-    if hasattr(input, 'items'):
-      self._items: CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool] = input['items']
-    if hasattr(input, 'max_items'):
+    if 'items' in input:
+      self._items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool] = input['items']
+    if 'max_items' in input:
       self._max_items: int = input['max_items']
-    if hasattr(input, 'min_items'):
+    if 'min_items' in input:
       self._min_items: int = input['min_items']
-    if hasattr(input, 'unique_items'):
+    if 'unique_items' in input:
       self._unique_items: bool = input['unique_items']
-    if hasattr(input, 'contains'):
+    if 'contains' in input:
       self._contains: MessageOneOf1OneOf1PayloadObject | bool = input['contains']
-    if hasattr(input, 'max_properties'):
+    if 'max_properties' in input:
       self._max_properties: int = input['max_properties']
-    if hasattr(input, 'min_properties'):
+    if 'min_properties' in input:
       self._min_properties: int = input['min_properties']
-    if hasattr(input, 'required'):
+    if 'required' in input:
       self._required: List[str] = input['required']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: MessageOneOf1OneOf1PayloadObject | bool = input['additional_properties']
-    if hasattr(input, 'definitions'):
+    if 'definitions' in input:
       self._definitions: dict[str, MessageOneOf1OneOf1PayloadObject | bool] = input['definitions']
-    if hasattr(input, 'properties'):
+    if 'properties' in input:
       self._properties: dict[str, MessageOneOf1OneOf1PayloadObject | bool] = input['properties']
-    if hasattr(input, 'pattern_properties'):
+    if 'pattern_properties' in input:
       self._pattern_properties: dict[str, MessageOneOf1OneOf1PayloadObject | bool] = input['pattern_properties']
-    if hasattr(input, 'dependencies'):
+    if 'dependencies' in input:
       self._dependencies: dict[str,  | List[str]] = input['dependencies']
-    if hasattr(input, 'property_names'):
+    if 'property_names' in input:
       self._property_names: MessageOneOf1OneOf1PayloadObject | bool = input['property_names']
-    if hasattr(input, 'const'):
+    if 'const' in input:
       self._const: Any = input['const']
-    if hasattr(input, 'enum'):
+    if 'enum' in input:
       self._enum: List[Any] = input['enum']
-    self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaType = JsonMinusSchemaMinusDraftMinus07MinusSchemaType.OBJECT
-    if hasattr(input, 'format'):
+    self._type: JsonMinusSchemaMinusDraftMinus07MinusSchemaType.JsonMinusSchemaMinusDraftMinus07MinusSchemaType = JsonMinusSchemaMinusDraftMinus07MinusSchemaType.JsonMinusSchemaMinusDraftMinus07MinusSchemaType.OBJECT
+    if 'format' in input:
       self._format: str = input['format']
-    if hasattr(input, 'content_media_type'):
+    if 'content_media_type' in input:
       self._content_media_type: str = input['content_media_type']
-    if hasattr(input, 'content_encoding'):
+    if 'content_encoding' in input:
       self._content_encoding: str = input['content_encoding']
-    if hasattr(input, 'reserved_if'):
+    if 'reserved_if' in input:
       self._reserved_if: MessageOneOf1OneOf1PayloadObject | bool = input['reserved_if']
-    if hasattr(input, 'then'):
+    if 'then' in input:
       self._then: MessageOneOf1OneOf1PayloadObject | bool = input['then']
-    if hasattr(input, 'reserved_else'):
+    if 'reserved_else' in input:
       self._reserved_else: MessageOneOf1OneOf1PayloadObject | bool = input['reserved_else']
-    if hasattr(input, 'all_of'):
+    if 'all_of' in input:
       self._all_of: List[MessageOneOf1OneOf1PayloadObject | bool] = input['all_of']
-    if hasattr(input, 'any_of'):
+    if 'any_of' in input:
       self._any_of: List[MessageOneOf1OneOf1PayloadObject | bool] = input['any_of']
-    if hasattr(input, 'one_of'):
+    if 'one_of' in input:
       self._one_of: List[MessageOneOf1OneOf1PayloadObject | bool] = input['one_of']
-    if hasattr(input, 'reserved_not'):
+    if 'reserved_not' in input:
       self._reserved_not: MessageOneOf1OneOf1PayloadObject | bool = input['reserved_not']
-    if hasattr(input, 'discriminator'):
-      self._discriminator: SchemaAllOf1DiscriminatorObject | str = input['discriminator']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: ExternalDocs = ExternalDocs(input['external_docs'])
-    if hasattr(input, 'deprecated'):
+    if 'discriminator' in input:
+      self._discriminator: SchemaAllOf1DiscriminatorObject.SchemaAllOf1DiscriminatorObject | str = input['discriminator']
+    if 'external_docs' in input:
+      self._external_docs: ExternalDocs.ExternalDocs = ExternalDocs.ExternalDocs(input['external_docs'])
+    if 'deprecated' in input:
       self._deprecated: bool = input['deprecated']
-    if hasattr(input, 'nullable'):
+    if 'nullable' in input:
       self._nullable: bool = input['nullable']
-    if hasattr(input, 'example'):
+    if 'example' in input:
       self._example: Any = input['example']
-    if hasattr(input, 'xml'):
-      self._xml: OpenapiSchema30Xml = OpenapiSchema30Xml(input['xml'])
-    if hasattr(input, 'reserved_additional_properties'):
+    if 'xml' in input:
+      self._xml: OpenapiSchema30Xml.OpenapiSchema30Xml = OpenapiSchema30Xml.OpenapiSchema30Xml(input['xml'])
+    if 'reserved_additional_properties' in input:
       self._reserved_additional_properties: dict[str, Any | Any] = input['reserved_additional_properties']
 
   @property
@@ -247,10 +248,10 @@ class MessageOneOf1OneOf1PayloadObject:
     self._additional_items = additional_items
 
   @property
-  def items(self) -> CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool]:
+  def items(self) -> CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool]:
     return self._items
   @items.setter
-  def items(self, items: CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool]):
+  def items(self, items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool | List[MessageOneOf1OneOf1PayloadObject | bool]):
     self._items = items
 
   @property
@@ -359,7 +360,7 @@ class MessageOneOf1OneOf1PayloadObject:
     self._enum = enum
 
   @property
-  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaType:
+  def type(self) -> JsonMinusSchemaMinusDraftMinus07MinusSchemaType.JsonMinusSchemaMinusDraftMinus07MinusSchemaType:
     return self._type
 
   @property
@@ -433,17 +434,17 @@ class MessageOneOf1OneOf1PayloadObject:
     self._reserved_not = reserved_not
 
   @property
-  def discriminator(self) -> SchemaAllOf1DiscriminatorObject | str:
+  def discriminator(self) -> SchemaAllOf1DiscriminatorObject.SchemaAllOf1DiscriminatorObject | str:
     return self._discriminator
   @discriminator.setter
-  def discriminator(self, discriminator: SchemaAllOf1DiscriminatorObject | str):
+  def discriminator(self, discriminator: SchemaAllOf1DiscriminatorObject.SchemaAllOf1DiscriminatorObject | str):
     self._discriminator = discriminator
 
   @property
-  def external_docs(self) -> ExternalDocs:
+  def external_docs(self) -> ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: ExternalDocs):
+  def external_docs(self, external_docs: ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
@@ -468,10 +469,10 @@ class MessageOneOf1OneOf1PayloadObject:
     self._example = example
 
   @property
-  def xml(self) -> OpenapiSchema30Xml:
+  def xml(self) -> OpenapiSchema30Xml.OpenapiSchema30Xml:
     return self._xml
   @xml.setter
-  def xml(self, xml: OpenapiSchema30Xml):
+  def xml(self, xml: OpenapiSchema30Xml.OpenapiSchema30Xml):
     self._xml = xml
 
   @property

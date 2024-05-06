@@ -1,22 +1,23 @@
-from .ServerVariable import ServerVariable
-from .BindingsObject import BindingsObject
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import ServerVariable
+from . import BindingsObject
 class Server: 
   def __init__(self, input: Dict):
     self._url: str = input['url']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
     self._protocol: str = input['protocol']
-    if hasattr(input, 'protocol_version'):
+    if 'protocol_version' in input:
       self._protocol_version: str = input['protocol_version']
-    if hasattr(input, 'variables'):
-      self._variables: dict[str, ServerVariable] = input['variables']
-    if hasattr(input, 'security'):
+    if 'variables' in input:
+      self._variables: dict[str, ServerVariable.ServerVariable] = input['variables']
+    if 'security' in input:
       self._security: List[dict[str, List[str]]] = input['security']
-    if hasattr(input, 'bindings'):
-      self._bindings: BindingsObject = BindingsObject(input['bindings'])
-    if hasattr(input, 'additional_properties'):
+    if 'bindings' in input:
+      self._bindings: BindingsObject.BindingsObject = BindingsObject.BindingsObject(input['bindings'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -48,10 +49,10 @@ class Server:
     self._protocol_version = protocol_version
 
   @property
-  def variables(self) -> dict[str, ServerVariable]:
+  def variables(self) -> dict[str, ServerVariable.ServerVariable]:
     return self._variables
   @variables.setter
-  def variables(self, variables: dict[str, ServerVariable]):
+  def variables(self, variables: dict[str, ServerVariable.ServerVariable]):
     self._variables = variables
 
   @property
@@ -62,10 +63,10 @@ class Server:
     self._security = security
 
   @property
-  def bindings(self) -> BindingsObject:
+  def bindings(self) -> BindingsObject.BindingsObject:
     return self._bindings
   @bindings.setter
-  def bindings(self, bindings: BindingsObject):
+  def bindings(self, bindings: BindingsObject.BindingsObject):
     self._bindings = bindings
 
   @property

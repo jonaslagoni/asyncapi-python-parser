@@ -1,10 +1,11 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class BindingsMinusGooglepubsubMinus0Dot2Dot0MinusMessageSchema: 
   def __init__(self, input: Dict):
     self._name: str = input['name']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property

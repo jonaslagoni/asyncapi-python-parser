@@ -1,48 +1,49 @@
-from .ServerBindingsObjectMqtt import ServerBindingsObjectMqtt
-from .ServerBindingsObjectKafka import ServerBindingsObjectKafka
-from .ServerBindingsObjectJms import ServerBindingsObjectJms
-from .ServerBindingsObjectIbmmq import ServerBindingsObjectIbmmq
-from .ServerBindingsObjectSolace import ServerBindingsObjectSolace
-from .ServerBindingsObjectPulsar import ServerBindingsObjectPulsar
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import ServerBindingsObjectMqtt
+from . import ServerBindingsObjectKafka
+from . import ServerBindingsObjectJms
+from . import ServerBindingsObjectIbmmq
+from . import ServerBindingsObjectSolace
+from . import ServerBindingsObjectPulsar
 class ServerBindingsObject: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'http'):
+    if 'http' in input:
       self._http: Any = input['http']
-    if hasattr(input, 'ws'):
+    if 'ws' in input:
       self._ws: Any = input['ws']
-    if hasattr(input, 'amqp'):
+    if 'amqp' in input:
       self._amqp: Any = input['amqp']
-    if hasattr(input, 'amqp1'):
+    if 'amqp1' in input:
       self._amqp1: Any = input['amqp1']
-    if hasattr(input, 'mqtt'):
-      self._mqtt: ServerBindingsObjectMqtt = ServerBindingsObjectMqtt(input['mqtt'])
-    if hasattr(input, 'kafka'):
-      self._kafka: ServerBindingsObjectKafka = ServerBindingsObjectKafka(input['kafka'])
-    if hasattr(input, 'anypointmq'):
+    if 'mqtt' in input:
+      self._mqtt: ServerBindingsObjectMqtt.ServerBindingsObjectMqtt = ServerBindingsObjectMqtt.ServerBindingsObjectMqtt(input['mqtt'])
+    if 'kafka' in input:
+      self._kafka: ServerBindingsObjectKafka.ServerBindingsObjectKafka = ServerBindingsObjectKafka.ServerBindingsObjectKafka(input['kafka'])
+    if 'anypointmq' in input:
       self._anypointmq: Any = input['anypointmq']
-    if hasattr(input, 'nats'):
+    if 'nats' in input:
       self._nats: Any = input['nats']
-    if hasattr(input, 'jms'):
-      self._jms: ServerBindingsObjectJms = ServerBindingsObjectJms(input['jms'])
-    if hasattr(input, 'sns'):
+    if 'jms' in input:
+      self._jms: ServerBindingsObjectJms.ServerBindingsObjectJms = ServerBindingsObjectJms.ServerBindingsObjectJms(input['jms'])
+    if 'sns' in input:
       self._sns: Any = input['sns']
-    if hasattr(input, 'sqs'):
+    if 'sqs' in input:
       self._sqs: Any = input['sqs']
-    if hasattr(input, 'stomp'):
+    if 'stomp' in input:
       self._stomp: Any = input['stomp']
-    if hasattr(input, 'redis'):
+    if 'redis' in input:
       self._redis: Any = input['redis']
-    if hasattr(input, 'ibmmq'):
-      self._ibmmq: ServerBindingsObjectIbmmq = ServerBindingsObjectIbmmq(input['ibmmq'])
-    if hasattr(input, 'solace'):
-      self._solace: ServerBindingsObjectSolace = ServerBindingsObjectSolace(input['solace'])
-    if hasattr(input, 'googlepubsub'):
+    if 'ibmmq' in input:
+      self._ibmmq: ServerBindingsObjectIbmmq.ServerBindingsObjectIbmmq = ServerBindingsObjectIbmmq.ServerBindingsObjectIbmmq(input['ibmmq'])
+    if 'solace' in input:
+      self._solace: ServerBindingsObjectSolace.ServerBindingsObjectSolace = ServerBindingsObjectSolace.ServerBindingsObjectSolace(input['solace'])
+    if 'googlepubsub' in input:
       self._googlepubsub: Any = input['googlepubsub']
-    if hasattr(input, 'pulsar'):
-      self._pulsar: ServerBindingsObjectPulsar = ServerBindingsObjectPulsar(input['pulsar'])
-    if hasattr(input, 'additional_properties'):
+    if 'pulsar' in input:
+      self._pulsar: ServerBindingsObjectPulsar.ServerBindingsObjectPulsar = ServerBindingsObjectPulsar.ServerBindingsObjectPulsar(input['pulsar'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -74,17 +75,17 @@ class ServerBindingsObject:
     self._amqp1 = amqp1
 
   @property
-  def mqtt(self) -> ServerBindingsObjectMqtt:
+  def mqtt(self) -> ServerBindingsObjectMqtt.ServerBindingsObjectMqtt:
     return self._mqtt
   @mqtt.setter
-  def mqtt(self, mqtt: ServerBindingsObjectMqtt):
+  def mqtt(self, mqtt: ServerBindingsObjectMqtt.ServerBindingsObjectMqtt):
     self._mqtt = mqtt
 
   @property
-  def kafka(self) -> ServerBindingsObjectKafka:
+  def kafka(self) -> ServerBindingsObjectKafka.ServerBindingsObjectKafka:
     return self._kafka
   @kafka.setter
-  def kafka(self, kafka: ServerBindingsObjectKafka):
+  def kafka(self, kafka: ServerBindingsObjectKafka.ServerBindingsObjectKafka):
     self._kafka = kafka
 
   @property
@@ -102,10 +103,10 @@ class ServerBindingsObject:
     self._nats = nats
 
   @property
-  def jms(self) -> ServerBindingsObjectJms:
+  def jms(self) -> ServerBindingsObjectJms.ServerBindingsObjectJms:
     return self._jms
   @jms.setter
-  def jms(self, jms: ServerBindingsObjectJms):
+  def jms(self, jms: ServerBindingsObjectJms.ServerBindingsObjectJms):
     self._jms = jms
 
   @property
@@ -137,17 +138,17 @@ class ServerBindingsObject:
     self._redis = redis
 
   @property
-  def ibmmq(self) -> ServerBindingsObjectIbmmq:
+  def ibmmq(self) -> ServerBindingsObjectIbmmq.ServerBindingsObjectIbmmq:
     return self._ibmmq
   @ibmmq.setter
-  def ibmmq(self, ibmmq: ServerBindingsObjectIbmmq):
+  def ibmmq(self, ibmmq: ServerBindingsObjectIbmmq.ServerBindingsObjectIbmmq):
     self._ibmmq = ibmmq
 
   @property
-  def solace(self) -> ServerBindingsObjectSolace:
+  def solace(self) -> ServerBindingsObjectSolace.ServerBindingsObjectSolace:
     return self._solace
   @solace.setter
-  def solace(self, solace: ServerBindingsObjectSolace):
+  def solace(self, solace: ServerBindingsObjectSolace.ServerBindingsObjectSolace):
     self._solace = solace
 
   @property
@@ -158,10 +159,10 @@ class ServerBindingsObject:
     self._googlepubsub = googlepubsub
 
   @property
-  def pulsar(self) -> ServerBindingsObjectPulsar:
+  def pulsar(self) -> ServerBindingsObjectPulsar.ServerBindingsObjectPulsar:
     return self._pulsar
   @pulsar.setter
-  def pulsar(self, pulsar: ServerBindingsObjectPulsar):
+  def pulsar(self, pulsar: ServerBindingsObjectPulsar.ServerBindingsObjectPulsar):
     self._pulsar = pulsar
 
   @property

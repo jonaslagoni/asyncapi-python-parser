@@ -1,37 +1,38 @@
-from .Reference import Reference
-from .OperationTrait import OperationTrait
-from .Tag import Tag
-from .ExternalDocs import ExternalDocs
-from .Message import Message
-from .OperationMessageOneOf1 import OperationMessageOneOf1
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Reference
+from . import OperationTrait
+from . import Tag
+from . import ExternalDocs
+from . import Message
+from . import OperationMessageOneOf1
 class Operation: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'traits'):
-      self._traits: List[Reference | OperationTrait] = input['traits']
-    if hasattr(input, 'summary'):
+    if 'traits' in input:
+      self._traits: List[Reference.Reference | OperationTrait.OperationTrait] = input['traits']
+    if 'summary' in input:
       self._summary: str = input['summary']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'tags'):
-      self._tags: List[Tag] = input['tags']
-    if hasattr(input, 'external_docs'):
-      self._external_docs: ExternalDocs = ExternalDocs(input['external_docs'])
-    if hasattr(input, 'operation_id'):
+    if 'tags' in input:
+      self._tags: List[Tag.Tag] = input['tags']
+    if 'external_docs' in input:
+      self._external_docs: ExternalDocs.ExternalDocs = ExternalDocs.ExternalDocs(input['external_docs'])
+    if 'operation_id' in input:
       self._operation_id: str = input['operation_id']
-    if hasattr(input, 'protocol_info'):
+    if 'protocol_info' in input:
       self._protocol_info: dict[str, dict[str, Any]] = input['protocol_info']
-    if hasattr(input, 'message'):
-      self._message: Message | OperationMessageOneOf1 = input['message']
-    if hasattr(input, 'additional_properties'):
+    if 'message' in input:
+      self._message: Message.Message | OperationMessageOneOf1.OperationMessageOneOf1 = input['message']
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def traits(self) -> List[Reference | OperationTrait]:
+  def traits(self) -> List[Reference.Reference | OperationTrait.OperationTrait]:
     return self._traits
   @traits.setter
-  def traits(self, traits: List[Reference | OperationTrait]):
+  def traits(self, traits: List[Reference.Reference | OperationTrait.OperationTrait]):
     self._traits = traits
 
   @property
@@ -49,17 +50,17 @@ class Operation:
     self._description = description
 
   @property
-  def tags(self) -> List[Tag]:
+  def tags(self) -> List[Tag.Tag]:
     return self._tags
   @tags.setter
-  def tags(self, tags: List[Tag]):
+  def tags(self, tags: List[Tag.Tag]):
     self._tags = tags
 
   @property
-  def external_docs(self) -> ExternalDocs:
+  def external_docs(self) -> ExternalDocs.ExternalDocs:
     return self._external_docs
   @external_docs.setter
-  def external_docs(self, external_docs: ExternalDocs):
+  def external_docs(self, external_docs: ExternalDocs.ExternalDocs):
     self._external_docs = external_docs
 
   @property
@@ -77,10 +78,10 @@ class Operation:
     self._protocol_info = protocol_info
 
   @property
-  def message(self) -> Message | OperationMessageOneOf1:
+  def message(self) -> Message.Message | OperationMessageOneOf1.OperationMessageOneOf1:
     return self._message
   @message.setter
-  def message(self, message: Message | OperationMessageOneOf1):
+  def message(self, message: Message.Message | OperationMessageOneOf1.OperationMessageOneOf1):
     self._message = message
 
   @property

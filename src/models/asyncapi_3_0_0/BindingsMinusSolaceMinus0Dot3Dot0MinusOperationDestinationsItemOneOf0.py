@@ -1,22 +1,23 @@
-from .BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode
-from .BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode
+from . import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue
 class BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'delivery_mode'):
-      self._delivery_mode: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode(input['delivery_mode'])
+    if 'delivery_mode' in input:
+      self._delivery_mode: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode(input['delivery_mode'])
     self._destination_type: str = 'queue'
-    if hasattr(input, 'queue'):
-      self._queue: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue(input['queue'])
-    if hasattr(input, 'additional_properties'):
+    if 'queue' in input:
+      self._queue: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue(input['queue'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def delivery_mode(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode:
+  def delivery_mode(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode:
     return self._delivery_mode
   @delivery_mode.setter
-  def delivery_mode(self, delivery_mode: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode):
+  def delivery_mode(self, delivery_mode: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemDeliveryMode):
     self._delivery_mode = delivery_mode
 
   @property
@@ -24,10 +25,10 @@ class BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0:
     return self._destination_type
 
   @property
-  def queue(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue:
+  def queue(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue:
     return self._queue
   @queue.setter
-  def queue(self, queue: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue):
+  def queue(self, queue: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue):
     self._queue = queue
 
   @property

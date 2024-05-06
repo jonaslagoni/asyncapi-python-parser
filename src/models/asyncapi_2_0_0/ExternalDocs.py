@@ -1,12 +1,13 @@
-
+from __future__ import annotations
 import json
 from typing import Any, Dict
+
 class ExternalDocs: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
     self._url: str = input['url']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any | Any] = input['additional_properties']
 
   @property

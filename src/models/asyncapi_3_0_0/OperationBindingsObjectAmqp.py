@@ -1,37 +1,38 @@
-from .OperationBindingsObjectAmqpBindingVersion import OperationBindingsObjectAmqpBindingVersion
-from .BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode import BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import OperationBindingsObjectAmqpBindingVersion
+from . import BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode
 class OperationBindingsObjectAmqp: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: OperationBindingsObjectAmqpBindingVersion = OperationBindingsObjectAmqpBindingVersion(input['binding_version'])
-    if hasattr(input, 'expiration'):
+    if 'binding_version' in input:
+      self._binding_version: OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion = OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion(input['binding_version'])
+    if 'expiration' in input:
       self._expiration: int = input['expiration']
-    if hasattr(input, 'user_id'):
+    if 'user_id' in input:
       self._user_id: str = input['user_id']
-    if hasattr(input, 'cc'):
+    if 'cc' in input:
       self._cc: List[str] = input['cc']
-    if hasattr(input, 'priority'):
+    if 'priority' in input:
       self._priority: int = input['priority']
-    if hasattr(input, 'delivery_mode'):
-      self._delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode = BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode(input['delivery_mode'])
-    if hasattr(input, 'mandatory'):
+    if 'delivery_mode' in input:
+      self._delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode = BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode(input['delivery_mode'])
+    if 'mandatory' in input:
       self._mandatory: bool = input['mandatory']
-    if hasattr(input, 'bcc'):
+    if 'bcc' in input:
       self._bcc: List[str] = input['bcc']
-    if hasattr(input, 'timestamp'):
+    if 'timestamp' in input:
       self._timestamp: bool = input['timestamp']
-    if hasattr(input, 'ack'):
+    if 'ack' in input:
       self._ack: bool = input['ack']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> OperationBindingsObjectAmqpBindingVersion:
+  def binding_version(self) -> OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: OperationBindingsObjectAmqpBindingVersion):
+  def binding_version(self, binding_version: OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion):
     self._binding_version = binding_version
 
   @property
@@ -63,10 +64,10 @@ class OperationBindingsObjectAmqp:
     self._priority = priority
 
   @property
-  def delivery_mode(self) -> BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode:
+  def delivery_mode(self) -> BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode:
     return self._delivery_mode
   @delivery_mode.setter
-  def delivery_mode(self, delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode):
+  def delivery_mode(self, delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode):
     self._delivery_mode = delivery_mode
 
   @property

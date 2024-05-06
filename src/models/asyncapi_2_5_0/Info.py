@@ -1,20 +1,21 @@
-from .Contact import Contact
-from .License import License
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import Contact
+from . import License
 class Info: 
   def __init__(self, input: Dict):
     self._title: str = input['title']
     self._version: str = input['version']
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'terms_of_service'):
+    if 'terms_of_service' in input:
       self._terms_of_service: str = input['terms_of_service']
-    if hasattr(input, 'contact'):
-      self._contact: Contact = Contact(input['contact'])
-    if hasattr(input, 'license'):
-      self._license: License = License(input['license'])
-    if hasattr(input, 'additional_properties'):
+    if 'contact' in input:
+      self._contact: Contact.Contact = Contact.Contact(input['contact'])
+    if 'license' in input:
+      self._license: License.License = License.License(input['license'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -46,17 +47,17 @@ class Info:
     self._terms_of_service = terms_of_service
 
   @property
-  def contact(self) -> Contact:
+  def contact(self) -> Contact.Contact:
     return self._contact
   @contact.setter
-  def contact(self, contact: Contact):
+  def contact(self, contact: Contact.Contact):
     self._contact = contact
 
   @property
-  def license(self) -> License:
+  def license(self) -> License.License:
     return self._license
   @license.setter
-  def license(self, license: License):
+  def license(self, license: License.License):
     self._license = license
 
   @property

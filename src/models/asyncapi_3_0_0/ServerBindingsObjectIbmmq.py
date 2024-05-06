@@ -1,28 +1,29 @@
-from .ServerBindingsObjectIbmmqBindingVersion import ServerBindingsObjectIbmmqBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import ServerBindingsObjectIbmmqBindingVersion
 class ServerBindingsObjectIbmmq: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: ServerBindingsObjectIbmmqBindingVersion = ServerBindingsObjectIbmmqBindingVersion(input['binding_version'])
-    if hasattr(input, 'group_id'):
+    if 'binding_version' in input:
+      self._binding_version: ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion = ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion(input['binding_version'])
+    if 'group_id' in input:
       self._group_id: str = input['group_id']
-    if hasattr(input, 'ccdt_queue_manager_name'):
+    if 'ccdt_queue_manager_name' in input:
       self._ccdt_queue_manager_name: str = input['ccdt_queue_manager_name']
-    if hasattr(input, 'cipher_spec'):
+    if 'cipher_spec' in input:
       self._cipher_spec: str = input['cipher_spec']
-    if hasattr(input, 'multi_endpoint_server'):
+    if 'multi_endpoint_server' in input:
       self._multi_endpoint_server: bool = input['multi_endpoint_server']
-    if hasattr(input, 'heart_beat_interval'):
+    if 'heart_beat_interval' in input:
       self._heart_beat_interval: int = input['heart_beat_interval']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> ServerBindingsObjectIbmmqBindingVersion:
+  def binding_version(self) -> ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectIbmmqBindingVersion):
+  def binding_version(self, binding_version: ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion):
     self._binding_version = binding_version
 
   @property

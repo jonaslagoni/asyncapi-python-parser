@@ -1,11 +1,12 @@
-
+from __future__ import annotations
 import json
 from typing import Dict
+
 class BindingsMinusPulsarMinus0Dot1Dot0MinusChannelRetention: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'time'):
+    if 'time' in input:
       self._time: int = input['time']
-    if hasattr(input, 'size'):
+    if 'size' in input:
       self._size: int = input['size']
 
   @property

@@ -1,19 +1,20 @@
-from .SaslGssapiSecuritySchemeType import SaslGssapiSecuritySchemeType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import SaslGssapiSecuritySchemeType
 class SaslGssapiSecurityScheme: 
   def __init__(self, input: Dict):
-    self._type: SaslGssapiSecuritySchemeType = SaslGssapiSecuritySchemeType(input['type'])
-    if hasattr(input, 'description'):
+    self._type: SaslGssapiSecuritySchemeType.SaslGssapiSecuritySchemeType = SaslGssapiSecuritySchemeType.SaslGssapiSecuritySchemeType(input['type'])
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> SaslGssapiSecuritySchemeType:
+  def type(self) -> SaslGssapiSecuritySchemeType.SaslGssapiSecuritySchemeType:
     return self._type
   @type.setter
-  def type(self, type: SaslGssapiSecuritySchemeType):
+  def type(self, type: SaslGssapiSecuritySchemeType.SaslGssapiSecuritySchemeType):
     self._type = type
 
   @property

@@ -1,22 +1,23 @@
-from .MessageBindingsObjectAmqpBindingVersion import MessageBindingsObjectAmqpBindingVersion
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import MessageBindingsObjectAmqpBindingVersion
 class MessageBindingsObjectAmqp: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'binding_version'):
-      self._binding_version: MessageBindingsObjectAmqpBindingVersion = MessageBindingsObjectAmqpBindingVersion(input['binding_version'])
-    if hasattr(input, 'content_encoding'):
+    if 'binding_version' in input:
+      self._binding_version: MessageBindingsObjectAmqpBindingVersion.MessageBindingsObjectAmqpBindingVersion = MessageBindingsObjectAmqpBindingVersion.MessageBindingsObjectAmqpBindingVersion(input['binding_version'])
+    if 'content_encoding' in input:
       self._content_encoding: str = input['content_encoding']
-    if hasattr(input, 'message_type'):
+    if 'message_type' in input:
       self._message_type: str = input['message_type']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def binding_version(self) -> MessageBindingsObjectAmqpBindingVersion:
+  def binding_version(self) -> MessageBindingsObjectAmqpBindingVersion.MessageBindingsObjectAmqpBindingVersion:
     return self._binding_version
   @binding_version.setter
-  def binding_version(self, binding_version: MessageBindingsObjectAmqpBindingVersion):
+  def binding_version(self, binding_version: MessageBindingsObjectAmqpBindingVersion.MessageBindingsObjectAmqpBindingVersion):
     self._binding_version = binding_version
 
   @property

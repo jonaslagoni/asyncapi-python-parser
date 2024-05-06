@@ -1,17 +1,18 @@
-from .SchemaObject import SchemaObject
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import SchemaObject
 class Parameter: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'schema'):
-      self._schema: SchemaObject | bool = input['schema']
-    if hasattr(input, 'location'):
+    if 'schema' in input:
+      self._schema: SchemaObject.SchemaObject | bool = input['schema']
+    if 'location' in input:
       self._location: str = input['location']
-    if hasattr(input, 'dollar_ref'):
+    if 'dollar_ref' in input:
       self._dollar_ref: str = input['dollar_ref']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -22,10 +23,10 @@ class Parameter:
     self._description = description
 
   @property
-  def schema(self) -> SchemaObject | bool:
+  def schema(self) -> SchemaObject.SchemaObject | bool:
     return self._schema
   @schema.setter
-  def schema(self, schema: SchemaObject | bool):
+  def schema(self, schema: SchemaObject.SchemaObject | bool):
     self._schema = schema
 
   @property

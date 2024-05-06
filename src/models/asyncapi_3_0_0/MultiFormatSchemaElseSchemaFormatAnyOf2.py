@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class MultiFormatSchemaElseSchemaFormatAnyOf2(Enum): 
   APPLICATION_SLASH_VND_DOT_OAI_DOT_OPENAPI_SEMICOLON_VERSION_EQUAL_3_DOT_0_DOT_0 = "application/vnd.oai.openapi;version=3.0.0"
   APPLICATION_SLASH_VND_DOT_OAI_DOT_OPENAPI_PLUS_JSON_SEMICOLON_VERSION_EQUAL_3_DOT_0_DOT_0 = "application/vnd.oai.openapi+json;version=3.0.0"

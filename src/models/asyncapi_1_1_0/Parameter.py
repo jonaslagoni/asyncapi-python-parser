@@ -1,15 +1,16 @@
-from .Schema import Schema
+from __future__ import annotations
 import json
 from typing import Any, List, Dict
+from . import Schema
 class Parameter: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'description'):
+    if 'description' in input:
       self._description: str = input['description']
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'schema'):
-      self._schema: Schema = Schema(input['schema'])
-    if hasattr(input, 'additional_properties'):
+    if 'schema' in input:
+      self._schema: Schema.Schema = Schema.Schema(input['schema'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -27,10 +28,10 @@ class Parameter:
     self._name = name
 
   @property
-  def schema(self) -> Schema:
+  def schema(self) -> Schema.Schema:
     return self._schema
   @schema.setter
-  def schema(self, schema: Schema):
+  def schema(self, schema: Schema.Schema):
     self._schema = schema
 
   @property

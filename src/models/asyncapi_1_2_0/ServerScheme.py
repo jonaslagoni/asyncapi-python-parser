@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class ServerScheme(Enum): 
   KAFKA = "kafka"
   KAFKA_MINUS_SECURE = "kafka-secure"

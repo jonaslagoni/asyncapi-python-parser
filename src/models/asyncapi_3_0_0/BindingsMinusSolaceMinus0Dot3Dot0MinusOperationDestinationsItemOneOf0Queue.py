@@ -1,19 +1,20 @@
-from .BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType
+from __future__ import annotations
 import json
 from typing import List, Any, Dict
+from . import BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType
 class BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'name'):
+    if 'name' in input:
       self._name: str = input['name']
-    if hasattr(input, 'topic_subscriptions'):
+    if 'topic_subscriptions' in input:
       self._topic_subscriptions: List[str] = input['topic_subscriptions']
-    if hasattr(input, 'access_type'):
-      self._access_type: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType(input['access_type'])
-    if hasattr(input, 'max_ttl'):
+    if 'access_type' in input:
+      self._access_type: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType = BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType(input['access_type'])
+    if 'max_ttl' in input:
       self._max_ttl: str = input['max_ttl']
-    if hasattr(input, 'max_msg_spool_usage'):
+    if 'max_msg_spool_usage' in input:
       self._max_msg_spool_usage: str = input['max_msg_spool_usage']
-    if hasattr(input, 'additional_properties'):
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
@@ -31,10 +32,10 @@ class BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0Queue
     self._topic_subscriptions = topic_subscriptions
 
   @property
-  def access_type(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType:
+  def access_type(self) -> BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType:
     return self._access_type
   @access_type.setter
-  def access_type(self, access_type: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType):
+  def access_type(self, access_type: BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType.BindingsMinusSolaceMinus0Dot3Dot0MinusOperationDestinationsItemOneOf0QueueAccessType):
     self._access_type = access_type
 
   @property

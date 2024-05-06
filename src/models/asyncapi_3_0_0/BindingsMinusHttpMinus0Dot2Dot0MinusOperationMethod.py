@@ -1,5 +1,5 @@
-
 from enum import Enum
+
 class BindingsMinusHttpMinus0Dot2Dot0MinusOperationMethod(Enum): 
   GET = "GET"
   PUT = "PUT"

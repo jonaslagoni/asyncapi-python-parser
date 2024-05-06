@@ -1,17 +1,18 @@
-from .PrimitiveType import PrimitiveType
+from __future__ import annotations
 import json
 from typing import Any, Dict
+from . import PrimitiveType
 class PrimitiveTypeWithMetadata: 
   def __init__(self, input: Dict):
-    self._type: PrimitiveType = PrimitiveType(input['type'])
-    if hasattr(input, 'additional_properties'):
+    self._type: PrimitiveType.PrimitiveType = PrimitiveType.PrimitiveType(input['type'])
+    if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
   @property
-  def type(self) -> PrimitiveType:
+  def type(self) -> PrimitiveType.PrimitiveType:
     return self._type
   @type.setter
-  def type(self, type: PrimitiveType):
+  def type(self, type: PrimitiveType.PrimitiveType):
     self._type = type
 
   @property

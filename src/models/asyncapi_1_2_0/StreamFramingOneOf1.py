@@ -1,26 +1,27 @@
-from .StreamFramingOneOf1Type import StreamFramingOneOf1Type
-from .StreamFramingOneOf1Delimiter import StreamFramingOneOf1Delimiter
+from __future__ import annotations
 import json
 from typing import Dict
+from . import StreamFramingOneOf1Type
+from . import StreamFramingOneOf1Delimiter
 class StreamFramingOneOf1: 
   def __init__(self, input: Dict):
-    if hasattr(input, 'type'):
-      self._type: StreamFramingOneOf1Type = StreamFramingOneOf1Type(input['type'])
-    if hasattr(input, 'delimiter'):
-      self._delimiter: StreamFramingOneOf1Delimiter = StreamFramingOneOf1Delimiter(input['delimiter'])
+    if 'type' in input:
+      self._type: StreamFramingOneOf1Type.StreamFramingOneOf1Type = StreamFramingOneOf1Type.StreamFramingOneOf1Type(input['type'])
+    if 'delimiter' in input:
+      self._delimiter: StreamFramingOneOf1Delimiter.StreamFramingOneOf1Delimiter = StreamFramingOneOf1Delimiter.StreamFramingOneOf1Delimiter(input['delimiter'])
 
   @property
-  def type(self) -> StreamFramingOneOf1Type:
+  def type(self) -> StreamFramingOneOf1Type.StreamFramingOneOf1Type:
     return self._type
   @type.setter
-  def type(self, type: StreamFramingOneOf1Type):
+  def type(self, type: StreamFramingOneOf1Type.StreamFramingOneOf1Type):
     self._type = type
 
   @property
-  def delimiter(self) -> StreamFramingOneOf1Delimiter:
+  def delimiter(self) -> StreamFramingOneOf1Delimiter.StreamFramingOneOf1Delimiter:
     return self._delimiter
   @delimiter.setter
-  def delimiter(self, delimiter: StreamFramingOneOf1Delimiter):
+  def delimiter(self, delimiter: StreamFramingOneOf1Delimiter.StreamFramingOneOf1Delimiter):
     self._delimiter = delimiter
 
   def serialize_to_json(self):
