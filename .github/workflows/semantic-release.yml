@@ -25,6 +25,8 @@ jobs:
         --user
     - name: Build a binary wheel and a source tarball
       run: python3 -m build
+    - name: Install dependencies
+      run: make setup
     - name: Test the package before release
       run: make test
   release:
