@@ -2,7 +2,7 @@ import { PYTHON_JSON_SERIALIZER_PRESET, PythonFileGenerator } from '@asyncapi/mo
 import * as path from 'path';
 import * as fs from 'fs';
 
-const outputDirectoryPath = path.resolve(__dirname, '../../src/models');
+const outputDirectoryPath = path.resolve(__dirname, '../../src/asyncapi_python_parser_jonaslagoni/models');
 const schemaFiles = path.resolve(__dirname, '../definitions');
 interface FileReadType {
   fileContent: string

@@ -18,11 +18,6 @@ classifiers = [
     "Development Status :: 2 - Pre-Alpha",
 ]
 
-[tool.hatch.build.targets.sdist]
-include = [
-  "src/**/*.py"
-]
-
 [project.urls]
 Homepage = "https://github.com/jonaslagoni/asyncapi-python-parser"
 Issues = "https://github.com/jonaslagoni/asyncapi-python-parser/issues"
