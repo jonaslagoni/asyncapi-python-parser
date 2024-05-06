@@ -8,7 +8,7 @@ clean:
 	rm -rf __pycache__
 
 test:
-	python -m unittest discover .
+	python -m unittest discover ./tests/asyncapi_python_parser_jonaslagoni
 
 generate:
 	cd generator && npm i && npm run generate

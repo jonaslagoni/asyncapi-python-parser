@@ -18,7 +18,7 @@ class Map:
       self._doc: str = input['doc']
     if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
-    self._values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[] = input['values']
+    self._values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[Any] = input['values']
     if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
@@ -55,10 +55,10 @@ class Map:
     self._aliases = aliases
 
   @property
-  def values(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[]:
+  def values(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[Any]:
     return self._values
   @values.setter
-  def values(self, values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[]):
+  def values(self, values: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map | Fixed.Fixed | List[Any]):
     self._values = values
 
   @property

@@ -71,7 +71,7 @@ class MessageOneOf1OneOf1PayloadObject:
     if 'pattern_properties' in input:
       self._pattern_properties: dict[str, MessageOneOf1OneOf1PayloadObject | bool] = input['pattern_properties']
     if 'dependencies' in input:
-      self._dependencies: dict[str,  | List[str]] = input['dependencies']
+      self._dependencies: dict[str, Any | List[str]] = input['dependencies']
     if 'property_names' in input:
       self._property_names: MessageOneOf1OneOf1PayloadObject | bool = input['property_names']
     if 'const' in input:
@@ -332,10 +332,10 @@ class MessageOneOf1OneOf1PayloadObject:
     self._pattern_properties = pattern_properties
 
   @property
-  def dependencies(self) -> dict[str,  | List[str]]:
+  def dependencies(self) -> dict[str, Any | List[str]]:
     return self._dependencies
   @dependencies.setter
-  def dependencies(self, dependencies: dict[str,  | List[str]]):
+  def dependencies(self, dependencies: dict[str, Any | List[str]]):
     self._dependencies = dependencies
 
   @property

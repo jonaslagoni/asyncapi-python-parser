@@ -45,7 +45,7 @@ class SchemaObject:
     if 'additional_items' in input:
       self._additional_items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
     if 'items' in input:
-      self._items:  | List[] = input['items']
+      self._items: Any | List[Any] = input['items']
     if 'max_items' in input:
       self._max_items: int = input['max_items']
     if 'min_items' in input:
@@ -69,7 +69,7 @@ class SchemaObject:
     if 'pattern_properties' in input:
       self._pattern_properties: dict[str, CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool] = input['pattern_properties']
     if 'dependencies' in input:
-      self._dependencies: dict[str,  | List[str]] = input['dependencies']
+      self._dependencies: dict[str, Any | List[str]] = input['dependencies']
     if 'property_names' in input:
       self._property_names: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
     if 'const' in input:
@@ -91,11 +91,11 @@ class SchemaObject:
     if 'reserved_else' in input:
       self._reserved_else: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['reserved_else']
     if 'all_of' in input:
-      self._all_of: List[] = input['all_of']
+      self._all_of: List[Any] = input['all_of']
     if 'any_of' in input:
-      self._any_of: List[] = input['any_of']
+      self._any_of: List[Any] = input['any_of']
     if 'one_of' in input:
-      self._one_of: List[] = input['one_of']
+      self._one_of: List[Any] = input['one_of']
     if 'reserved_not' in input:
       self._reserved_not: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['reserved_not']
     if 'discriminator' in input:
@@ -241,10 +241,10 @@ class SchemaObject:
     self._additional_items = additional_items
 
   @property
-  def items(self) ->  | List[]:
+  def items(self) -> Any | List[Any]:
     return self._items
   @items.setter
-  def items(self, items:  | List[]):
+  def items(self, items: Any | List[Any]):
     self._items = items
 
   @property
@@ -325,10 +325,10 @@ class SchemaObject:
     self._pattern_properties = pattern_properties
 
   @property
-  def dependencies(self) -> dict[str,  | List[str]]:
+  def dependencies(self) -> dict[str, Any | List[str]]:
     return self._dependencies
   @dependencies.setter
-  def dependencies(self, dependencies: dict[str,  | List[str]]):
+  def dependencies(self, dependencies: dict[str, Any | List[str]]):
     self._dependencies = dependencies
 
   @property
@@ -402,24 +402,24 @@ class SchemaObject:
     self._reserved_else = reserved_else
 
   @property
-  def all_of(self) -> List[]:
+  def all_of(self) -> List[Any]:
     return self._all_of
   @all_of.setter
-  def all_of(self, all_of: List[]):
+  def all_of(self, all_of: List[Any]):
     self._all_of = all_of
 
   @property
-  def any_of(self) -> List[]:
+  def any_of(self) -> List[Any]:
     return self._any_of
   @any_of.setter
-  def any_of(self, any_of: List[]):
+  def any_of(self, any_of: List[Any]):
     self._any_of = any_of
 
   @property
-  def one_of(self) -> List[]:
+  def one_of(self) -> List[Any]:
     return self._one_of
   @one_of.setter
-  def one_of(self, one_of: List[]):
+  def one_of(self, one_of: List[Any]):
     self._one_of = one_of
 
   @property

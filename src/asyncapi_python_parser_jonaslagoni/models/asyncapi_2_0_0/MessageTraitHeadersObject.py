@@ -47,7 +47,7 @@ class MessageTraitHeadersObject:
     if 'additional_items' in input:
       self._additional_items: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['additional_items']
     if 'items' in input:
-      self._items:  | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool] = input['items']
+      self._items: Any | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool] = input['items']
     if 'max_items' in input:
       self._max_items: int = input['max_items']
     if 'min_items' in input:
@@ -71,7 +71,7 @@ class MessageTraitHeadersObject:
     if 'pattern_properties' in input:
       self._pattern_properties: dict[str, MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool] = input['pattern_properties']
     if 'dependencies' in input:
-      self._dependencies: dict[str,  | List[str]] = input['dependencies']
+      self._dependencies: dict[str, Any | List[str]] = input['dependencies']
     if 'property_names' in input:
       self._property_names: CoreSchemaMetaMinusSchemaObject.CoreSchemaMetaMinusSchemaObject | bool = input['property_names']
     if 'const' in input:
@@ -242,10 +242,10 @@ class MessageTraitHeadersObject:
     self._additional_items = additional_items
 
   @property
-  def items(self) ->  | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]:
+  def items(self) -> Any | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]:
     return self._items
   @items.setter
-  def items(self, items:  | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]):
+  def items(self, items: Any | List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]):
     self._items = items
 
   @property
@@ -326,10 +326,10 @@ class MessageTraitHeadersObject:
     self._pattern_properties = pattern_properties
 
   @property
-  def dependencies(self) -> dict[str,  | List[str]]:
+  def dependencies(self) -> dict[str, Any | List[str]]:
     return self._dependencies
   @dependencies.setter
-  def dependencies(self, dependencies: dict[str,  | List[str]]):
+  def dependencies(self, dependencies: dict[str, Any | List[str]]):
     self._dependencies = dependencies
 
   @property

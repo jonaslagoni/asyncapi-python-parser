@@ -17,7 +17,7 @@ class MessageBindingsObjectKafka:
     if 'binding_version' in input:
       self._binding_version: MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion = MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion(input['binding_version'])
     if 'key' in input:
-      self._key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[] = input['key']
+      self._key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any] = input['key']
     if 'schema_id_location' in input:
       self._schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation = BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation(input['schema_id_location'])
     if 'schema_id_payload_encoding' in input:
@@ -35,10 +35,10 @@ class MessageBindingsObjectKafka:
     self._binding_version = binding_version
 
   @property
-  def key(self) -> Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]:
+  def key(self) -> Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any]:
     return self._key
   @key.setter
-  def key(self, key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[]):
+  def key(self, key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any]):
     self._key = key
 
   @property

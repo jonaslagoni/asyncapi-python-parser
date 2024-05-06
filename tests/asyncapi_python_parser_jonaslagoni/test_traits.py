@@ -1,5 +1,5 @@
 import unittest
-from src.traits import apply_traits
+from src.asyncapi_python_parser_jonaslagoni.traits import apply_traits
 
 class TestTraits(unittest.TestCase):
   def test_traits_are_applied_correctly_for_v3(self):

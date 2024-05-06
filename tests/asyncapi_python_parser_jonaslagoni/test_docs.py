@@ -1,5 +1,5 @@
 import unittest
-from src.parser import parse, ParserOptions, ValidationError
+from src.asyncapi_python_parser_jonaslagoni.parser import parse, ParserOptions, ValidationError
 from os import listdir
 from os.path import isfile, join
 import json

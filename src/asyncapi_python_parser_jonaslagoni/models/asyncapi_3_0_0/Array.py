@@ -18,7 +18,7 @@ class Array:
       self._doc: str = input['doc']
     if 'aliases' in input:
       self._aliases: List[str] = input['aliases']
-    self._items: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[] = input['items']
+    self._items: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[Any] = input['items']
     if 'additional_properties' in input:
       self._additional_properties: dict[str, Any] = input['additional_properties']
 
@@ -55,10 +55,10 @@ class Array:
     self._aliases = aliases
 
   @property
-  def items(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[]:
+  def items(self) -> PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[Any]:
     return self._items
   @items.setter
-  def items(self, items: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[]):
+  def items(self, items: PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array | Map.Map | Fixed.Fixed | List[Any]):
     self._items = items
 
   @property
