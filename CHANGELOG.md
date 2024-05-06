@@ -2,6 +2,13 @@
 
 
 
+## v0.2.0 (2024-05-06)
+
+### Feature
+
+* feat: trigger release ([`0e06b41`](https://github.com/jonaslagoni/asyncapi-python-parser/commit/0e06b4168050c794a1c0493b98e501544283e38f))
+
+
 ## v0.1.0 (2024-05-06)
 
 ### Feature
