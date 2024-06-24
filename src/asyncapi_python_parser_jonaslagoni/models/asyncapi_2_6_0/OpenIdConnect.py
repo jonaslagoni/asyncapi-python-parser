@@ -1,47 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
-from . import OpenIdConnectType
-class OpenIdConnect: 
-  def __init__(self, input: Dict):
-    self._type: OpenIdConnectType.OpenIdConnectType = OpenIdConnectType.OpenIdConnectType(input['type'])
-    if 'description' in input:
-      self._description: str = input['description']
-    self._open_id_connect_url: str = input['open_id_connect_url']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 
-  @property
-  def type(self) -> OpenIdConnectType.OpenIdConnectType:
-    return self._type
-  @type.setter
-  def type(self, type: OpenIdConnectType.OpenIdConnectType):
-    self._type = type
+class OpenIdConnect(BaseModel): 
+  type: str = Field()
+  description: Optional[str] = Field(default=None)
+  open_id_connect_url: str = Field(alias='''openIdConnectUrl''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def open_id_connect_url(self) -> str:
-    return self._open_id_connect_url
-  @open_id_connect_url.setter
-  def open_id_connect_url(self, open_id_connect_url: str):
-    self._open_id_connect_url = open_id_connect_url
+    return serialized_self
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['type', 'description', 'open_id_connect_url', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['type', 'description', 'openIdConnectUrl', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OpenIdConnect(**json.loads(json_string))

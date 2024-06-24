@@ -1,22 +1,37 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import TopicItem
-class Topics: 
-  def __init__(self, input: Dict):
-    if 'extensions' in input:
-      self._extensions: dict[str, Any | TopicItem.TopicItem] = input['extensions']
+class Topics(BaseModel): 
+  extensions: Optional[dict[str, Any | TopicItem.TopicItem]] = Field(exclude=True, default=None)
 
-  @property
-  def extensions(self) -> dict[str, Any | TopicItem.TopicItem]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any | TopicItem.TopicItem]):
-    self._extensions = extensions
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
+    return serialized_self
 
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Topics(**json.loads(json_string))
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
+

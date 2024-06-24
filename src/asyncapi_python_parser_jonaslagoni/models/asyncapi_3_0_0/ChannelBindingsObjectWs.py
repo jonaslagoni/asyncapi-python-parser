@@ -1,61 +1,43 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
-from . import ChannelBindingsObjectWsBindingVersion
-from . import BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsWebsockets0x1x0ChannelMethod
 from . import SchemaObject
 from . import Reference
-class ChannelBindingsObjectWs: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: ChannelBindingsObjectWsBindingVersion.ChannelBindingsObjectWsBindingVersion = ChannelBindingsObjectWsBindingVersion.ChannelBindingsObjectWsBindingVersion(input['binding_version'])
-    if 'method' in input:
-      self._method: BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod.BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod = BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod.BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod(input['method'])
-    if 'query' in input:
-      self._query: SchemaObject.SchemaObject | bool | Reference.Reference = input['query']
-    if 'headers' in input:
-      self._headers: SchemaObject.SchemaObject | bool | Reference.Reference = input['headers']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class ChannelBindingsObjectWs(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  method: Optional[BindingsWebsockets0x1x0ChannelMethod.BindingsWebsockets0x1x0ChannelMethod] = Field(default=None)
+  query: Optional[Union[SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None)
+  headers: Optional[Union[SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> ChannelBindingsObjectWsBindingVersion.ChannelBindingsObjectWsBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: ChannelBindingsObjectWsBindingVersion.ChannelBindingsObjectWsBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def method(self) -> BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod.BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod:
-    return self._method
-  @method.setter
-  def method(self, method: BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod.BindingsMinusWebsocketsMinus0Dot1Dot0MinusChannelMethod):
-    self._method = method
+    return serialized_self
 
-  @property
-  def query(self) -> SchemaObject.SchemaObject | bool | Reference.Reference:
-    return self._query
-  @query.setter
-  def query(self, query: SchemaObject.SchemaObject | bool | Reference.Reference):
-    self._query = query
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'method', 'query', 'headers', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'method', 'query', 'headers', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def headers(self) -> SchemaObject.SchemaObject | bool | Reference.Reference:
-    return self._headers
-  @headers.setter
-  def headers(self, headers: SchemaObject.SchemaObject | bool | Reference.Reference):
-    self._headers = headers
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ChannelBindingsObjectWs(**json.loads(json_string))

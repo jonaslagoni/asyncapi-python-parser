@@ -1,50 +1,41 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Reference
 from . import OperationReplyAddress
-class OperationReply: 
-  def __init__(self, input: Dict):
-    if 'address' in input:
-      self._address: Reference.Reference | OperationReplyAddress.OperationReplyAddress = input['address']
-    if 'channel' in input:
-      self._channel: Reference.Reference = Reference.Reference(input['channel'])
-    if 'messages' in input:
-      self._messages: List[Reference.Reference] = input['messages']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class OperationReply(BaseModel): 
+  address: Optional[Union[Reference.Reference, OperationReplyAddress.OperationReplyAddress]] = Field(default=None)
+  channel: Optional[Reference.Reference] = Field(description='''A simple object to allow referencing other components in the specification, internally and externally.''', default=None)
+  messages: Optional[List[Reference.Reference]] = Field(description='''A list of $ref pointers pointing to the supported Message Objects that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the channel referenced in this operation reply. Every message processed by this operation MUST be valid against one, and only one, of the message objects referenced in this list. Please note the messages property value MUST be a list of Reference Objects and, therefore, MUST NOT contain Message Objects. However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.''', default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def address(self) -> Reference.Reference | OperationReplyAddress.OperationReplyAddress:
-    return self._address
-  @address.setter
-  def address(self, address: Reference.Reference | OperationReplyAddress.OperationReplyAddress):
-    self._address = address
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def channel(self) -> Reference.Reference:
-    return self._channel
-  @channel.setter
-  def channel(self, channel: Reference.Reference):
-    self._channel = channel
+    return serialized_self
 
-  @property
-  def messages(self) -> List[Reference.Reference]:
-    return self._messages
-  @messages.setter
-  def messages(self, messages: List[Reference.Reference]):
-    self._messages = messages
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['address', 'channel', 'messages', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['address', 'channel', 'messages', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationReply(**json.loads(json_string))

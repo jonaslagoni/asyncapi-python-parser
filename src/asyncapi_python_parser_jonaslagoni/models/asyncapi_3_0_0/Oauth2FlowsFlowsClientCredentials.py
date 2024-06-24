@@ -1,56 +1,41 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 
-class Oauth2FlowsFlowsClientCredentials: 
-  def __init__(self, input: Dict):
-    if 'authorization_url' in input:
-      self._authorization_url: str = input['authorization_url']
-    self._token_url: str = input['token_url']
-    if 'refresh_url' in input:
-      self._refresh_url: str = input['refresh_url']
-    self._available_scopes: dict[str, str] = input['available_scopes']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Oauth2FlowsFlowsClientCredentials(BaseModel): 
+  authorization_url: Optional[str] = Field(description='''The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.''', default=None, alias='''authorizationUrl''')
+  token_url: str = Field(description='''The token URL to be used for this flow. This MUST be in the form of an absolute URL.''', alias='''tokenUrl''')
+  refresh_url: Optional[str] = Field(description='''The URL to be used for obtaining refresh tokens. This MUST be in the form of an absolute URL.''', default=None, alias='''refreshUrl''')
+  available_scopes: dict[str, str] = Field(alias='''availableScopes''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def authorization_url(self) -> str:
-    return self._authorization_url
-  @authorization_url.setter
-  def authorization_url(self, authorization_url: str):
-    self._authorization_url = authorization_url
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def token_url(self) -> str:
-    return self._token_url
-  @token_url.setter
-  def token_url(self, token_url: str):
-    self._token_url = token_url
+    return serialized_self
 
-  @property
-  def refresh_url(self) -> str:
-    return self._refresh_url
-  @refresh_url.setter
-  def refresh_url(self, refresh_url: str):
-    self._refresh_url = refresh_url
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['authorization_url', 'token_url', 'refresh_url', 'available_scopes', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['authorizationUrl', 'tokenUrl', 'refreshUrl', 'availableScopes', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def available_scopes(self) -> dict[str, str]:
-    return self._available_scopes
-  @available_scopes.setter
-  def available_scopes(self, available_scopes: dict[str, str]):
-    self._available_scopes = available_scopes
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Oauth2FlowsFlowsClientCredentials(**json.loads(json_string))

@@ -1,49 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import ServerBindingsObjectSolaceBindingVersion
-class ServerBindingsObjectSolace: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion = ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion(input['binding_version'])
-    if 'msg_vpn' in input:
-      self._msg_vpn: str = input['msg_vpn']
-    if 'msv_vpn' in input:
-      self._msv_vpn: str = input['msv_vpn']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class ServerBindingsObjectSolace(BaseModel): 
+  binding_version: Optional[ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion] = Field(default=None, alias='''bindingVersion''')
+  msg_vpn: Optional[str] = Field(default=None, alias='''msgVpn''')
+  msv_vpn: Optional[str] = Field(description='''The name of the Virtual Private Network to connect to on the Solace broker.''', default=None, alias='''msvVpn''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectSolaceBindingVersion.ServerBindingsObjectSolaceBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def msg_vpn(self) -> str:
-    return self._msg_vpn
-  @msg_vpn.setter
-  def msg_vpn(self, msg_vpn: str):
-    self._msg_vpn = msg_vpn
+    return serialized_self
 
-  @property
-  def msv_vpn(self) -> str:
-    return self._msv_vpn
-  @msv_vpn.setter
-  def msv_vpn(self, msv_vpn: str):
-    self._msv_vpn = msv_vpn
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'msg_vpn', 'msv_vpn', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'msgVpn', 'msvVpn', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ServerBindingsObjectSolace(**json.loads(json_string))

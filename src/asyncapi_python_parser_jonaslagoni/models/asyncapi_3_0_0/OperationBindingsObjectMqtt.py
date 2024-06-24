@@ -1,61 +1,43 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
-from . import OperationBindingsObjectMqttBindingVersion
-from . import BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsMqtt0x2x0OperationQos
 from . import SchemaObject
 from . import Reference
-class OperationBindingsObjectMqtt: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: OperationBindingsObjectMqttBindingVersion.OperationBindingsObjectMqttBindingVersion = OperationBindingsObjectMqttBindingVersion.OperationBindingsObjectMqttBindingVersion(input['binding_version'])
-    if 'qos' in input:
-      self._qos: BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos.BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos = BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos.BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos(input['qos'])
-    if 'retain' in input:
-      self._retain: bool = input['retain']
-    if 'message_expiry_interval' in input:
-      self._message_expiry_interval: int | SchemaObject.SchemaObject | bool | Reference.Reference = input['message_expiry_interval']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class OperationBindingsObjectMqtt(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  qos: Optional[BindingsMqtt0x2x0OperationQos.BindingsMqtt0x2x0OperationQos] = Field(default=None)
+  retain: Optional[bool] = Field(default=None)
+  message_expiry_interval: Optional[Union[int, SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''messageExpiryInterval''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> OperationBindingsObjectMqttBindingVersion.OperationBindingsObjectMqttBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: OperationBindingsObjectMqttBindingVersion.OperationBindingsObjectMqttBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def qos(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos.BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos:
-    return self._qos
-  @qos.setter
-  def qos(self, qos: BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos.BindingsMinusMqttMinus0Dot2Dot0MinusOperationQos):
-    self._qos = qos
+    return serialized_self
 
-  @property
-  def retain(self) -> bool:
-    return self._retain
-  @retain.setter
-  def retain(self, retain: bool):
-    self._retain = retain
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'qos', 'retain', 'message_expiry_interval', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'qos', 'retain', 'messageExpiryInterval', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def message_expiry_interval(self) -> int | SchemaObject.SchemaObject | bool | Reference.Reference:
-    return self._message_expiry_interval
-  @message_expiry_interval.setter
-  def message_expiry_interval(self, message_expiry_interval: int | SchemaObject.SchemaObject | bool | Reference.Reference):
-    self._message_expiry_interval = message_expiry_interval
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationBindingsObjectMqtt(**json.loads(json_string))

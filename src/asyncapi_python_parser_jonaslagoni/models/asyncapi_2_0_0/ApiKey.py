@@ -1,48 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
-from . import ApiKeyType
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import ApiKeyIn
-class ApiKey: 
-  def __init__(self, input: Dict):
-    self._type: ApiKeyType.ApiKeyType = ApiKeyType.ApiKeyType(input['type'])
-    self._reserved_in: ApiKeyIn.ApiKeyIn = ApiKeyIn.ApiKeyIn(input['reserved_in'])
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class ApiKey(BaseModel): 
+  type: str = Field()
+  reserved_in: ApiKeyIn.ApiKeyIn = Field(alias='''in''')
+  description: Optional[str] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def type(self) -> ApiKeyType.ApiKeyType:
-    return self._type
-  @type.setter
-  def type(self, type: ApiKeyType.ApiKeyType):
-    self._type = type
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def reserved_in(self) -> ApiKeyIn.ApiKeyIn:
-    return self._reserved_in
-  @reserved_in.setter
-  def reserved_in(self, reserved_in: ApiKeyIn.ApiKeyIn):
-    self._reserved_in = reserved_in
+    return serialized_self
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['type', 'reserved_in', 'description', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['type', 'in', 'description', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ApiKey(**json.loads(json_string))

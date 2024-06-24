@@ -1,58 +1,41 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import OperationSchema
-class OperationBindingsObjectSns: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: str = input['binding_version']
-    if 'topic' in input:
-      self._topic: OperationSchema.OperationSchema = OperationSchema.OperationSchema(input['topic'])
-    if 'consumers' in input:
-      self._consumers: List[OperationSchema.OperationSchema] = input['consumers']
-    if 'delivery_policy' in input:
-      self._delivery_policy: OperationSchema.OperationSchema = OperationSchema.OperationSchema(input['delivery_policy'])
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class OperationBindingsObjectSns(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  topic: Optional[OperationSchema.OperationSchema] = Field(default=None)
+  consumers: Optional[List[OperationSchema.OperationSchema]] = Field(default=None)
+  delivery_policy: Optional[OperationSchema.OperationSchema] = Field(default=None, alias='''deliveryPolicy''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> str:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: str):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def topic(self) -> OperationSchema.OperationSchema:
-    return self._topic
-  @topic.setter
-  def topic(self, topic: OperationSchema.OperationSchema):
-    self._topic = topic
+    return serialized_self
 
-  @property
-  def consumers(self) -> List[OperationSchema.OperationSchema]:
-    return self._consumers
-  @consumers.setter
-  def consumers(self, consumers: List[OperationSchema.OperationSchema]):
-    self._consumers = consumers
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'topic', 'consumers', 'delivery_policy', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'topic', 'consumers', 'deliveryPolicy', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def delivery_policy(self) -> OperationSchema.OperationSchema:
-    return self._delivery_policy
-  @delivery_policy.setter
-  def delivery_policy(self, delivery_policy: OperationSchema.OperationSchema):
-    self._delivery_policy = delivery_policy
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationBindingsObjectSns(**json.loads(json_string))

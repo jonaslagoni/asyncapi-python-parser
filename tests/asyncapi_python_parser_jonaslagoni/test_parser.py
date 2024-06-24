@@ -1,14 +1,14 @@
 import unittest
 from src.asyncapi_python_parser_jonaslagoni.parser import parse, ParserOptions
 from src.asyncapi_python_parser_jonaslagoni.validator import ValidationError
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_3_0_0.AsyncApi3Dot0Dot0SchemaDot import AsyncApi3Dot0Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_6_0.AsyncApi2Dot6Dot0SchemaDot import AsyncApi2Dot6Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_5_0.AsyncApi2Dot5Dot0SchemaDot import AsyncApi2Dot5Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_4_0.AsyncApi2Dot4Dot0SchemaDot import AsyncApi2Dot4Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_3_0.AsyncApi2Dot3Dot0SchemaDot import AsyncApi2Dot3Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_2_0.AsyncApi2Dot2Dot0SchemaDot import AsyncApi2Dot2Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_1_0.AsyncApi2Dot1Dot0SchemaDot import AsyncApi2Dot1Dot0SchemaDot 
-from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_0_0.AsyncApi2Dot0Dot0SchemaDot import AsyncApi2Dot0Dot0SchemaDot 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_3_0_0.AsyncApi3x0x0Schemax import AsyncApi3x0x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_6_0.AsyncApi2x6x0Schemax import AsyncApi2x6x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_5_0.AsyncApi2x5x0Schemax import AsyncApi2x5x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_4_0.AsyncApi2x4x0Schemax import AsyncApi2x4x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_3_0.AsyncApi2x3x0Schemax import AsyncApi2x3x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_2_0.AsyncApi2x2x0Schemax import AsyncApi2x2x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_1_0.AsyncApi2x1x0Schemax import AsyncApi2x1x0Schemax 
+from src.asyncapi_python_parser_jonaslagoni.models.asyncapi_2_0_0.AsyncApi2x0x0Schemax import AsyncApi2x0x0Schemax 
 
 class TestParser(unittest.TestCase):
     def test_parser_with_no_validation(self):
@@ -42,7 +42,16 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '3.0.0', 'info': {'title': 'test title', 'version': '1.0.0'}}
-        instance: AsyncApi3Dot0Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi3x0x0Schemax = parse(data, ParserOptions({'validate_input': True}))
+        self.assertEqual('3.0.0', instance.asyncapi)
+
+    def test_parser_with_default_options(self):
+        """
+        Test that we can parse with default options
+        """
+
+        data = {'asyncapi': '3.0.0', 'info': {'title': 'test title', 'version': '1.0.0'}}
+        instance: AsyncApi3x0x0Schemax = parse(data)
         self.assertEqual('3.0.0', instance.asyncapi)
 
     def test_parser_with_asyncapi_2_6_0(self):
@@ -51,7 +60,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.6.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot6Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x6x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.6.0', instance.asyncapi.value)
 
     def test_parser_with_asyncapi_2_5_0(self):
@@ -60,7 +69,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.5.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot5Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x5x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.5.0', instance.asyncapi.value)
 
     def test_parser_with_asyncapi_2_4_0(self):
@@ -69,7 +78,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.4.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot4Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x4x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.4.0', instance.asyncapi.value)
 
     def test_parser_with_asyncapi_2_3_0(self):
@@ -78,7 +87,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.3.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot3Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x3x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.3.0', instance.asyncapi.value)
 
 
@@ -88,7 +97,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.2.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot2Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x2x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.2.0', instance.asyncapi.value)
 
     def test_parser_with_asyncapi_2_1_0(self):
@@ -97,7 +106,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.1.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot1Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x1x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.1.0', instance.asyncapi.value)
 
 
@@ -107,7 +116,7 @@ class TestParser(unittest.TestCase):
         """
 
         data = {'asyncapi': '2.0.0', 'info': {'title': 'test title', 'version': '1.0.0'}, 'channels': {}}
-        instance: AsyncApi2Dot0Dot0SchemaDot = parse(data, ParserOptions({'validate_input': True}))
+        instance: AsyncApi2x0x0Schemax = parse(data, ParserOptions({'validate_input': True}))
         self.assertEqual('2.0.0', instance.asyncapi.value)
 if __name__ == '__main__':
     unittest.main()

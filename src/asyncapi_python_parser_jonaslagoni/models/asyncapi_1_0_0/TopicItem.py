@@ -1,58 +1,41 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Message
-class TopicItem: 
-  def __init__(self, input: Dict):
-    if 'dollar_ref' in input:
-      self._dollar_ref: str = input['dollar_ref']
-    if 'publish' in input:
-      self._publish: Message.Message = Message.Message(input['publish'])
-    if 'subscribe' in input:
-      self._subscribe: Message.Message = Message.Message(input['subscribe'])
-    if 'deprecated' in input:
-      self._deprecated: bool = input['deprecated']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class TopicItem(BaseModel): 
+  dollar_ref: Optional[str] = Field(default=None, alias='''$ref''')
+  publish: Optional[Message.Message] = Field(default=None)
+  subscribe: Optional[Message.Message] = Field(default=None)
+  deprecated: Optional[bool] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def dollar_ref(self) -> str:
-    return self._dollar_ref
-  @dollar_ref.setter
-  def dollar_ref(self, dollar_ref: str):
-    self._dollar_ref = dollar_ref
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def publish(self) -> Message.Message:
-    return self._publish
-  @publish.setter
-  def publish(self, publish: Message.Message):
-    self._publish = publish
+    return serialized_self
 
-  @property
-  def subscribe(self) -> Message.Message:
-    return self._subscribe
-  @subscribe.setter
-  def subscribe(self, subscribe: Message.Message):
-    self._subscribe = subscribe
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['dollar_ref', 'publish', 'subscribe', 'deprecated', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['$ref', 'publish', 'subscribe', 'deprecated', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def deprecated(self) -> bool:
-    return self._deprecated
-  @deprecated.setter
-  def deprecated(self, deprecated: bool):
-    self._deprecated = deprecated
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return TopicItem(**json.loads(json_string))

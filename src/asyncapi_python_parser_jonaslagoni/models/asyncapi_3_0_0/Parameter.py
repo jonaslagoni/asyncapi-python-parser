@@ -1,67 +1,42 @@
 from __future__ import annotations
-import json
-from typing import List, Any, Dict
+from typing import List, Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 
-class Parameter: 
-  def __init__(self, input: Dict):
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'enum' in input:
-      self._enum: List[str] = input['enum']
-    if 'default' in input:
-      self._default: str = input['default']
-    if 'examples' in input:
-      self._examples: List[str] = input['examples']
-    if 'location' in input:
-      self._location: str = input['location']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Parameter(BaseModel): 
+  description: Optional[str] = Field(description='''A brief description of the parameter. This could contain examples of use. GitHub Flavored Markdown is allowed.''', default=None)
+  enum: Optional[List[str]] = Field(description='''An enumeration of string values to be used if the substitution options are from a limited set.''', default=None)
+  default: Optional[str] = Field(description='''The default value to use for substitution, and to send, if an alternate value is not supplied.''', default=None)
+  examples: Optional[List[str]] = Field(description='''An array of examples of the parameter value.''', default=None)
+  location: Optional[str] = Field(description='''A runtime expression that specifies the location of the parameter value''', default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def enum(self) -> List[str]:
-    return self._enum
-  @enum.setter
-  def enum(self, enum: List[str]):
-    self._enum = enum
+    return serialized_self
 
-  @property
-  def default(self) -> str:
-    return self._default
-  @default.setter
-  def default(self, default: str):
-    self._default = default
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['description', 'enum', 'default', 'examples', 'location', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['description', 'enum', 'default', 'examples', 'location', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def examples(self) -> List[str]:
-    return self._examples
-  @examples.setter
-  def examples(self, examples: List[str]):
-    self._examples = examples
-
-  @property
-  def location(self) -> str:
-    return self._location
-  @location.setter
-  def location(self, location: str):
-    self._location = location
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Parameter(**json.loads(json_string))

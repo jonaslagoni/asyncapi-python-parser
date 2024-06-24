@@ -1,4 +1,4 @@
-import { PYTHON_JSON_SERIALIZER_PRESET, PythonFileGenerator } from '@asyncapi/modelina';
+import { FormatHelpers, PYTHON_PYDANTIC_PRESET, PythonDefaultModelNameConstraints, PythonFileGenerator, pythonDefaultEnumKeyConstraints, pythonDefaultModelNameConstraints } from '@asyncapi/modelina';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -22,19 +22,63 @@ const filteredFiles: FileReadType[] = fs.readdirSync(schemaFiles).map((file) => 
 
 async function defaultGenerateModels(input: FileReadType, outputDir: string) {
   const inputObj = JSON.parse(String(input.fileContent));
+  inputObj['definitions']['avroSchema_v1'] = {}
+  inputObj['definitions']['schema'] = {"$ref": "#/definitions/json-schema-draft-07-schema"}
   const outputDirForVersion = path.resolve(__dirname, outputDir, `asyncapi_${input.asyncapiVersion}`);
-  // if (fs.existsSync(outputDirForVersion)) {
-  //   fs.rmSync(outputDirForVersion, { recursive: true });
-  // }
+  if (fs.existsSync(outputDirForVersion)) {
+    fs.rmSync(outputDirForVersion, { recursive: true });
+  }
   const generator = new PythonFileGenerator({ 
     importsStyle: 'implicit',
+    constraints: {
+      modelName: pythonDefaultModelNameConstraints({
+        NO_SPECIAL_CHAR: (value: string) => {
+          value = value.replace(/\./gi, 'x')
+          if(value.includes('binding')) {
+            return FormatHelpers.replaceSpecialCharacters(value, {
+              exclude: [' ', '_', '-'],
+              separator: '_'
+            });
+          } else {
+            return value.replace(/[^\w\s]/gi, ' ')
+          }
+        },
+        NO_RESERVED_KEYWORDS: (value: string) => {
+          const customReserved = ['record', 'field'];
+          value = PythonDefaultModelNameConstraints.NO_RESERVED_KEYWORDS(value);
+          const isReserved = customReserved.includes(value.toLowerCase());
+          if(isReserved) {
+            value = `reserved_${value}`
+          }
+          return value;
+        }
+      }),
+      enumKey: pythonDefaultEnumKeyConstraints({
+        NO_NUMBER_START_CHAR(value) {
+          const firstChar = value.charAt(0);
+          if (firstChar !== '' && !isNaN(+firstChar)) {
+            return `v_${value}`;
+          }
+          return value;
+        },
+        NO_SPECIAL_CHAR(value) {
+          value = value.replace(/\./gi, '_')
+          return FormatHelpers.replaceSpecialCharacters(value, {
+            exclude: [' ', '_'],
+            separator: '_'
+          });
+        }
+      })
+    },
     processorOptions: {
       jsonSchema: {
-        propertyNameForAdditionalProperties: 'extensions'
+        propertyNameForAdditionalProperties: 'extensions',
+        interpretSingleEnumAsConst: true
       }
     },
     presets: [
-      PYTHON_JSON_SERIALIZER_PRESET],
+      PYTHON_PYDANTIC_PRESET
+    ],
   });
   
   await generator.generateToFiles(inputObj, outputDirForVersion, {});

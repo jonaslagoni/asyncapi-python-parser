@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Reference
 from . import ServerVariable
 from . import UserPassword
@@ -18,127 +18,48 @@ from . import SaslGssapiSecurityScheme
 from . import Tag
 from . import ExternalDocs
 from . import ServerBindingsObject
-class Server: 
-  def __init__(self, input: Dict):
-    self._host: str = input['host']
-    if 'pathname' in input:
-      self._pathname: str = input['pathname']
-    if 'title' in input:
-      self._title: str = input['title']
-    if 'summary' in input:
-      self._summary: str = input['summary']
-    if 'description' in input:
-      self._description: str = input['description']
-    self._protocol: str = input['protocol']
-    if 'protocol_version' in input:
-      self._protocol_version: str = input['protocol_version']
-    if 'variables' in input:
-      self._variables: dict[str, Reference.Reference | ServerVariable.ServerVariable] = input['variables']
-    if 'security' in input:
-      self._security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme] = input['security']
-    if 'tags' in input:
-      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
-    if 'external_docs' in input:
-      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
-    if 'bindings' in input:
-      self._bindings: Reference.Reference | ServerBindingsObject.ServerBindingsObject = input['bindings']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Server(BaseModel): 
+  host: str = Field(description='''The server host name. It MAY include the port. This field supports Server Variables. Variable substitutions will be made when a variable is named in {braces}.''')
+  pathname: Optional[str] = Field(description='''The path to a resource in the host. This field supports Server Variables. Variable substitutions will be made when a variable is named in {braces}.''', default=None)
+  title: Optional[str] = Field(description='''A human-friendly title for the server.''', default=None)
+  summary: Optional[str] = Field(description='''A brief summary of the server.''', default=None)
+  description: Optional[str] = Field(description='''A longer description of the server. CommonMark is allowed.''', default=None)
+  protocol: str = Field(description='''The protocol this server supports for connection.''')
+  protocol_version: Optional[str] = Field(description='''An optional string describing the server. CommonMark syntax MAY be used for rich text representation.''', default=None, alias='''protocolVersion''')
+  variables: Optional[dict[str, Reference.Reference | ServerVariable.ServerVariable]] = Field(default=None)
+  security: Optional[List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]] = Field(description='''An array representing security requirements.''', default=None)
+  tags: Optional[List[Reference.Reference | Tag.Tag]] = Field(default=None)
+  external_docs: Optional[Union[Reference.Reference, ExternalDocs.ExternalDocs]] = Field(default=None, alias='''externalDocs''')
+  bindings: Optional[Union[Reference.Reference, ServerBindingsObject.ServerBindingsObject]] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def host(self) -> str:
-    return self._host
-  @host.setter
-  def host(self, host: str):
-    self._host = host
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def pathname(self) -> str:
-    return self._pathname
-  @pathname.setter
-  def pathname(self, pathname: str):
-    self._pathname = pathname
+    return serialized_self
 
-  @property
-  def title(self) -> str:
-    return self._title
-  @title.setter
-  def title(self, title: str):
-    self._title = title
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['host', 'pathname', 'title', 'summary', 'description', 'protocol', 'protocol_version', 'variables', 'security', 'tags', 'external_docs', 'bindings', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['host', 'pathname', 'title', 'summary', 'description', 'protocol', 'protocolVersion', 'variables', 'security', 'tags', 'externalDocs', 'bindings', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def summary(self) -> str:
-    return self._summary
-  @summary.setter
-  def summary(self, summary: str):
-    self._summary = summary
-
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
-
-  @property
-  def protocol(self) -> str:
-    return self._protocol
-  @protocol.setter
-  def protocol(self, protocol: str):
-    self._protocol = protocol
-
-  @property
-  def protocol_version(self) -> str:
-    return self._protocol_version
-  @protocol_version.setter
-  def protocol_version(self, protocol_version: str):
-    self._protocol_version = protocol_version
-
-  @property
-  def variables(self) -> dict[str, Reference.Reference | ServerVariable.ServerVariable]:
-    return self._variables
-  @variables.setter
-  def variables(self, variables: dict[str, Reference.Reference | ServerVariable.ServerVariable]):
-    self._variables = variables
-
-  @property
-  def security(self) -> List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]:
-    return self._security
-  @security.setter
-  def security(self, security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]):
-    self._security = security
-
-  @property
-  def tags(self) -> List[Reference.Reference | Tag.Tag]:
-    return self._tags
-  @tags.setter
-  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
-    self._tags = tags
-
-  @property
-  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
-    return self._external_docs
-  @external_docs.setter
-  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
-    self._external_docs = external_docs
-
-  @property
-  def bindings(self) -> Reference.Reference | ServerBindingsObject.ServerBindingsObject:
-    return self._bindings
-  @bindings.setter
-  def bindings(self, bindings: Reference.Reference | ServerBindingsObject.ServerBindingsObject):
-    self._bindings = bindings
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Server(**json.loads(json_string))

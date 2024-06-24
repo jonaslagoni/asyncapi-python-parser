@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import OperationBindingsObjectHttp
 from . import OperationBindingsObjectAmqp
 from . import OperationBindingsObjectMqtt
@@ -9,165 +9,52 @@ from . import OperationBindingsObjectNats
 from . import OperationBindingsObjectSns
 from . import OperationBindingsObjectSqs
 from . import OperationBindingsObjectSolace
-class OperationBindingsObject: 
-  def __init__(self, input: Dict):
-    if 'http' in input:
-      self._http: OperationBindingsObjectHttp.OperationBindingsObjectHttp = OperationBindingsObjectHttp.OperationBindingsObjectHttp(input['http'])
-    if 'ws' in input:
-      self._ws: Any = input['ws']
-    if 'amqp' in input:
-      self._amqp: OperationBindingsObjectAmqp.OperationBindingsObjectAmqp = OperationBindingsObjectAmqp.OperationBindingsObjectAmqp(input['amqp'])
-    if 'amqp1' in input:
-      self._amqp1: Any = input['amqp1']
-    if 'mqtt' in input:
-      self._mqtt: OperationBindingsObjectMqtt.OperationBindingsObjectMqtt = OperationBindingsObjectMqtt.OperationBindingsObjectMqtt(input['mqtt'])
-    if 'kafka' in input:
-      self._kafka: OperationBindingsObjectKafka.OperationBindingsObjectKafka = OperationBindingsObjectKafka.OperationBindingsObjectKafka(input['kafka'])
-    if 'anypointmq' in input:
-      self._anypointmq: Any = input['anypointmq']
-    if 'nats' in input:
-      self._nats: OperationBindingsObjectNats.OperationBindingsObjectNats = OperationBindingsObjectNats.OperationBindingsObjectNats(input['nats'])
-    if 'jms' in input:
-      self._jms: Any = input['jms']
-    if 'sns' in input:
-      self._sns: OperationBindingsObjectSns.OperationBindingsObjectSns = OperationBindingsObjectSns.OperationBindingsObjectSns(input['sns'])
-    if 'sqs' in input:
-      self._sqs: OperationBindingsObjectSqs.OperationBindingsObjectSqs = OperationBindingsObjectSqs.OperationBindingsObjectSqs(input['sqs'])
-    if 'stomp' in input:
-      self._stomp: Any = input['stomp']
-    if 'redis' in input:
-      self._redis: Any = input['redis']
-    if 'ibmmq' in input:
-      self._ibmmq: Any = input['ibmmq']
-    if 'solace' in input:
-      self._solace: OperationBindingsObjectSolace.OperationBindingsObjectSolace = OperationBindingsObjectSolace.OperationBindingsObjectSolace(input['solace'])
-    if 'googlepubsub' in input:
-      self._googlepubsub: Any = input['googlepubsub']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class OperationBindingsObject(BaseModel): 
+  http: Optional[OperationBindingsObjectHttp.OperationBindingsObjectHttp] = Field(default=None)
+  ws: Optional[Any] = Field(default=None)
+  amqp: Optional[OperationBindingsObjectAmqp.OperationBindingsObjectAmqp] = Field(default=None)
+  amqp1: Optional[Any] = Field(default=None)
+  mqtt: Optional[OperationBindingsObjectMqtt.OperationBindingsObjectMqtt] = Field(default=None)
+  kafka: Optional[OperationBindingsObjectKafka.OperationBindingsObjectKafka] = Field(default=None)
+  anypointmq: Optional[Any] = Field(default=None)
+  nats: Optional[OperationBindingsObjectNats.OperationBindingsObjectNats] = Field(default=None)
+  jms: Optional[Any] = Field(default=None)
+  sns: Optional[OperationBindingsObjectSns.OperationBindingsObjectSns] = Field(default=None)
+  sqs: Optional[OperationBindingsObjectSqs.OperationBindingsObjectSqs] = Field(default=None)
+  stomp: Optional[Any] = Field(default=None)
+  redis: Optional[Any] = Field(default=None)
+  ibmmq: Optional[Any] = Field(default=None)
+  solace: Optional[OperationBindingsObjectSolace.OperationBindingsObjectSolace] = Field(default=None)
+  googlepubsub: Optional[Any] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def http(self) -> OperationBindingsObjectHttp.OperationBindingsObjectHttp:
-    return self._http
-  @http.setter
-  def http(self, http: OperationBindingsObjectHttp.OperationBindingsObjectHttp):
-    self._http = http
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def ws(self) -> Any:
-    return self._ws
-  @ws.setter
-  def ws(self, ws: Any):
-    self._ws = ws
+    return serialized_self
 
-  @property
-  def amqp(self) -> OperationBindingsObjectAmqp.OperationBindingsObjectAmqp:
-    return self._amqp
-  @amqp.setter
-  def amqp(self, amqp: OperationBindingsObjectAmqp.OperationBindingsObjectAmqp):
-    self._amqp = amqp
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['http', 'ws', 'amqp', 'amqp1', 'mqtt', 'kafka', 'anypointmq', 'nats', 'jms', 'sns', 'sqs', 'stomp', 'redis', 'ibmmq', 'solace', 'googlepubsub', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['http', 'ws', 'amqp', 'amqp1', 'mqtt', 'kafka', 'anypointmq', 'nats', 'jms', 'sns', 'sqs', 'stomp', 'redis', 'ibmmq', 'solace', 'googlepubsub', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def amqp1(self) -> Any:
-    return self._amqp1
-  @amqp1.setter
-  def amqp1(self, amqp1: Any):
-    self._amqp1 = amqp1
-
-  @property
-  def mqtt(self) -> OperationBindingsObjectMqtt.OperationBindingsObjectMqtt:
-    return self._mqtt
-  @mqtt.setter
-  def mqtt(self, mqtt: OperationBindingsObjectMqtt.OperationBindingsObjectMqtt):
-    self._mqtt = mqtt
-
-  @property
-  def kafka(self) -> OperationBindingsObjectKafka.OperationBindingsObjectKafka:
-    return self._kafka
-  @kafka.setter
-  def kafka(self, kafka: OperationBindingsObjectKafka.OperationBindingsObjectKafka):
-    self._kafka = kafka
-
-  @property
-  def anypointmq(self) -> Any:
-    return self._anypointmq
-  @anypointmq.setter
-  def anypointmq(self, anypointmq: Any):
-    self._anypointmq = anypointmq
-
-  @property
-  def nats(self) -> OperationBindingsObjectNats.OperationBindingsObjectNats:
-    return self._nats
-  @nats.setter
-  def nats(self, nats: OperationBindingsObjectNats.OperationBindingsObjectNats):
-    self._nats = nats
-
-  @property
-  def jms(self) -> Any:
-    return self._jms
-  @jms.setter
-  def jms(self, jms: Any):
-    self._jms = jms
-
-  @property
-  def sns(self) -> OperationBindingsObjectSns.OperationBindingsObjectSns:
-    return self._sns
-  @sns.setter
-  def sns(self, sns: OperationBindingsObjectSns.OperationBindingsObjectSns):
-    self._sns = sns
-
-  @property
-  def sqs(self) -> OperationBindingsObjectSqs.OperationBindingsObjectSqs:
-    return self._sqs
-  @sqs.setter
-  def sqs(self, sqs: OperationBindingsObjectSqs.OperationBindingsObjectSqs):
-    self._sqs = sqs
-
-  @property
-  def stomp(self) -> Any:
-    return self._stomp
-  @stomp.setter
-  def stomp(self, stomp: Any):
-    self._stomp = stomp
-
-  @property
-  def redis(self) -> Any:
-    return self._redis
-  @redis.setter
-  def redis(self, redis: Any):
-    self._redis = redis
-
-  @property
-  def ibmmq(self) -> Any:
-    return self._ibmmq
-  @ibmmq.setter
-  def ibmmq(self, ibmmq: Any):
-    self._ibmmq = ibmmq
-
-  @property
-  def solace(self) -> OperationBindingsObjectSolace.OperationBindingsObjectSolace:
-    return self._solace
-  @solace.setter
-  def solace(self, solace: OperationBindingsObjectSolace.OperationBindingsObjectSolace):
-    self._solace = solace
-
-  @property
-  def googlepubsub(self) -> Any:
-    return self._googlepubsub
-  @googlepubsub.setter
-  def googlepubsub(self, googlepubsub: Any):
-    self._googlepubsub = googlepubsub
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationBindingsObject(**json.loads(json_string))

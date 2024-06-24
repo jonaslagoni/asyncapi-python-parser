@@ -1,39 +1,39 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import SaslScramSecuritySchemeType
-class SaslScramSecurityScheme: 
-  def __init__(self, input: Dict):
-    self._type: SaslScramSecuritySchemeType.SaslScramSecuritySchemeType = SaslScramSecuritySchemeType.SaslScramSecuritySchemeType(input['type'])
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class SaslScramSecurityScheme(BaseModel): 
+  type: SaslScramSecuritySchemeType.SaslScramSecuritySchemeType = Field(description='''The type of the security scheme.''')
+  description: Optional[str] = Field(description='''A short description for security scheme.''', default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def type(self) -> SaslScramSecuritySchemeType.SaslScramSecuritySchemeType:
-    return self._type
-  @type.setter
-  def type(self, type: SaslScramSecuritySchemeType.SaslScramSecuritySchemeType):
-    self._type = type
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+    return serialized_self
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['type', 'description', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['type', 'description', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return SaslScramSecurityScheme(**json.loads(json_string))

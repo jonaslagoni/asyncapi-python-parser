@@ -1,113 +1,47 @@
 from __future__ import annotations
-import json
-from typing import List, Any, Dict
-from . import OperationBindingsObjectAmqpBindingVersion
-from . import BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode
-class OperationBindingsObjectAmqp: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion = OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion(input['binding_version'])
-    if 'expiration' in input:
-      self._expiration: int = input['expiration']
-    if 'user_id' in input:
-      self._user_id: str = input['user_id']
-    if 'cc' in input:
-      self._cc: List[str] = input['cc']
-    if 'priority' in input:
-      self._priority: int = input['priority']
-    if 'delivery_mode' in input:
-      self._delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode = BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode(input['delivery_mode'])
-    if 'mandatory' in input:
-      self._mandatory: bool = input['mandatory']
-    if 'bcc' in input:
-      self._bcc: List[str] = input['bcc']
-    if 'timestamp' in input:
-      self._timestamp: bool = input['timestamp']
-    if 'ack' in input:
-      self._ack: bool = input['ack']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from typing import List, Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsAmqp0x3x0OperationDeliveryMode
+class OperationBindingsObjectAmqp(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  expiration: Optional[int] = Field(default=None)
+  user_id: Optional[str] = Field(default=None, alias='''userId''')
+  cc: Optional[List[str]] = Field(default=None)
+  priority: Optional[int] = Field(default=None)
+  delivery_mode: Optional[BindingsAmqp0x3x0OperationDeliveryMode.BindingsAmqp0x3x0OperationDeliveryMode] = Field(default=None, alias='''deliveryMode''')
+  mandatory: Optional[bool] = Field(default=None)
+  bcc: Optional[List[str]] = Field(default=None)
+  timestamp: Optional[bool] = Field(default=None)
+  ack: Optional[bool] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: OperationBindingsObjectAmqpBindingVersion.OperationBindingsObjectAmqpBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def expiration(self) -> int:
-    return self._expiration
-  @expiration.setter
-  def expiration(self, expiration: int):
-    self._expiration = expiration
+    return serialized_self
 
-  @property
-  def user_id(self) -> str:
-    return self._user_id
-  @user_id.setter
-  def user_id(self, user_id: str):
-    self._user_id = user_id
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'expiration', 'user_id', 'cc', 'priority', 'delivery_mode', 'mandatory', 'bcc', 'timestamp', 'ack', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'expiration', 'userId', 'cc', 'priority', 'deliveryMode', 'mandatory', 'bcc', 'timestamp', 'ack', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def cc(self) -> List[str]:
-    return self._cc
-  @cc.setter
-  def cc(self, cc: List[str]):
-    self._cc = cc
-
-  @property
-  def priority(self) -> int:
-    return self._priority
-  @priority.setter
-  def priority(self, priority: int):
-    self._priority = priority
-
-  @property
-  def delivery_mode(self) -> BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode:
-    return self._delivery_mode
-  @delivery_mode.setter
-  def delivery_mode(self, delivery_mode: BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode.BindingsMinusAmqpMinus0Dot3Dot0MinusOperationDeliveryMode):
-    self._delivery_mode = delivery_mode
-
-  @property
-  def mandatory(self) -> bool:
-    return self._mandatory
-  @mandatory.setter
-  def mandatory(self, mandatory: bool):
-    self._mandatory = mandatory
-
-  @property
-  def bcc(self) -> List[str]:
-    return self._bcc
-  @bcc.setter
-  def bcc(self, bcc: List[str]):
-    self._bcc = bcc
-
-  @property
-  def timestamp(self) -> bool:
-    return self._timestamp
-  @timestamp.setter
-  def timestamp(self, timestamp: bool):
-    self._timestamp = timestamp
-
-  @property
-  def ack(self) -> bool:
-    return self._ack
-  @ack.setter
-  def ack(self, ack: bool):
-    self._ack = ack
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationBindingsObjectAmqp(**json.loads(json_string))
