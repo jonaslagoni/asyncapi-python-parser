@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import BindingsMqtt0x2x0ServerLastWill
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 from . import Reference
 class ServerBindingsObjectMqtt(BaseModel): 
   binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
@@ -10,8 +10,8 @@ class ServerBindingsObjectMqtt(BaseModel):
   clean_session: Optional[bool] = Field(default=None, alias='''cleanSession''')
   last_will: Optional[BindingsMqtt0x2x0ServerLastWill.BindingsMqtt0x2x0ServerLastWill] = Field(default=None, alias='''lastWill''')
   keep_alive: Optional[int] = Field(default=None, alias='''keepAlive''')
-  session_expiry_interval: Optional[Union[int, SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''sessionExpiryInterval''')
-  maximum_packet_size: Optional[Union[int, SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''maximumPacketSize''')
+  session_expiry_interval: Optional[Union[int, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''sessionExpiryInterval''')
+  maximum_packet_size: Optional[Union[int, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''maximumPacketSize''')
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

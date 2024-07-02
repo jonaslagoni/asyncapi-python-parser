@@ -2,14 +2,13 @@
   "name": "generator",
   "version": "0.0.0",
   "dependencies": {
-    "@asyncapi/modelina": "4.0.0-next.25"
+    "@asyncapi/modelina": "4.0.0-next.52"
   },
   "devDependencies": {
     "typescript": "^5.3.3",
     "ts-node": "^10.9.2"
   },
   "scripts": {
-    "generate": "ts-node ./src/generate-models.ts",
-    "generate:debug": "ts-node ./src/generate-models.ts"
+    "generate": "ts-node ./src/generate-models.ts"
   }
 }

@@ -6,8 +6,8 @@ from . import OperationTrait
 from . import Tag
 from . import ExternalDocs
 from . import BindingsObject
-from . import MessageOneOf1OneOf0
-from . import MessageOneOf1OneOf1
+from . import MessageObjectMultiple
+from . import MessageObject
 class Operation(BaseModel): 
   traits: Optional[List[Reference.Reference | OperationTrait.OperationTrait]] = Field(description='''A list of traits to apply to the operation object.''', default=None)
   summary: Optional[str] = Field(description='''A short summary of what the operation is about.''', default=None)
@@ -17,7 +17,7 @@ class Operation(BaseModel):
   external_docs: Optional[ExternalDocs.ExternalDocs] = Field(description='''Allows referencing an external resource for extended documentation.''', default=None, alias='''externalDocs''')
   operation_id: Optional[str] = Field(default=None, alias='''operationId''')
   bindings: Optional[BindingsObject.BindingsObject] = Field(description='''Map describing protocol-specific definitions for a server.''', default=None)
-  message: Optional[Union[Reference.Reference, MessageOneOf1OneOf0.MessageOneOf1OneOf0 | MessageOneOf1OneOf1.MessageOneOf1OneOf1]] = Field(description='''Describes a message received on a given channel and operation.''', default=None)
+  message: Optional[Union[Reference.Reference, MessageObjectMultiple.MessageObjectMultiple, MessageObject.MessageObject]] = Field(description='''Describes a message received on a given channel and operation.''', default=None)
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

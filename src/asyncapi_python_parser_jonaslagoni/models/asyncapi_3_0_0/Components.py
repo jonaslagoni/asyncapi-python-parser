@@ -2,7 +2,8 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Reference
-from . import AnySchemaObject
+from . import MultiFormatSchema
+from . import CoreSchemaMetaSchemaObject
 from . import Server
 from . import Channel
 from . import ServerVariable
@@ -33,7 +34,7 @@ from . import MessageBindingsObject
 from . import Tag
 from . import ExternalDocs
 class Components(BaseModel): 
-  schemas: Optional[dict[str, Any | Reference.Reference | AnySchemaObject.AnySchemaObject | bool]] = Field(default=None)
+  schemas: Optional[dict[str, Any | Reference.Reference | MultiFormatSchema.MultiFormatSchema | CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool]] = Field(default=None)
   servers: Optional[dict[str, Any | Reference.Reference | Server.Server]] = Field(default=None)
   channels: Optional[dict[str, Any | Reference.Reference | Channel.Channel]] = Field(default=None)
   server_variables: Optional[dict[str, Any | Reference.Reference | ServerVariable.ServerVariable]] = Field(default=None, alias='''serverVariables''')

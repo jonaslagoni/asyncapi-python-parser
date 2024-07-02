@@ -35,7 +35,6 @@ class AsyncApi3x0x0Schemax(BaseModel):
   def unwrap_extensions(cls, data):
     json_properties = list(data.keys())
     known_object_properties = ['asyncapi', 'id', 'info', 'servers', 'default_content_type', 'channels', 'operations', 'components', 'extensions']
-    
     unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
     # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
     if len(unknown_object_properties) == 0: 

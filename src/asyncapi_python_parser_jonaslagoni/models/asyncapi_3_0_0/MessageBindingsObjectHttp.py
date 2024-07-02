@@ -1,10 +1,10 @@
 from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 class MessageBindingsObjectHttp(BaseModel): 
   binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
-  headers: Optional[Union[SchemaObject.SchemaObject, bool]] = Field(default=None)
+  headers: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject, bool]] = Field(default=None)
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

@@ -7,39 +7,39 @@ class ModelTesting(unittest.TestCase):
     """
     We should be able to serialize and de-serialize AsyncAPI documents with custom extensions. 
     """
-    data = {'asyncapi': '3.0.0', "x-test": "test"}
+    data = {"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"x-test":"test"}
     instance = AsyncApi3x0x0Schemax(**data)
-    json_data = instance.model_dump_json(by_alias=True)
+    json_data = instance.model_dump_json(by_alias=True, exclude_none=True)
     instance2 = AsyncApi3x0x0Schemax.model_validate_json(json_data)
-    json_data2 = instance2.model_dump_json(by_alias=True)
+    json_data2 = instance2.model_dump_json(by_alias=True, exclude_none=True)
 
-    self.assertEqual('', json_data)
+    self.assertEqual('{"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"x-test":"test"}', json_data)
     self.assertEqual(json_data, json_data2)
     
   def test_should_be_able_to_serialize_unions(self):
     """
     We should be able to serialize and de-serialize AsyncAPI documents with unions. 
     """
-    data = {'asyncapi': '3.0.0', "channels": {"test": {"$ref": "test"}}}
+    data = {"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"channels":{"test": {"$ref":"test"}}}
     instance = AsyncApi3x0x0Schemax(**data)
-    json_data = instance.model_dump_json(by_alias=True)
+    json_data = instance.model_dump_json(by_alias=True, exclude_none=True)
     instance2 = AsyncApi3x0x0Schemax.model_validate_json(json_data)
-    json_data2 = instance2.model_dump_json(by_alias=True)
+    json_data2 = instance2.model_dump_json(by_alias=True, exclude_none=True)
 
-    self.assertEqual('', json_data)
+    self.assertEqual('{"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"channels":{"test":{"$ref":"test"}}}', json_data)
     self.assertEqual(json_data, json_data2)
 
   def test_should_be_able_to_serialize_unions_2(self):
     """
     We should be able to serialize and de-serialize AsyncAPI documents with unions 2. 
     """
-    data = {'asyncapi': '3.0.0', "channels": {"test": {"description": "test"}}}
+    data = {"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"channels":{"test":{"description":"test"}}}
     instance = AsyncApi3x0x0Schemax(**data)
-    json_data = instance.model_dump_json(by_alias=True)
+    json_data = instance.model_dump_json(by_alias=True, exclude_none=True)
     instance2 = AsyncApi3x0x0Schemax.model_validate_json(json_data)
-    json_data2 = instance2.model_dump_json(by_alias=True)
+    json_data2 = instance2.model_dump_json(by_alias=True, exclude_none=True)
 
-    self.assertEqual('', json_data)
+    self.assertEqual('{"asyncapi":"3.0.0","info":{"title":"Test","version":"0.0.0"},"channels":{"test":{"description":"test"}}}', json_data)
     self.assertEqual(json_data, json_data2)
 
 if __name__ == '__main__':

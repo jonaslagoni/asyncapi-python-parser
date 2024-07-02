@@ -2,11 +2,11 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import OperationBindingsObjectKafkaBindingVersion
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 class OperationBindingsObjectKafka(BaseModel): 
   binding_version: Optional[OperationBindingsObjectKafkaBindingVersion.OperationBindingsObjectKafkaBindingVersion] = Field(default=None, alias='''bindingVersion''')
-  group_id: Optional[Union[SchemaObject.SchemaObject, bool]] = Field(default=None, alias='''groupId''')
-  client_id: Optional[Union[SchemaObject.SchemaObject, bool]] = Field(default=None, alias='''clientId''')
+  group_id: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''groupId''')
+  client_id: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''clientId''')
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

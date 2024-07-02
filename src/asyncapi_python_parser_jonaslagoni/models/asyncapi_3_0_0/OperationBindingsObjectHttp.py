@@ -2,11 +2,11 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import BindingsHttp0x2x0OperationMethod
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 class OperationBindingsObjectHttp(BaseModel): 
   binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
   method: Optional[BindingsHttp0x2x0OperationMethod.BindingsHttp0x2x0OperationMethod] = Field(default=None)
-  query: Optional[Union[SchemaObject.SchemaObject, bool]] = Field(default=None)
+  query: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject, bool]] = Field(default=None)
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

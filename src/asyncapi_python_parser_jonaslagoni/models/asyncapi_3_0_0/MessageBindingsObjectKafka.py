@@ -3,11 +3,11 @@ from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import MessageBindingsObjectKafkaBindingVersion
 from . import Reference
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 from . import BindingsKafka0x4x0MessageSchemaIdLocation
 class MessageBindingsObjectKafka(BaseModel): 
   binding_version: Optional[MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion] = Field(default=None, alias='''bindingVersion''')
-  key: Optional[Union[Reference.Reference, SchemaObject.SchemaObject | bool, Any]] = Field(default=None)
+  key: Optional[Union[Reference.Reference, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Any]] = Field(default=None)
   schema_id_location: Optional[BindingsKafka0x4x0MessageSchemaIdLocation.BindingsKafka0x4x0MessageSchemaIdLocation] = Field(default=None, alias='''schemaIdLocation''')
   schema_id_payload_encoding: Optional[str] = Field(default=None, alias='''schemaIdPayloadEncoding''')
   schema_lookup_strategy: Optional[str] = Field(default=None, alias='''schemaLookupStrategy''')

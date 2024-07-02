@@ -6,8 +6,8 @@ from . import Reference
 from . import Server
 from . import ChannelItem
 from . import ServerVariable
-from . import MessageOneOf1OneOf0
-from . import MessageOneOf1OneOf1
+from . import MessageObjectMultiple
+from . import MessageObject
 from . import UserPassword
 from . import ApiKey
 from . import X509
@@ -30,7 +30,7 @@ class Components(BaseModel):
   servers: Optional[dict[str, Reference.Reference | Server.Server]] = Field(default=None)
   channels: Optional[dict[str, ChannelItem.ChannelItem]] = Field(default=None)
   server_variables: Optional[dict[str, Reference.Reference | ServerVariable.ServerVariable]] = Field(default=None, alias='''serverVariables''')
-  messages: Optional[dict[str, Reference.Reference | MessageOneOf1OneOf0.MessageOneOf1OneOf0 | MessageOneOf1OneOf1.MessageOneOf1OneOf1]] = Field(default=None)
+  messages: Optional[dict[str, Reference.Reference | MessageObjectMultiple.MessageObjectMultiple | MessageObject.MessageObject]] = Field(default=None)
   security_schemes: Optional[dict[str, Any | Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]] = Field(default=None, alias='''securitySchemes''')
   parameters: Optional[dict[str, Reference.Reference | Parameter.Parameter]] = Field(default=None)
   correlation_ids: Optional[dict[str, Any | Reference.Reference | CorrelationId.CorrelationId]] = Field(default=None, alias='''correlationIds''')

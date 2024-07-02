@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
-from . import MessageOneOf1OneOf1PayloadObject
+from . import MessageObjectPayloadObject
 from . import JsonSchemaDraft07SchemaSimpleTypes
 class CoreSchemaMetaSchemaObject(BaseModel): 
   dollar_id: Optional[str] = Field(default=None, alias='''$id''')
@@ -23,7 +23,7 @@ class CoreSchemaMetaSchemaObject(BaseModel):
   min_length: Optional[int] = Field(default=None, alias='''minLength''')
   pattern: Optional[str] = Field(default=None)
   additional_items: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''additionalItems''')
-  items: Optional[Union[CoreSchemaMetaSchemaObject | bool, List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]]] = Field(default=None)
+  items: Optional[Union[CoreSchemaMetaSchemaObject | bool, List[MessageObjectPayloadObject.MessageObjectPayloadObject | bool]]] = Field(default=None)
   max_items: Optional[int] = Field(default=None, alias='''maxItems''')
   min_items: Optional[int] = Field(default=None, alias='''minItems''')
   unique_items: Optional[bool] = Field(default=None, alias='''uniqueItems''')
@@ -32,9 +32,9 @@ class CoreSchemaMetaSchemaObject(BaseModel):
   min_properties: Optional[int] = Field(default=None, alias='''minProperties''')
   required: Optional[List[str]] = Field(default=None)
   additional_properties: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''additionalProperties''')
-  definitions: Optional[dict[str, MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None)
-  properties: Optional[dict[str, MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None)
-  pattern_properties: Optional[dict[str, MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None, alias='''patternProperties''')
+  definitions: Optional[dict[str, MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None)
+  properties: Optional[dict[str, MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None)
+  pattern_properties: Optional[dict[str, MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None, alias='''patternProperties''')
   dependencies: Optional[dict[str, CoreSchemaMetaSchemaObject | bool | List[str]]] = Field(default=None)
   property_names: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''propertyNames''')
   const: Optional[Any] = Field(description='''Configuration for the OAuth Authorization Code flow.''', default=None)
@@ -46,9 +46,9 @@ class CoreSchemaMetaSchemaObject(BaseModel):
   reserved_if: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''if''')
   then: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None)
   reserved_else: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''else''')
-  all_of: Optional[List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None, alias='''allOf''')
-  any_of: Optional[List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None, alias='''anyOf''')
-  one_of: Optional[List[MessageOneOf1OneOf1PayloadObject.MessageOneOf1OneOf1PayloadObject | bool]] = Field(default=None, alias='''oneOf''')
+  all_of: Optional[List[MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None, alias='''allOf''')
+  any_of: Optional[List[MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None, alias='''anyOf''')
+  one_of: Optional[List[MessageObjectPayloadObject.MessageObjectPayloadObject | bool]] = Field(default=None, alias='''oneOf''')
   reserved_not: Optional[Union[CoreSchemaMetaSchemaObject, bool]] = Field(default=None, alias='''not''')
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 

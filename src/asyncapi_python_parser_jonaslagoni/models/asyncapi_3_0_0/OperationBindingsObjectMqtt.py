@@ -2,13 +2,13 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import BindingsMqtt0x2x0OperationQos
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 from . import Reference
 class OperationBindingsObjectMqtt(BaseModel): 
   binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
   qos: Optional[BindingsMqtt0x2x0OperationQos.BindingsMqtt0x2x0OperationQos] = Field(default=None)
   retain: Optional[bool] = Field(default=None)
-  message_expiry_interval: Optional[Union[int, SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''messageExpiryInterval''')
+  message_expiry_interval: Optional[Union[int, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''messageExpiryInterval''')
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')

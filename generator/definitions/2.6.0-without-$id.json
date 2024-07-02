@@ -1174,278 +1174,287 @@
                     "$ref": "#/definitions/Reference"
                 },
                 {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "required": [
-                                "oneOf"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "oneOf": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/message"
-                                    }
-                                }
+                    "$ref": "#/definitions/messageObjectMultiple"
+                },
+                {
+                    "$ref": "#/definitions/messageObject"
+                }
+            ]
+        },
+        "messageObjectMultiple": {
+            "type": "object",
+            "required": [
+                "oneOf"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "oneOf": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/definitions/Reference"
+                            },
+                            {
+                                "$ref": "#/definitions/messageObject"
                             }
+                        ]
+                    }
+                }
+            }
+        },
+        "messageObject": {
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^x-[\\w\\d\\.\\x2d_]+$": {
+                    "$ref": "#/definitions/specificationExtension"
+                }
+            },
+            "properties": {
+                "schemaFormat": {
+                    "type": "string"
+                },
+                "contentType": {
+                    "type": "string"
+                },
+                "headers": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/schema"
                         },
                         {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "patternProperties": {
-                                "^x-[\\w\\d\\.\\x2d_]+$": {
-                                    "$ref": "#/definitions/specificationExtension"
-                                }
-                            },
                             "properties": {
-                                "schemaFormat": {
-                                    "type": "string"
-                                },
-                                "contentType": {
-                                    "type": "string"
-                                },
-                                "headers": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/definitions/schema"
-                                        },
-                                        {
-                                            "properties": {
-                                                "type": {
-                                                    "const": "object"
-                                                }
-                                            }
-                                        }
-                                    ]
-                                },
-                                "messageId": {
-                                    "type": "string"
-                                },
-                                "payload": {},
-                                "correlationId": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/definitions/Reference"
-                                        },
-                                        {
-                                            "$ref": "#/definitions/correlationId"
-                                        }
-                                    ]
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/tag"
-                                    },
-                                    "uniqueItems": true
-                                },
-                                "summary": {
-                                    "type": "string",
-                                    "description": "A brief summary of the message."
-                                },
-                                "name": {
-                                    "type": "string",
-                                    "description": "Name of the message."
-                                },
-                                "title": {
-                                    "type": "string",
-                                    "description": "A human-friendly title for the message."
-                                },
-                                "description": {
-                                    "type": "string",
-                                    "description": "A longer description of the message. CommonMark is allowed."
-                                },
-                                "externalDocs": {
-                                    "$ref": "#/definitions/externalDocs"
-                                },
-                                "deprecated": {
-                                    "type": "boolean",
-                                    "default": false
-                                },
-                                "examples": {
-                                    "type": "array",
-                                    "description": "List of examples.",
-                                    "items": {
-                                        "type": "object",
-                                        "additionalProperties": false,
-                                        "anyOf": [
-                                            {
-                                                "required": [
-                                                    "payload"
-                                                ]
-                                            },
-                                            {
-                                                "required": [
-                                                    "headers"
-                                                ]
-                                            }
-                                        ],
-                                        "properties": {
-                                            "name": {
-                                                "type": "string",
-                                                "description": "Machine readable name of the message example."
-                                            },
-                                            "summary": {
-                                                "type": "string",
-                                                "description": "A brief summary of the message example."
-                                            },
-                                            "headers": {
-                                                "type": "object",
-                                                "description": "Schema definition of the application headers."
-                                            },
-                                            "payload": {
-                                                "description": "Definition of the message payload. It can be of any type"
-                                            }
-                                        }
-                                    }
-                                },
-                                "bindings": {
-                                    "$ref": "#/definitions/bindingsObject"
-                                },
-                                "traits": {
-                                    "type": "array",
-                                    "items": {
-                                        "oneOf": [
-                                            {
-                                                "$ref": "#/definitions/Reference"
-                                            },
-                                            {
-                                                "$ref": "#/definitions/messageTrait"
-                                            }
-                                        ]
-                                    }
+                                "type": {
+                                    "const": "object"
                                 }
-                            },
-                            "allOf": [
-                                {
-                                    "if": {
-                                        "not": {
-                                            "required": [
-                                                "schemaFormat"
-                                            ]
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "payload": {
-                                                "$ref": "#/definitions/schema"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "required": [
-                                            "schemaFormat"
-                                        ],
-                                        "properties": {
-                                            "schemaFormat": {
-                                                "enum": [
-                                                    "application/vnd.aai.asyncapi;version=2.0.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.0.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-                                                    "application/vnd.aai.asyncapi;version=2.1.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.1.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.1.0",
-                                                    "application/vnd.aai.asyncapi;version=2.2.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.2.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.2.0",
-                                                    "application/vnd.aai.asyncapi;version=2.3.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.3.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.3.0",
-                                                    "application/vnd.aai.asyncapi;version=2.4.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.4.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.4.0",
-                                                    "application/vnd.aai.asyncapi;version=2.5.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.5.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.5.0",
-                                                    "application/vnd.aai.asyncapi;version=2.6.0",
-                                                    "application/vnd.aai.asyncapi+json;version=2.6.0",
-                                                    "application/vnd.aai.asyncapi+yaml;version=2.6.0"
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "payload": {
-                                                "$ref": "#/definitions/schema"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "required": [
-                                            "schemaFormat"
-                                        ],
-                                        "properties": {
-                                            "schemaFormat": {
-                                                "enum": [
-                                                    "application/schema+json;version=draft-07",
-                                                    "application/schema+yaml;version=draft-07"
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "payload": {
-                                                "$ref": "#/definitions/json-schema-draft-07-schema"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "required": [
-                                            "schemaFormat"
-                                        ],
-                                        "properties": {
-                                            "schemaFormat": {
-                                                "enum": [
-                                                    "application/vnd.oai.openapi;version=3.0.0",
-                                                    "application/vnd.oai.openapi+json;version=3.0.0",
-                                                    "application/vnd.oai.openapi+yaml;version=3.0.0"
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "payload": {
-                                                "$ref": "#/definitions/openapiSchema_3_0"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "if": {
-                                        "required": [
-                                            "schemaFormat"
-                                        ],
-                                        "properties": {
-                                            "schemaFormat": {
-                                                "enum": [
-                                                    "application/vnd.apache.avro;version=1.9.0",
-                                                    "application/vnd.apache.avro+json;version=1.9.0",
-                                                    "application/vnd.apache.avro+yaml;version=1.9.0"
-                                                ]
-                                            }
-                                        }
-                                    },
-                                    "then": {
-                                        "properties": {
-                                            "payload": {
-                                                "$ref": "#/definitions/avroSchema_v1"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
+                            }
                         }
                     ]
+                },
+                "messageId": {
+                    "type": "string"
+                },
+                "payload": {},
+                "correlationId": {
+                    "oneOf": [
+                        {
+                            "$ref": "#/definitions/Reference"
+                        },
+                        {
+                            "$ref": "#/definitions/correlationId"
+                        }
+                    ]
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/tag"
+                    },
+                    "uniqueItems": true
+                },
+                "summary": {
+                    "type": "string",
+                    "description": "A brief summary of the message."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the message."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "A human-friendly title for the message."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A longer description of the message. CommonMark is allowed."
+                },
+                "externalDocs": {
+                    "$ref": "#/definitions/externalDocs"
+                },
+                "deprecated": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "examples": {
+                    "type": "array",
+                    "description": "List of examples.",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "payload"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "headers"
+                                ]
+                            }
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Machine readable name of the message example."
+                            },
+                            "summary": {
+                                "type": "string",
+                                "description": "A brief summary of the message example."
+                            },
+                            "headers": {
+                                "type": "object",
+                                "description": "Schema definition of the application headers."
+                            },
+                            "payload": {
+                                "description": "Definition of the message payload. It can be of any type"
+                            }
+                        }
+                    }
+                },
+                "bindings": {
+                    "$ref": "#/definitions/bindingsObject"
+                },
+                "traits": {
+                    "type": "array",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/definitions/Reference"
+                            },
+                            {
+                                "$ref": "#/definitions/messageTrait"
+                            }
+                        ]
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "not": {
+                            "required": [
+                                "schemaFormat"
+                            ]
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "payload": {
+                                "$ref": "#/definitions/schema"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "schemaFormat"
+                        ],
+                        "properties": {
+                            "schemaFormat": {
+                                "enum": [
+                                    "application/vnd.aai.asyncapi;version=2.0.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.0.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+                                    "application/vnd.aai.asyncapi;version=2.1.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.1.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.1.0",
+                                    "application/vnd.aai.asyncapi;version=2.2.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.2.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.2.0",
+                                    "application/vnd.aai.asyncapi;version=2.3.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.3.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.3.0",
+                                    "application/vnd.aai.asyncapi;version=2.4.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.4.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.4.0",
+                                    "application/vnd.aai.asyncapi;version=2.5.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.5.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.5.0",
+                                    "application/vnd.aai.asyncapi;version=2.6.0",
+                                    "application/vnd.aai.asyncapi+json;version=2.6.0",
+                                    "application/vnd.aai.asyncapi+yaml;version=2.6.0"
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "payload": {
+                                "$ref": "#/definitions/schema"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "schemaFormat"
+                        ],
+                        "properties": {
+                            "schemaFormat": {
+                                "enum": [
+                                    "application/schema+json;version=draft-07",
+                                    "application/schema+yaml;version=draft-07"
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "payload": {
+                                "$ref": "#/definitions/json-schema-draft-07-schema"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "schemaFormat"
+                        ],
+                        "properties": {
+                            "schemaFormat": {
+                                "enum": [
+                                    "application/vnd.oai.openapi;version=3.0.0",
+                                    "application/vnd.oai.openapi+json;version=3.0.0",
+                                    "application/vnd.oai.openapi+yaml;version=3.0.0"
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "payload": {
+                                "$ref": "#/definitions/openapiSchema_3_0"
+                            }
+                        }
+                    }
+                },
+                {
+                    "if": {
+                        "required": [
+                            "schemaFormat"
+                        ],
+                        "properties": {
+                            "schemaFormat": {
+                                "enum": [
+                                    "application/vnd.apache.avro;version=1.9.0",
+                                    "application/vnd.apache.avro+json;version=1.9.0",
+                                    "application/vnd.apache.avro+yaml;version=1.9.0"
+                                ]
+                            }
+                        }
+                    },
+                    "then": {
+                        "properties": {
+                            "payload": {
+                                "$ref": "#/definitions/avroSchema_v1"
+                            }
+                        }
+                    }
                 }
             ],
             "examples": [

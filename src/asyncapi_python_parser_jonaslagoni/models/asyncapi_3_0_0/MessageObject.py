@@ -1,7 +1,8 @@
 from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
-from . import AnySchemaObject
+from . import MultiFormatSchema
+from . import CoreSchemaMetaSchemaObject
 from . import Reference
 from . import CorrelationId
 from . import Tag
@@ -10,8 +11,8 @@ from . import MessageBindingsObject
 from . import MessageTrait
 class MessageObject(BaseModel): 
   content_type: Optional[str] = Field(description='''The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. application/json). When omitted, the value MUST be the one specified on the defaultContentType field.''', default=None, alias='''contentType''')
-  headers: Optional[Union[AnySchemaObject.AnySchemaObject, bool]] = Field(description='''The Schema Object allows the definition of input and output data types. These types can be objects, but also primitives and arrays. This object is a superset of the JSON Schema Specification Draft 07. The empty schema (which allows any instance to validate) MAY be represented by the boolean value true and a schema which allows no instance to validate MAY be represented by the boolean value false.''', default=None)
-  payload: Optional[Union[AnySchemaObject.AnySchemaObject, bool]] = Field(description='''The Schema Object allows the definition of input and output data types. These types can be objects, but also primitives and arrays. This object is a superset of the JSON Schema Specification Draft 07. The empty schema (which allows any instance to validate) MAY be represented by the boolean value true and a schema which allows no instance to validate MAY be represented by the boolean value false.''', default=None)
+  headers: Optional[Union[MultiFormatSchema.MultiFormatSchema, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool]] = Field(default=None)
+  payload: Optional[Union[MultiFormatSchema.MultiFormatSchema, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool]] = Field(default=None)
   correlation_id: Optional[Union[Reference.Reference, CorrelationId.CorrelationId]] = Field(default=None, alias='''correlationId''')
   tags: Optional[List[Reference.Reference | Tag.Tag]] = Field(default=None)
   summary: Optional[str] = Field(description='''A brief summary of the message.''', default=None)

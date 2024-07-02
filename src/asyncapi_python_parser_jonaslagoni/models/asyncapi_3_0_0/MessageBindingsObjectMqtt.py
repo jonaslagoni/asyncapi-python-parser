@@ -2,14 +2,14 @@ from __future__ import annotations
 from typing import Any, List, Dict, Optional, Union
 from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import BindingsMqtt0x2x0MessagePayloadFormatIndicator
-from . import SchemaObject
+from . import CoreSchemaMetaSchemaObject
 from . import Reference
 class MessageBindingsObjectMqtt(BaseModel): 
   binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
   payload_format_indicator: Optional[BindingsMqtt0x2x0MessagePayloadFormatIndicator.BindingsMqtt0x2x0MessagePayloadFormatIndicator] = Field(default=None, alias='''payloadFormatIndicator''')
-  correlation_data: Optional[Union[SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''correlationData''')
+  correlation_data: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''correlationData''')
   content_type: Optional[str] = Field(default=None, alias='''contentType''')
-  response_topic: Optional[Union[str, SchemaObject.SchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''responseTopic''')
+  response_topic: Optional[Union[str, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''responseTopic''')
   extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
   @model_serializer(mode='wrap')
