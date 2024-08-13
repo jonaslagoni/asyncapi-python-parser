@@ -1,39 +1,39 @@
 from __future__ import annotations
-import json
-from typing import List, Any, Dict
-from . import BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion
-class OperationSchema: 
-  def __init__(self, input: Dict):
-    self._queues: List[OperationSchema] = input['queues']
-    if 'binding_version' in input:
-      self._binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion = BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion(input['binding_version'])
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from typing import List, Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsSqs0x2x0OperationBindingVersion
+class OperationSchema(BaseModel): 
+  queues: List[OperationSchema] = Field()
+  binding_version: Optional[BindingsSqs0x2x0OperationBindingVersion.BindingsSqs0x2x0OperationBindingVersion] = Field(default=None, alias='''bindingVersion''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def queues(self) -> List[OperationSchema]:
-    return self._queues
-  @queues.setter
-  def queues(self, queues: List[OperationSchema]):
-    self._queues = queues
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def binding_version(self) -> BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion.BindingsMinusSqsMinus0Dot2Dot0MinusOperationBindingVersion):
-    self._binding_version = binding_version
+    return serialized_self
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['queues', 'binding_version', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['queues', 'bindingVersion', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return OperationSchema(**json.loads(json_string))

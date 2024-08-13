@@ -1,70 +1,44 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
-from . import MessageBindingsObjectMqttBindingVersion
-from . import BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator
-from . import SchemaObject
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsMqtt0x2x0MessagePayloadFormatIndicator
+from . import CoreSchemaMetaSchemaObject
 from . import Reference
-class MessageBindingsObjectMqtt: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: MessageBindingsObjectMqttBindingVersion.MessageBindingsObjectMqttBindingVersion = MessageBindingsObjectMqttBindingVersion.MessageBindingsObjectMqttBindingVersion(input['binding_version'])
-    if 'payload_format_indicator' in input:
-      self._payload_format_indicator: BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator.BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator = BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator.BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator(input['payload_format_indicator'])
-    if 'correlation_data' in input:
-      self._correlation_data: SchemaObject.SchemaObject | bool | Reference.Reference = input['correlation_data']
-    if 'content_type' in input:
-      self._content_type: str = input['content_type']
-    if 'response_topic' in input:
-      self._response_topic: str | SchemaObject.SchemaObject | bool | Reference.Reference = input['response_topic']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class MessageBindingsObjectMqtt(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  payload_format_indicator: Optional[BindingsMqtt0x2x0MessagePayloadFormatIndicator.BindingsMqtt0x2x0MessagePayloadFormatIndicator] = Field(default=None, alias='''payloadFormatIndicator''')
+  correlation_data: Optional[Union[CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''correlationData''')
+  content_type: Optional[str] = Field(default=None, alias='''contentType''')
+  response_topic: Optional[Union[str, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Reference.Reference]] = Field(default=None, alias='''responseTopic''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> MessageBindingsObjectMqttBindingVersion.MessageBindingsObjectMqttBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: MessageBindingsObjectMqttBindingVersion.MessageBindingsObjectMqttBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def payload_format_indicator(self) -> BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator.BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator:
-    return self._payload_format_indicator
-  @payload_format_indicator.setter
-  def payload_format_indicator(self, payload_format_indicator: BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator.BindingsMinusMqttMinus0Dot2Dot0MinusMessagePayloadFormatIndicator):
-    self._payload_format_indicator = payload_format_indicator
+    return serialized_self
 
-  @property
-  def correlation_data(self) -> SchemaObject.SchemaObject | bool | Reference.Reference:
-    return self._correlation_data
-  @correlation_data.setter
-  def correlation_data(self, correlation_data: SchemaObject.SchemaObject | bool | Reference.Reference):
-    self._correlation_data = correlation_data
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'payload_format_indicator', 'correlation_data', 'content_type', 'response_topic', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'payloadFormatIndicator', 'correlationData', 'contentType', 'responseTopic', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def content_type(self) -> str:
-    return self._content_type
-  @content_type.setter
-  def content_type(self, content_type: str):
-    self._content_type = content_type
-
-  @property
-  def response_topic(self) -> str | SchemaObject.SchemaObject | bool | Reference.Reference:
-    return self._response_topic
-  @response_topic.setter
-  def response_topic(self, response_topic: str | SchemaObject.SchemaObject | bool | Reference.Reference):
-    self._response_topic = response_topic
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return MessageBindingsObjectMqtt(**json.loads(json_string))

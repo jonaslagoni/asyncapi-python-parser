@@ -2,14 +2,14 @@ import yaml
 from jsonschema import RefResolver
 from .validator import validate_input, ValidationError
 from .traits import apply_traits
-from .models.asyncapi_3_0_0.AsyncApi3Dot0Dot0SchemaDot import AsyncApi3Dot0Dot0SchemaDot 
-from .models.asyncapi_2_6_0.AsyncApi2Dot6Dot0SchemaDot import AsyncApi2Dot6Dot0SchemaDot 
-from .models.asyncapi_2_5_0.AsyncApi2Dot5Dot0SchemaDot import AsyncApi2Dot5Dot0SchemaDot 
-from .models.asyncapi_2_4_0.AsyncApi2Dot4Dot0SchemaDot import AsyncApi2Dot4Dot0SchemaDot 
-from .models.asyncapi_2_3_0.AsyncApi2Dot3Dot0SchemaDot import AsyncApi2Dot3Dot0SchemaDot 
-from .models.asyncapi_2_2_0.AsyncApi2Dot2Dot0SchemaDot import AsyncApi2Dot2Dot0SchemaDot 
-from .models.asyncapi_2_1_0.AsyncApi2Dot1Dot0SchemaDot import AsyncApi2Dot1Dot0SchemaDot 
-from .models.asyncapi_2_0_0.AsyncApi2Dot0Dot0SchemaDot import AsyncApi2Dot0Dot0SchemaDot 
+from .models.asyncapi_3_0_0.AsyncApi3x0x0Schemax import AsyncApi3x0x0Schemax 
+from .models.asyncapi_2_6_0.AsyncApi2x6x0Schemax import AsyncApi2x6x0Schemax 
+from .models.asyncapi_2_5_0.AsyncApi2x5x0Schemax import AsyncApi2x5x0Schemax 
+from .models.asyncapi_2_4_0.AsyncApi2x4x0Schemax import AsyncApi2x4x0Schemax 
+from .models.asyncapi_2_3_0.AsyncApi2x3x0Schemax import AsyncApi2x3x0Schemax 
+from .models.asyncapi_2_2_0.AsyncApi2x2x0Schemax import AsyncApi2x2x0Schemax 
+from .models.asyncapi_2_1_0.AsyncApi2x1x0Schemax import AsyncApi2x1x0Schemax 
+from .models.asyncapi_2_0_0.AsyncApi2x0x0Schemax import AsyncApi2x0x0Schemax 
 
 class ParserOptions: 
     def __init__(self, input: dict):
@@ -61,21 +61,21 @@ def parse(input: str | dict, options: ParserOptions):
 
     asyncapi_version = input['asyncapi']
     if asyncapi_version == '3.0.0':
-        return AsyncApi3Dot0Dot0SchemaDot(dict_input)
+        return AsyncApi3x0x0Schemax(dict_input)
     if asyncapi_version == '2.6.0':
-        return AsyncApi2Dot6Dot0SchemaDot(dict_input)
+        return AsyncApi2x6x0Schemax(dict_input)
     if asyncapi_version == '2.5.0':
-        return AsyncApi2Dot5Dot0SchemaDot(dict_input)
+        return AsyncApi2x5x0Schemax(dict_input)
     if asyncapi_version == '2.4.0':
-        return AsyncApi2Dot4Dot0SchemaDot(dict_input)
+        return AsyncApi2x4x0Schemax(dict_input)
     if asyncapi_version == '2.3.0':
-        return AsyncApi2Dot3Dot0SchemaDot(dict_input)
+        return AsyncApi2x3x0Schemax(dict_input)
     if asyncapi_version == '2.2.0':
-        return AsyncApi2Dot2Dot0SchemaDot(dict_input)
+        return AsyncApi2x2x0Schemax(dict_input)
     if asyncapi_version == '2.1.0':
-        return AsyncApi2Dot1Dot0SchemaDot(dict_input)
+        return AsyncApi2x1x0Schemax(dict_input)
     if asyncapi_version == '2.0.0':
-        return AsyncApi2Dot0Dot0SchemaDot(dict_input)
+        return AsyncApi2x0x0Schemax(dict_input)
 
 def parse_from_file(filepath: str, options: ParserOptions): 
     with open(filepath, 'r') as file:

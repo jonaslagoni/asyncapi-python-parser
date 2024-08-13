@@ -1,48 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
-from . import Oauth2FlowsType
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Oauth2FlowsFlows
-class Oauth2Flows: 
-  def __init__(self, input: Dict):
-    self._type: Oauth2FlowsType.Oauth2FlowsType = Oauth2FlowsType.Oauth2FlowsType(input['type'])
-    if 'description' in input:
-      self._description: str = input['description']
-    self._flows: Oauth2FlowsFlows.Oauth2FlowsFlows = Oauth2FlowsFlows.Oauth2FlowsFlows(input['flows'])
-    if 'extensions' in input:
-      self._extensions: dict[str, Any | Any] = input['extensions']
+class Oauth2Flows(BaseModel): 
+  type: str = Field(description='''A short description for security scheme.''')
+  description: Optional[str] = Field(description='''A short description for security scheme.''', default=None)
+  flows: Oauth2FlowsFlows.Oauth2FlowsFlows = Field()
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def type(self) -> Oauth2FlowsType.Oauth2FlowsType:
-    return self._type
-  @type.setter
-  def type(self, type: Oauth2FlowsType.Oauth2FlowsType):
-    self._type = type
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+    return serialized_self
 
-  @property
-  def flows(self) -> Oauth2FlowsFlows.Oauth2FlowsFlows:
-    return self._flows
-  @flows.setter
-  def flows(self, flows: Oauth2FlowsFlows.Oauth2FlowsFlows):
-    self._flows = flows
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['type', 'description', 'flows', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['type', 'description', 'flows', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any | Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any | Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Oauth2Flows(**json.loads(json_string))

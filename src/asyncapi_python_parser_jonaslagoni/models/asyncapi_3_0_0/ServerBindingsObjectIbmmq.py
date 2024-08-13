@@ -1,76 +1,43 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
-from . import ServerBindingsObjectIbmmqBindingVersion
-class ServerBindingsObjectIbmmq: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion = ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion(input['binding_version'])
-    if 'group_id' in input:
-      self._group_id: str = input['group_id']
-    if 'ccdt_queue_manager_name' in input:
-      self._ccdt_queue_manager_name: str = input['ccdt_queue_manager_name']
-    if 'cipher_spec' in input:
-      self._cipher_spec: str = input['cipher_spec']
-    if 'multi_endpoint_server' in input:
-      self._multi_endpoint_server: bool = input['multi_endpoint_server']
-    if 'heart_beat_interval' in input:
-      self._heart_beat_interval: int = input['heart_beat_interval']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 
-  @property
-  def binding_version(self) -> ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectIbmmqBindingVersion.ServerBindingsObjectIbmmqBindingVersion):
-    self._binding_version = binding_version
+class ServerBindingsObjectIbmmq(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  group_id: Optional[str] = Field(default=None, alias='''groupId''')
+  ccdt_queue_manager_name: Optional[str] = Field(default=None, alias='''ccdtQueueManagerName''')
+  cipher_spec: Optional[str] = Field(default=None, alias='''cipherSpec''')
+  multi_endpoint_server: Optional[bool] = Field(default=None, alias='''multiEndpointServer''')
+  heart_beat_interval: Optional[int] = Field(default=None, alias='''heartBeatInterval''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def group_id(self) -> str:
-    return self._group_id
-  @group_id.setter
-  def group_id(self, group_id: str):
-    self._group_id = group_id
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def ccdt_queue_manager_name(self) -> str:
-    return self._ccdt_queue_manager_name
-  @ccdt_queue_manager_name.setter
-  def ccdt_queue_manager_name(self, ccdt_queue_manager_name: str):
-    self._ccdt_queue_manager_name = ccdt_queue_manager_name
+    return serialized_self
 
-  @property
-  def cipher_spec(self) -> str:
-    return self._cipher_spec
-  @cipher_spec.setter
-  def cipher_spec(self, cipher_spec: str):
-    self._cipher_spec = cipher_spec
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'group_id', 'ccdt_queue_manager_name', 'cipher_spec', 'multi_endpoint_server', 'heart_beat_interval', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'groupId', 'ccdtQueueManagerName', 'cipherSpec', 'multiEndpointServer', 'heartBeatInterval', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def multi_endpoint_server(self) -> bool:
-    return self._multi_endpoint_server
-  @multi_endpoint_server.setter
-  def multi_endpoint_server(self, multi_endpoint_server: bool):
-    self._multi_endpoint_server = multi_endpoint_server
-
-  @property
-  def heart_beat_interval(self) -> int:
-    return self._heart_beat_interval
-  @heart_beat_interval.setter
-  def heart_beat_interval(self, heart_beat_interval: int):
-    self._heart_beat_interval = heart_beat_interval
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ServerBindingsObjectIbmmq(**json.loads(json_string))

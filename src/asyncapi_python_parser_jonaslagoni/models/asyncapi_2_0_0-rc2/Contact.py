@@ -1,49 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 
-class Contact: 
-  def __init__(self, input: Dict):
-    if 'name' in input:
-      self._name: str = input['name']
-    if 'url' in input:
-      self._url: str = input['url']
-    if 'email' in input:
-      self._email: str = input['email']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Contact(BaseModel): 
+  name: Optional[str] = Field(description='''The identifying name of the contact person/organization.''', default=None)
+  url: Optional[str] = Field(description='''The URL pointing to the contact information.''', default=None)
+  email: Optional[str] = Field(description='''The email address of the contact person/organization.''', default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def name(self) -> str:
-    return self._name
-  @name.setter
-  def name(self, name: str):
-    self._name = name
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def url(self) -> str:
-    return self._url
-  @url.setter
-  def url(self, url: str):
-    self._url = url
+    return serialized_self
 
-  @property
-  def email(self) -> str:
-    return self._email
-  @email.setter
-  def email(self, email: str):
-    self._email = email
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['name', 'url', 'email', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['name', 'url', 'email', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Contact(**json.loads(json_string))

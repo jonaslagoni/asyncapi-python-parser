@@ -1,77 +1,45 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import MessageBindingsObjectKafkaBindingVersion
 from . import Reference
-from . import SchemaObject
-from . import PrimitiveType
-from . import PrimitiveTypeWithMetadata
-from . import Record
-from . import Enum
-from . import Array
-from . import Map
-from . import Fixed
-from . import BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation
-class MessageBindingsObjectKafka: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion = MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion(input['binding_version'])
-    if 'key' in input:
-      self._key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any] = input['key']
-    if 'schema_id_location' in input:
-      self._schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation = BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation(input['schema_id_location'])
-    if 'schema_id_payload_encoding' in input:
-      self._schema_id_payload_encoding: str = input['schema_id_payload_encoding']
-    if 'schema_lookup_strategy' in input:
-      self._schema_lookup_strategy: str = input['schema_lookup_strategy']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from . import CoreSchemaMetaSchemaObject
+from . import BindingsKafka0x4x0MessageSchemaIdLocation
+class MessageBindingsObjectKafka(BaseModel): 
+  binding_version: Optional[MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion] = Field(default=None, alias='''bindingVersion''')
+  key: Optional[Union[Reference.Reference, CoreSchemaMetaSchemaObject.CoreSchemaMetaSchemaObject | bool, Any]] = Field(default=None)
+  schema_id_location: Optional[BindingsKafka0x4x0MessageSchemaIdLocation.BindingsKafka0x4x0MessageSchemaIdLocation] = Field(default=None, alias='''schemaIdLocation''')
+  schema_id_payload_encoding: Optional[str] = Field(default=None, alias='''schemaIdPayloadEncoding''')
+  schema_lookup_strategy: Optional[str] = Field(default=None, alias='''schemaLookupStrategy''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: MessageBindingsObjectKafkaBindingVersion.MessageBindingsObjectKafkaBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def key(self) -> Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any]:
-    return self._key
-  @key.setter
-  def key(self, key: Reference.Reference | SchemaObject.SchemaObject | bool | PrimitiveType.PrimitiveType | PrimitiveTypeWithMetadata.PrimitiveTypeWithMetadata | Any | Record.Record | Enum.Enum | Array.Array | Map.Map | Fixed.Fixed | List[Any]):
-    self._key = key
+    return serialized_self
 
-  @property
-  def schema_id_location(self) -> BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation:
-    return self._schema_id_location
-  @schema_id_location.setter
-  def schema_id_location(self, schema_id_location: BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation.BindingsMinusKafkaMinus0Dot4Dot0MinusMessageSchemaIdLocation):
-    self._schema_id_location = schema_id_location
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'key', 'schema_id_location', 'schema_id_payload_encoding', 'schema_lookup_strategy', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'key', 'schemaIdLocation', 'schemaIdPayloadEncoding', 'schemaLookupStrategy', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def schema_id_payload_encoding(self) -> str:
-    return self._schema_id_payload_encoding
-  @schema_id_payload_encoding.setter
-  def schema_id_payload_encoding(self, schema_id_payload_encoding: str):
-    self._schema_id_payload_encoding = schema_id_payload_encoding
-
-  @property
-  def schema_lookup_strategy(self) -> str:
-    return self._schema_lookup_strategy
-  @schema_lookup_strategy.setter
-  def schema_lookup_strategy(self, schema_lookup_strategy: str):
-    self._schema_lookup_strategy = schema_lookup_strategy
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return MessageBindingsObjectKafka(**json.loads(json_string))

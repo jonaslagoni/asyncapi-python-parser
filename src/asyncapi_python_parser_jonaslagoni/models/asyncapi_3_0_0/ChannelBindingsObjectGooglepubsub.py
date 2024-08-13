@@ -1,69 +1,43 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
-from . import ChannelBindingsObjectGooglepubsubBindingVersion
-from . import BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy
-from . import BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings
-class ChannelBindingsObjectGooglepubsub: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: ChannelBindingsObjectGooglepubsubBindingVersion.ChannelBindingsObjectGooglepubsubBindingVersion = ChannelBindingsObjectGooglepubsubBindingVersion.ChannelBindingsObjectGooglepubsubBindingVersion(input['binding_version'])
-    if 'labels' in input:
-      self._labels: dict[str, Any] = input['labels']
-    if 'message_retention_duration' in input:
-      self._message_retention_duration: str = input['message_retention_duration']
-    if 'message_storage_policy' in input:
-      self._message_storage_policy: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy = BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy(input['message_storage_policy'])
-    if 'schema_settings' in input:
-      self._schema_settings: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings = BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings(input['schema_settings'])
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
+from . import BindingsGooglepubsub0x2x0ChannelMessageStoragePolicy
+from . import BindingsGooglepubsub0x2x0ChannelSchemaSettings
+class ChannelBindingsObjectGooglepubsub(BaseModel): 
+  binding_version: Optional[str] = Field(default=None, alias='''bindingVersion''')
+  labels: Optional[dict[str, Any]] = Field(default=None)
+  message_retention_duration: Optional[str] = Field(default=None, alias='''messageRetentionDuration''')
+  message_storage_policy: Optional[BindingsGooglepubsub0x2x0ChannelMessageStoragePolicy.BindingsGooglepubsub0x2x0ChannelMessageStoragePolicy] = Field(default=None, alias='''messageStoragePolicy''')
+  schema_settings: Optional[BindingsGooglepubsub0x2x0ChannelSchemaSettings.BindingsGooglepubsub0x2x0ChannelSchemaSettings] = Field(default=None, alias='''schemaSettings''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> ChannelBindingsObjectGooglepubsubBindingVersion.ChannelBindingsObjectGooglepubsubBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: ChannelBindingsObjectGooglepubsubBindingVersion.ChannelBindingsObjectGooglepubsubBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def labels(self) -> dict[str, Any]:
-    return self._labels
-  @labels.setter
-  def labels(self, labels: dict[str, Any]):
-    self._labels = labels
+    return serialized_self
 
-  @property
-  def message_retention_duration(self) -> str:
-    return self._message_retention_duration
-  @message_retention_duration.setter
-  def message_retention_duration(self, message_retention_duration: str):
-    self._message_retention_duration = message_retention_duration
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'labels', 'message_retention_duration', 'message_storage_policy', 'schema_settings', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'labels', 'messageRetentionDuration', 'messageStoragePolicy', 'schemaSettings', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def message_storage_policy(self) -> BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy:
-    return self._message_storage_policy
-  @message_storage_policy.setter
-  def message_storage_policy(self, message_storage_policy: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelMessageStoragePolicy):
-    self._message_storage_policy = message_storage_policy
-
-  @property
-  def schema_settings(self) -> BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings:
-    return self._schema_settings
-  @schema_settings.setter
-  def schema_settings(self, schema_settings: BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings.BindingsMinusGooglepubsubMinus0Dot2Dot0MinusChannelSchemaSettings):
-    self._schema_settings = schema_settings
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ChannelBindingsObjectGooglepubsub(**json.loads(json_string))

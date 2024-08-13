@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import OperationAction
 from . import Reference
 from . import OperationReply
@@ -20,127 +20,48 @@ from . import SaslGssapiSecurityScheme
 from . import Tag
 from . import ExternalDocs
 from . import OperationBindingsObject
-class Operation: 
-  def __init__(self, input: Dict):
-    self._action: OperationAction.OperationAction = OperationAction.OperationAction(input['action'])
-    self._channel: Reference.Reference = Reference.Reference(input['channel'])
-    if 'messages' in input:
-      self._messages: List[Reference.Reference] = input['messages']
-    if 'reply' in input:
-      self._reply: Reference.Reference | OperationReply.OperationReply = input['reply']
-    if 'traits' in input:
-      self._traits: List[Reference.Reference | OperationTrait.OperationTrait] = input['traits']
-    if 'title' in input:
-      self._title: str = input['title']
-    if 'summary' in input:
-      self._summary: str = input['summary']
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'security' in input:
-      self._security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme] = input['security']
-    if 'tags' in input:
-      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
-    if 'external_docs' in input:
-      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
-    if 'bindings' in input:
-      self._bindings: Reference.Reference | OperationBindingsObject.OperationBindingsObject = input['bindings']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Operation(BaseModel): 
+  action: OperationAction.OperationAction = Field(description='''Allowed values are send and receive. Use send when it's expected that the application will send a message to the given channel, and receive when the application should expect receiving messages from the given channel.''')
+  channel: Reference.Reference = Field(description='''A simple object to allow referencing other components in the specification, internally and externally.''')
+  messages: Optional[List[Reference.Reference]] = Field(description='''A list of $ref pointers pointing to the supported Message Objects that can be processed by this operation. It MUST contain a subset of the messages defined in the channel referenced in this operation. Every message processed by this operation MUST be valid against one, and only one, of the message objects referenced in this list. Please note the messages property value MUST be a list of Reference Objects and, therefore, MUST NOT contain Message Objects. However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.''', default=None)
+  reply: Optional[Union[Reference.Reference, OperationReply.OperationReply]] = Field(default=None)
+  traits: Optional[List[Reference.Reference | OperationTrait.OperationTrait]] = Field(description='''A list of traits to apply to the operation object. Traits MUST be merged using traits merge mechanism. The resulting object MUST be a valid Operation Object.''', default=None)
+  title: Optional[str] = Field(description='''A human-friendly title for the operation.''', default=None)
+  summary: Optional[str] = Field(description='''A brief summary of the operation.''', default=None)
+  description: Optional[str] = Field(description='''A longer description of the operation. CommonMark is allowed.''', default=None)
+  security: Optional[List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]] = Field(description='''An array representing security requirements.''', default=None)
+  tags: Optional[List[Reference.Reference | Tag.Tag]] = Field(description='''A list of tags for logical grouping and categorization of operations.''', default=None)
+  external_docs: Optional[Union[Reference.Reference, ExternalDocs.ExternalDocs]] = Field(default=None, alias='''externalDocs''')
+  bindings: Optional[Union[Reference.Reference, OperationBindingsObject.OperationBindingsObject]] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def action(self) -> OperationAction.OperationAction:
-    return self._action
-  @action.setter
-  def action(self, action: OperationAction.OperationAction):
-    self._action = action
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def channel(self) -> Reference.Reference:
-    return self._channel
-  @channel.setter
-  def channel(self, channel: Reference.Reference):
-    self._channel = channel
+    return serialized_self
 
-  @property
-  def messages(self) -> List[Reference.Reference]:
-    return self._messages
-  @messages.setter
-  def messages(self, messages: List[Reference.Reference]):
-    self._messages = messages
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['action', 'channel', 'messages', 'reply', 'traits', 'title', 'summary', 'description', 'security', 'tags', 'external_docs', 'bindings', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['action', 'channel', 'messages', 'reply', 'traits', 'title', 'summary', 'description', 'security', 'tags', 'externalDocs', 'bindings', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def reply(self) -> Reference.Reference | OperationReply.OperationReply:
-    return self._reply
-  @reply.setter
-  def reply(self, reply: Reference.Reference | OperationReply.OperationReply):
-    self._reply = reply
-
-  @property
-  def traits(self) -> List[Reference.Reference | OperationTrait.OperationTrait]:
-    return self._traits
-  @traits.setter
-  def traits(self, traits: List[Reference.Reference | OperationTrait.OperationTrait]):
-    self._traits = traits
-
-  @property
-  def title(self) -> str:
-    return self._title
-  @title.setter
-  def title(self, title: str):
-    self._title = title
-
-  @property
-  def summary(self) -> str:
-    return self._summary
-  @summary.setter
-  def summary(self, summary: str):
-    self._summary = summary
-
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
-
-  @property
-  def security(self) -> List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]:
-    return self._security
-  @security.setter
-  def security(self, security: List[Reference.Reference | UserPassword.UserPassword | ApiKey.ApiKey | X509.X509 | SymmetricEncryption.SymmetricEncryption | AsymmetricEncryption.AsymmetricEncryption | Any | BearerHttpSecurityScheme.BearerHttpSecurityScheme | ApiKeyHttpSecurityScheme.ApiKeyHttpSecurityScheme | Oauth2Flows.Oauth2Flows | OpenIdConnect.OpenIdConnect | SaslPlainSecurityScheme.SaslPlainSecurityScheme | SaslScramSecurityScheme.SaslScramSecurityScheme | SaslGssapiSecurityScheme.SaslGssapiSecurityScheme]):
-    self._security = security
-
-  @property
-  def tags(self) -> List[Reference.Reference | Tag.Tag]:
-    return self._tags
-  @tags.setter
-  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
-    self._tags = tags
-
-  @property
-  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
-    return self._external_docs
-  @external_docs.setter
-  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
-    self._external_docs = external_docs
-
-  @property
-  def bindings(self) -> Reference.Reference | OperationBindingsObject.OperationBindingsObject:
-    return self._bindings
-  @bindings.setter
-  def bindings(self, bindings: Reference.Reference | OperationBindingsObject.OperationBindingsObject):
-    self._bindings = bindings
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Operation(**json.loads(json_string))

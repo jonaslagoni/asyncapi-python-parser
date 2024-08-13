@@ -1,49 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Schema
-class Parameter: 
-  def __init__(self, input: Dict):
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'name' in input:
-      self._name: str = input['name']
-    if 'schema' in input:
-      self._schema: Schema.Schema = Schema.Schema(input['schema'])
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Parameter(BaseModel): 
+  description: Optional[str] = Field(description='''A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed.''', default=None)
+  name: Optional[str] = Field(description='''The name of the parameter.''', default=None)
+  schema: Optional[Schema.Schema] = Field(description='''A deterministic version of a JSON Schema object.''', default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def name(self) -> str:
-    return self._name
-  @name.setter
-  def name(self, name: str):
-    self._name = name
+    return serialized_self
 
-  @property
-  def schema(self) -> Schema.Schema:
-    return self._schema
-  @schema.setter
-  def schema(self, schema: Schema.Schema):
-    self._schema = schema
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['description', 'name', 'schema', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['description', 'name', 'schema', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Parameter(**json.loads(json_string))

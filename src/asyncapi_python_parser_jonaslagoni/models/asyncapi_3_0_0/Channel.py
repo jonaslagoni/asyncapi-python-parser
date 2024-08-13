@@ -1,117 +1,52 @@
 from __future__ import annotations
-import json
-from typing import Any, List, Dict
+from typing import Any, List, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import Reference
 from . import MessageObject
 from . import Parameter
 from . import Tag
 from . import ExternalDocs
 from . import ChannelBindingsObject
-class Channel: 
-  def __init__(self, input: Dict):
-    if 'address' in input:
-      self._address: str = input['address']
-    if 'messages' in input:
-      self._messages: dict[str, Reference.Reference | MessageObject.MessageObject] = input['messages']
-    if 'parameters' in input:
-      self._parameters: dict[str, Reference.Reference | Parameter.Parameter] = input['parameters']
-    if 'title' in input:
-      self._title: str = input['title']
-    if 'summary' in input:
-      self._summary: str = input['summary']
-    if 'description' in input:
-      self._description: str = input['description']
-    if 'servers' in input:
-      self._servers: List[Reference.Reference] = input['servers']
-    if 'tags' in input:
-      self._tags: List[Reference.Reference | Tag.Tag] = input['tags']
-    if 'external_docs' in input:
-      self._external_docs: Reference.Reference | ExternalDocs.ExternalDocs = input['external_docs']
-    if 'bindings' in input:
-      self._bindings: Reference.Reference | ChannelBindingsObject.ChannelBindingsObject = input['bindings']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class Channel(BaseModel): 
+  address: Optional[str] = Field(description='''An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain Channel Address Expressions.''', default=None)
+  messages: Optional[dict[str, Reference.Reference | MessageObject.MessageObject]] = Field(default=None)
+  parameters: Optional[dict[str, Reference.Reference | Parameter.Parameter]] = Field(default=None)
+  title: Optional[str] = Field(description='''A human-friendly title for the channel.''', default=None)
+  summary: Optional[str] = Field(description='''A brief summary of the channel.''', default=None)
+  description: Optional[str] = Field(description='''A longer description of the channel. CommonMark is allowed.''', default=None)
+  servers: Optional[List[Reference.Reference]] = Field(description='''The references of the servers on which this channel is available. If absent or empty then this channel must be available on all servers.''', default=None)
+  tags: Optional[List[Reference.Reference | Tag.Tag]] = Field(description='''A list of tags for logical grouping of channels.''', default=None)
+  external_docs: Optional[Union[Reference.Reference, ExternalDocs.ExternalDocs]] = Field(default=None, alias='''externalDocs''')
+  bindings: Optional[Union[Reference.Reference, ChannelBindingsObject.ChannelBindingsObject]] = Field(default=None)
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def address(self) -> str:
-    return self._address
-  @address.setter
-  def address(self, address: str):
-    self._address = address
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def messages(self) -> dict[str, Reference.Reference | MessageObject.MessageObject]:
-    return self._messages
-  @messages.setter
-  def messages(self, messages: dict[str, Reference.Reference | MessageObject.MessageObject]):
-    self._messages = messages
+    return serialized_self
 
-  @property
-  def parameters(self) -> dict[str, Reference.Reference | Parameter.Parameter]:
-    return self._parameters
-  @parameters.setter
-  def parameters(self, parameters: dict[str, Reference.Reference | Parameter.Parameter]):
-    self._parameters = parameters
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['address', 'messages', 'parameters', 'title', 'summary', 'description', 'servers', 'tags', 'external_docs', 'bindings', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['address', 'messages', 'parameters', 'title', 'summary', 'description', 'servers', 'tags', 'externalDocs', 'bindings', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def title(self) -> str:
-    return self._title
-  @title.setter
-  def title(self, title: str):
-    self._title = title
-
-  @property
-  def summary(self) -> str:
-    return self._summary
-  @summary.setter
-  def summary(self, summary: str):
-    self._summary = summary
-
-  @property
-  def description(self) -> str:
-    return self._description
-  @description.setter
-  def description(self, description: str):
-    self._description = description
-
-  @property
-  def servers(self) -> List[Reference.Reference]:
-    return self._servers
-  @servers.setter
-  def servers(self, servers: List[Reference.Reference]):
-    self._servers = servers
-
-  @property
-  def tags(self) -> List[Reference.Reference | Tag.Tag]:
-    return self._tags
-  @tags.setter
-  def tags(self, tags: List[Reference.Reference | Tag.Tag]):
-    self._tags = tags
-
-  @property
-  def external_docs(self) -> Reference.Reference | ExternalDocs.ExternalDocs:
-    return self._external_docs
-  @external_docs.setter
-  def external_docs(self, external_docs: Reference.Reference | ExternalDocs.ExternalDocs):
-    self._external_docs = external_docs
-
-  @property
-  def bindings(self) -> Reference.Reference | ChannelBindingsObject.ChannelBindingsObject:
-    return self._bindings
-  @bindings.setter
-  def bindings(self, bindings: Reference.Reference | ChannelBindingsObject.ChannelBindingsObject):
-    self._bindings = bindings
-
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return Channel(**json.loads(json_string))

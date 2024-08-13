@@ -1,49 +1,40 @@
 from __future__ import annotations
-import json
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Union
+from pydantic import model_serializer, model_validator, BaseModel, Field
 from . import ServerBindingsObjectKafkaBindingVersion
-class ServerBindingsObjectKafka: 
-  def __init__(self, input: Dict):
-    if 'binding_version' in input:
-      self._binding_version: ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion = ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion(input['binding_version'])
-    if 'schema_registry_url' in input:
-      self._schema_registry_url: str = input['schema_registry_url']
-    if 'schema_registry_vendor' in input:
-      self._schema_registry_vendor: str = input['schema_registry_vendor']
-    if 'extensions' in input:
-      self._extensions: dict[str, Any] = input['extensions']
+class ServerBindingsObjectKafka(BaseModel): 
+  binding_version: Optional[ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion] = Field(default=None, alias='''bindingVersion''')
+  schema_registry_url: Optional[str] = Field(default=None, alias='''schemaRegistryUrl''')
+  schema_registry_vendor: Optional[str] = Field(default=None, alias='''schemaRegistryVendor''')
+  extensions: Optional[dict[str, Any]] = Field(exclude=True, default=None)
 
-  @property
-  def binding_version(self) -> ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion:
-    return self._binding_version
-  @binding_version.setter
-  def binding_version(self, binding_version: ServerBindingsObjectKafkaBindingVersion.ServerBindingsObjectKafkaBindingVersion):
-    self._binding_version = binding_version
+  @model_serializer(mode='wrap')
+  def custom_serializer(self, handler):
+    serialized_self = handler(self)
+    extensions = getattr(self, "extensions")
+    if extensions is not None:
+      for key, value in extensions.items():
+        # Never overwrite existing values, to avoid clashes
+        if not hasattr(serialized_self, key):
+          serialized_self[key] = value
 
-  @property
-  def schema_registry_url(self) -> str:
-    return self._schema_registry_url
-  @schema_registry_url.setter
-  def schema_registry_url(self, schema_registry_url: str):
-    self._schema_registry_url = schema_registry_url
+    return serialized_self
 
-  @property
-  def schema_registry_vendor(self) -> str:
-    return self._schema_registry_vendor
-  @schema_registry_vendor.setter
-  def schema_registry_vendor(self, schema_registry_vendor: str):
-    self._schema_registry_vendor = schema_registry_vendor
+  @model_validator(mode='before')
+  @classmethod
+  def unwrap_extensions(cls, data):
+    json_properties = list(data.keys())
+    known_object_properties = ['binding_version', 'schema_registry_url', 'schema_registry_vendor', 'extensions']
+    unknown_object_properties = [element for element in json_properties if element not in known_object_properties]
+    # Ignore attempts that validate regular models, only when unknown input is used we add unwrap extensions
+    if len(unknown_object_properties) == 0: 
+      return data
+  
+    known_json_properties = ['bindingVersion', 'schemaRegistryUrl', 'schemaRegistryVendor', 'extensions']
+    extensions = {}
+    for obj_key in list(data.keys()):
+      if not known_json_properties.__contains__(obj_key):
+        extensions[obj_key] = data.pop(obj_key, None)
+    data['extensions'] = extensions
+    return data
 
-  @property
-  def extensions(self) -> dict[str, Any]:
-    return self._extensions
-  @extensions.setter
-  def extensions(self, extensions: dict[str, Any]):
-    self._extensions = extensions
-
-  def serialize_to_json(self):
-    return json.dumps(self.__dict__, default=lambda o: o.__dict__, indent=2)
-
-  @staticmethod
-  def deserialize_from_json(json_string):
-    return ServerBindingsObjectKafka(**json.loads(json_string))
